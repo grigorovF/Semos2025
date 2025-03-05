@@ -1,0 +1,41 @@
+body{
+    margin:auto;
+    padding: auto;
+    width: 50%;
+    height: auto;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    margin: 120px auto;
+    justify-content: center;
+    background-color: azure;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    gap: 5px;
+}
+
+h3{
+    text-align: center;
+}
+
+button{
+    background-color: rgb(101, 185, 16);
+    color: white;
+    padding: 2%;
+}
+
+.foot{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.foot p{
+    margin-left: 5px;
+}
+
