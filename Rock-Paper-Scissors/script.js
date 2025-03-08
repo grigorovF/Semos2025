@@ -7,6 +7,10 @@ var choices = [rock, paper, scissors];
 const userResult = document.getElementById('userResult');
 const computerResult = document.getElementById('computerResult');
 const wonSpan = document.getElementById('wonSpan');
+const finalSpan = document.getElementById('finalSpan');
+var userWin = 0;
+var comWin = 0;
+
 
 const playBtn = document.getElementById('playBtn');
 
@@ -28,10 +32,13 @@ playBtn.addEventListener('click', function(){
         (userChoice === rock && computerChoice == scissors) ||
         (userChoice === scissors && computerChoice == paper)){
             wonSpan.innerText = 'User Win!';
+            userWin++;
         }
     else if ((computerChoice === paper && userChoice == rock) ||
             (computerChoice === rock && userChoice == scissors) ||
             (computerChoice === scissors && userChoice == paper)){
-                wonSpan.innerText = "Computer Win!"
+                wonSpan.innerText = "Computer Win!";
+                comWin++;
             }
+    finalSpan.innerHTML = "Result: " + userWin.toString() + " - " + comWin.toString();
 });
