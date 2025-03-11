@@ -44,7 +44,7 @@ html{
     font-weight: 900;
     color: rgb(32, 19, 99);
     animation: h-right 1.9s ease forwards;
-    margin-right: 10%;
+
     text-align: justify;
 }
 
@@ -75,7 +75,7 @@ html{
 
 .circle-container {
     position: absolute;
-    bottom: 350px;  
+    bottom: 100px;  
     display: flex;
     justify-content: center;
     align-items: center;
