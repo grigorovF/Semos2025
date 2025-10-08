@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HTML — Wikipedia</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 20px;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      background: #f8f9fa;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+
+    aside {
+      background: #f8f9fa;
+      border-right: 1px solid #ddd;
+      padding: 15px;
+    }
+
+    nav h2 {
+      font-size: 1em;
+      margin-bottom: 0.5em;
+    }
+
+    nav ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    nav li {
+      margin: 4px 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #0645ad;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    section h2 {
+      border-bottom: 1px solid #ccc;
+      margin-top: 1.5em;
+      padding-bottom: 4px;
+    }
+
+    figure {
+      float: right;
+      margin: 0 0 1em 1em;
+      text-align: center;
+      max-width: 180px;
+    }
+
+    figure img {
+      max-width: 100%;
+    }
+
+    footer {
+      grid-column: 1 / -1;
+      background: #f8f9fa;
+      border-top: 1px solid #ddd;
+      padding: 10px 20px;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>HTML</h1>
+    <p><em>From Wikipedia, the free encyclopedia</em></p>
+  </header>
+
+  <aside>
+    <nav>
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#history">History</a>
+          <ul>
+            <li><a href="#versions">HTML versions</a></li>
+            <li><a href="#html5">HTML 5</a></li>
+          </ul>
+        </li>
+        <li><a href="#markup">Markup</a>
+          <ul>
+            <li><a href="#elements">Elements</a></li>
+            <li><a href="#examples">Examples</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <article>
+      <section>
+        <figure>
+          <img src="HTML5_logo_and_wordmark.svg.png" 
+               alt="HTML5 logo">
+          <figcaption>HTML5 logo</figcaption>
+        </figure>
+        <p><strong>Hypertext Markup Language (HTML)</strong> is the standard markup language 
+        for documents designed to be displayed in a web browser. It defines the content and 
+        structure of web content. It is often assisted by technologies such as 
+        <a href="#">Cascading Style Sheets (CSS)</a> and <a href="#">JavaScript</a>.</p>
+      </section>
+
+      <section id="history">
+        <h2>History</h2>
+        <p>HTML was created by <a href="#">Tim Berners-Lee</a> in 1991. The first official 
+        specification, HTML 2.0, was published in 1995. Subsequent versions improved 
+        functionality and compatibility.</p>
+      </section>
+
+      <section id="markup">
+        <h2>Markup</h2>
+        <p>HTML documents are built from elements marked up with tags such as 
+        <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>, and <code>&lt;img&gt;</code>. 
+        These define structure and meaning of the content.</p>
+      </section>
+
+      <section id="examples">
+        <h2>Examples</h2>
+        <pre>
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Example&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hello, world!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>Retrieved from <a href="https://en.wikipedia.org/wiki/HTML">Wikipedia</a>.</p>
+  </footer>
+</body>
+</html>
