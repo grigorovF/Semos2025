@@ -1,0 +1,6 @@
+semos@Semos-EDU:~/Semos2025/GitHub-1$ sed -i 's/^\(.\)/\L\1/' doc1.txt
+semos@Semos-EDU:~/Semos2025/GitHub-1$ sed -i '1,/^$/d' doc2.txt
+semos@Semos-EDU:~/Semos2025/GitHub-1$ tac doc2.txt | sed '1,/^$/D' tac > temp1.txt && mv temp.txt doc2.txt
+sed: can't read tac: No such file or directory
+semos@Semos-EDU:~/Semos2025/GitHub-1$ tac doc2.txt | sed '1,/^$/d' | tac > temp.txt && mv temp.txt doc2.txt
+semos@Semos-EDU:~/Semos2025/GitHub-1$ csplit -z doc3.txt '/^$/' '{*}'  
