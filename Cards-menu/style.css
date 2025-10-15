@@ -7,7 +7,7 @@ body {
 }
 
 .main {
-  width: 70%;
+  width: auto;
   height: auto;
   overflow: hidden;
   margin: 10px;
@@ -17,6 +17,8 @@ body {
   border: 3px solid rgb(15, 28, 42);
   border-bottom: none;
   padding-bottom: 0;
+  max-width: 400px;
+  max-height: 60%;
 }
 #main-pic {
   height: 300px;
@@ -122,4 +124,20 @@ body {
   background-color: rgb(0, 71, 118);
   
   transition: 2s all;
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-bottom: 3px solid rgb(15, 28, 42);
+    padding-bottom: 0;
+    max-width: 400px;
+  }
+  
 }
