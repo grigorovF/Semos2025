@@ -103,3 +103,18 @@ function showSideList() {
     sideList.style.display = "none";
   }
 }
+
+//lists
+const menuItems = document.querySelectorAll('.main-nav li');
+const lists = document.querySelectorAll('.lists-main > div');
+
+menuItems.forEach((item, index) => {
+  item.addEventListener('mouseenter', () => {
+    lists.forEach(list => list.style.display = 'none');
+    lists[index].style.display = 'flex';
+  });
+
+  item.addEventListener('mouseleave', () => {
+    lists[index].style.display = 'none';
+  });
+});
