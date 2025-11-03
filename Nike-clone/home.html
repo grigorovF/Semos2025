@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nike-Clone</title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;500;700&display=swap"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="upper-header">
+        <div class="upper-header-left">
+          <a href="https://www.nike.com/jordan">
+            <img
+              src="img/jordan-2-logo-svgrepo-com.svg"
+              alt="Jordan Logo"
+              class="icon"
+            />
+          </a>
+          <a href="https://www.nike.com/w/converse-akmjx">
+            <img
+              src="img//Converse_(shoe_company)-Icon-Logo.wine.svg"
+              alt="Jordan Logo"
+              class="icon"
+            />
+          </a>
+        </div>
+        <div class="upper-header-right">
+          <ul>
+            <li><a>Find Store</a></li>
+            <li><a>Help</a></li>
+            <li><a>Join Us</a></li>
+            <li><a>Sign In</a></li>
+            <li onclick="showSideList()">
+              <span id="dots" class="material-symbols-outlined">more_vert</span>
+            </li>  
+          </ul>  
+          
+          <ul id="side-list">
+              <li><a>Find Store</a></li>
+              <li><a>Help</a></li>
+              <li><a>Join Us</a></li>
+              <li><a>Sign In</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="main-header">
+        <img src="./img/nike-4-logo-svgrepo-com.svg" alt="nike-logo" />
+        <div class="main-header-middle">
+          <ul class="main-nav">
+            <li><a href="https://www.nike.com/men">Men</a></li>
+            <li><a href="https://www.nike.com/women">Women</a></li>
+            <li><a href="https://www.nike.com/kids">Kids</a></li>
+            <li><a href="https://www.nike.com/jordan">Jordan</a></li>
+            <li><a href="https://www.nike.com/nikeskims">NikeSKIMS</a></li>
+            <li><a href="https://www.nike.com/gear-up">Sport</a></li>
+            <li><a href="https://www.nike.com/w/sale-3yaep">Sale</a></li>
+          </ul>
+          <img src="./img/menu-svgrepo-com.svg" id="h-menu" alt="" />
+        </div>
+        <div class="main-header-right">
+          <div class="search-box">
+            <input type="search" id="search" placeholder="Search" />
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              width="24px"
+              height="24px"
+              fill="none"
+            >
+              <path
+                stroke="currentColor"
+                stroke-width="1.5"
+                d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853"
+              ></path>
+            </svg>
+          </div>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            viewBox="0 0 24 24"
+            role="img"
+            width="24px"
+            height="24px"
+            fill="none"
+          >
+            <path
+              stroke="currentColor"
+              stroke-width="1.5"
+              d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5"
+            ></path>
+          </svg>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            viewBox="0 0 24 24"
+            role="img"
+            width="24px"
+            height="24px"
+            fill="none"
+          >
+            <path
+              stroke="currentColor"
+              stroke-width="1.5"
+              d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="items" id="items">
+        <div class="lines-container">
+          <div class="lines" id="circe1"></div>
+          <div class="lines" id="circe2"></div>
+          <div class="lines" id="circe3"></div>
+          <div class="lines" id="circe4"></div>
+        </div>
+
+        <div class="circle-container">
+          <div id="left" class="circles">
+            <span class="material-symbols-outlined">chevron_backward</span>
+          </div>
+          <div id="right" class="circles">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </div>
+          <div id="pause" class="circles"><span id="time"></span></div>
+        </div>
+      </div>
+      <div class="middle-main">
+        <div class="left-pic">
+          <p>Gift Sports</p>
+          <h5>Gift for Runners</h5>
+          <input type="button" class="shop-now" value="Shop Gift" />
+        </div>
+        <div class="right-pic">
+          <p>Gift Sports</p>
+          <h5>Gift for Runners</h5>
+          <input type="button" class="shop-now" value="Shop" />
+        </div>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
