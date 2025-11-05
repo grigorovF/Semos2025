@@ -104,6 +104,16 @@ function showSideList() {
   }
 }
 
+//show headerList
+function showHeaderList() {
+  const headerList = document.getElementById("main-nav-side");
+  if (headerList.style.display === "" || headerList.style.display === "none") {
+    headerList.style.display = "flex";
+  } else {
+    headerList.style.display = "none";
+  }
+}
+
 //lists
 const menuItems = document.querySelectorAll('.main-nav li');
 const lists = document.querySelectorAll('.lists-main > div');
