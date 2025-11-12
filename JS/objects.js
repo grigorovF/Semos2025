@@ -79,3 +79,54 @@ const employer = {
 };
 
 employer.summary();
+
+
+//arrays
+
+console.log("-----Arrays-----");
+
+// USA country object with 10 cities
+const country = {
+  name: "United States of America",
+  cities: [
+    { name: "New York City", population: 8419600 },
+    { name: "Los Angeles", population: 3980400 },
+    { name: "Chicago", population: 2716000 },
+    { name: "Houston", population: 2328000 },
+    { name: "Phoenix", population: 1690000 },
+    { name: "Philadelphia", population: 1584000 },
+    { name: "San Antonio", population: 1547000 },
+    { name: "San Diego", population: 1424000 },
+    { name: "Dallas", population: 1343000 },
+    { name: "San Jose", population: 1035000 }
+  ]
+};
+
+console.log("Country object:", country);
+
+let cities = [...country.cities]; 
+
+for (let i = 0; i < cities.length - 1; i++) {
+  for (let j = 0; j < cities.length - i - 1; j++) {
+    if (cities[j].population < cities[j + 1].population) {
+      let temp = cities[j];
+      cities[j] = cities[j + 1];
+      cities[j + 1] = temp;
+    }
+  }
+}
+
+const top3 = cities.slice(0, 3);
+
+console.log("Top 3 most populated cities:");
+top3.forEach((city, i) =>
+  console.log(`${i + 1}. ${city.name} - ${city.population.toLocaleString()}`)
+);
+
+let totalPopulation = 0;
+for (let i = 0; i < country.cities.length; i++) {
+  totalPopulation += country.cities[i].population;
+}
+
+const avgPopulation = totalPopulation / country.cities.length;
+console.log(`Average population: ${Math.round(avgPopulation).toLocaleString()}`);
