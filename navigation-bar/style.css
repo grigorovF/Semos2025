@@ -1,0 +1,235 @@
+:root{
+    --bg-color:#0d0451;
+    --second-bg-color:  #06022f;
+    --text-color: #9fbee1;
+    
+}
+
+html{
+    text-decoration: none;
+    outline: none;
+    scroll-behavior: smooth;
+    font-size: 60%;
+    min-height: 100vh;
+    background-size: cover;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+
+header {
+    width: 100%;
+    height: 6rem;
+    align-items: center;
+    background: transparent;
+    backdrop-filter: blur(100px);
+    background-color: var(--second-bg-color);
+    display: flex;
+    justify-content: space-between;
+    top: 0;
+    margin: 0; 
+    padding: 0; 
+    left: 0;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 1;
+    font-size: large;
+}
+
+.head-right {
+    text-decoration: none;
+    font-size: clamp(1rem, 2.0rem, 2.5rem);
+    color: var(--text-color);
+    font-weight: 800;
+    padding: 0.1%;
+    margin-left: 5%;
+    animation: h-right 1s ease forwards;
+}
+
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    padding: 0;
+    justify-content:space-between;
+    float: right;
+    margin-right: 5%;
+    animation: n-list 1s ease forwards;
+    z-index: 10;
+}
+
+.nav-list li .box-icon {
+    width: 25px;
+    height: 25px;
+    stroke: #9fbee1; 
+    stroke-width: 0.8px;     
+}
+
+.nav-list li {
+    display: flex;
+    flex-direction: column; 
+}
+
+.nav-list li span{
+    visibility: hidden;
+    font-size: clamp(0.4rem, 0.625rem, 0.8rem);
+    color: var(--text-color);
+    justify-content: center;
+}
+
+.nav-list li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none; 
+}
+
+.nav-list li:hover span{
+    visibility: visible;
+    transform: translateY(20%);
+    font-size: clamp(0.9rem, 1.1rem, 1.3rem);
+    transition: ease-in 0.9s;
+}
+
+.nav-list li:hover .box-icon {
+    transform: scale(120%);
+    transition: ease-in 0.9s;
+    gap: 15px;
+}
+
+@keyframes n-list {
+    0%{
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+
+@keyframes h-right {
+    0%{
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+
+.side-list {
+    position: fixed;
+    top: 5rem;
+    right: 0;
+    height: auto;
+    text-align: justify;
+    z-index: 999;
+    background-color: var(--second-bg-color);
+    width: auto;
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+    border: 1px solid rgb(255, 255, 255);
+
+    overflow-y: auto;
+    padding: 0;
+    margin-right: 5%;
+    margin-left: 5%;
+    width: 90%;
+    
+}
+
+.showSideList{
+    display: flex;
+}
+
+
+
+
+.side-list li{
+    list-style: none;
+    padding: 5px;
+    display: flex;
+    justify-content: center; /* Center items horizontally in the li */
+    align-items: center; /* Center items vertically in the li */
+    width: 90%;
+
+}
+
+.side-list li a{
+    text-decoration: none;
+    color: aliceblue;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 5px;
+    gap: 5px;
+
+}
+.side-list li:hover {
+
+    background-color: aliceblue;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    width: 96%;
+    border-radius: 15px;
+}
+
+.side-list li:hover span{
+
+    color: var(--second-bg-color);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 100%;
+}
+
+
+.side-list li .box-icon{
+    width:24px;
+    height:24px;
+    stroke: #9EA1B6; 
+    stroke-width: 0.8px;     
+}
+
+
+header .toggle_btn {
+    color: var(--text-color);
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+
+
+
+
+@media screen and (max-width: 900px) {
+    .nav-list {
+        display: none;
+    }
+
+    header{
+        justify-content: space-between;
+    }
+
+    header .toggle_btn {
+        color: var(--text-color);
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        margin-right: 5%;
+        animation: n-list 1s ease forwards;
+    }
+
+}
