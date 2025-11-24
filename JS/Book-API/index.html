@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book TODO List</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1 id="title">Book TODO App</h1>
+
+  <div class="controls">
+    <input id="add-todo-input" type="text" placeholder="Add new todo..." />
+    <button class="btn" onclick="addTodo()">Add</button>
+
+    <button class="btn" onclick="showTodos('all')">All</button>
+    <button class="btn" onclick="showTodos('completed')">Completed</button>
+    <button class="btn" onclick="showTodos('incomplete')">Incomplete</button>
+  </div>
+
+  <div id="todos" class="todos-container"></div>
+
+  <button id="dark-mode" class="btn dark-mode-btn">Dark Mode</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
