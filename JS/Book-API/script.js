@@ -54,10 +54,13 @@ function renderTodos(list) {
       showTodos("all");
     });
 
-    deleteBtn.addEventListener("click", () => {
+      deleteBtn.addEventListener("click", () => {
+      const confirmDelete = confirm("Are you sure to delete this book?");
+      if (!confirmDelete) return;
       todos = todos.filter(x => x.id !== todo.id);
       showTodos("all");
     });
+
 
     card.appendChild(title);
     card.appendChild(sub);
