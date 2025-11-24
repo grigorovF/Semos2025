@@ -43,7 +43,7 @@ body.dark-mode {
 
 .btn {
   padding: 10px 14px;
-  margin-right: 8px;
+  margin: 8px;
   border: none;
   background: #333;
   color: white;
@@ -93,9 +93,8 @@ body.dark-mode {
   color: gray;
 }
 
-/* BUTTON inside todo */
 .btn-complete {
-  margin-top: 10px;
+  margin: 10px 10px;
   padding: 8px 12px;
   background: #1080ff;
   color: white;

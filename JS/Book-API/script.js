@@ -23,7 +23,6 @@ function addTodo() {
   todos = [newTodo, ...todos];
   renderTodos(todos);
 }
-
 function renderTodos(list) {
   const container = document.getElementById("todos");
   container.innerHTML = "";
@@ -32,10 +31,14 @@ function renderTodos(list) {
     const card = document.createElement("div");
     const title = document.createElement("h2");
     const sub = document.createElement("p");
+    const deleteBtn = document.createElement("button");
+    
     const toggleBtn = document.createElement("button");
-
     toggleBtn.innerText = todo.completed ? "incomplete" : "complete";
     toggleBtn.classList.add("btn-complete");
+
+    deleteBtn.innerText = "delete";
+    deleteBtn.classList.add("btn-complete");
 
     card.classList.add(todo.completed ? "completed" : "todo");
     title.classList.add(todo.completed ? "completed-title" : null);
@@ -47,19 +50,34 @@ function renderTodos(list) {
       const selected = todos.find(x => x.id === todo.id);
       selected.completed = !selected.completed;
 
-        toggleBtn.innerText = selected.completed ? "incomplete" : "complete";
+      toggleBtn.innerText = selected.completed ? "incomplete" : "complete";
+      showTodos("all");
+    });
 
-     
+    deleteBtn.addEventListener("click", () => {
+      todos = todos.filter(x => x.id !== todo.id);
       showTodos("all");
     });
 
     card.appendChild(title);
     card.appendChild(sub);
     card.appendChild(toggleBtn);
+    card.appendChild(deleteBtn);
+
     container.appendChild(card);
   });
 }
 
+
+function sortAscending() {
+  todos.sort((a, b) => a.title.localeCompare(b.title));
+  renderTodos(todos);
+}
+
+function sortDescending() {
+  todos.sort((a, b) => b.title.localeCompare(a.title));
+  renderTodos(todos);
+}
 fetch("https://fakerapi.it/api/v1/books?_quantity=1000")
   .then(res => res.json())
   .then(res => {

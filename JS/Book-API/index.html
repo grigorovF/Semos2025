@@ -12,10 +12,14 @@
   <div class="controls">
     <input id="add-todo-input" type="text" placeholder="Add new todo..." />
     <button class="btn" onclick="addTodo()">Add</button>
+    
 
     <button class="btn" onclick="showTodos('all')">All</button>
     <button class="btn" onclick="showTodos('completed')">Completed</button>
     <button class="btn" onclick="showTodos('incomplete')">Incomplete</button>
+
+    <button class="btn" onclick="sortAscending()">A → Z</button>
+    <button class="btn" onclick="sortDescending()">Z → A</button>
   </div>
 
   <div id="todos" class="todos-container"></div>
