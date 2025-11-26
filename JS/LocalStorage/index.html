@@ -1,0 +1,47 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  
+  <body>
+    <div class="nav">
+      <a href="index.html">Admin</a>
+
+
+    </div>
+    <main>
+    <h1 class="title">Blogs Management</h1>
+
+    <form id="blogForm">
+      <label>Title</label>
+      <input id="blogTitle" required placeholder="Enter title">
+
+      <label>Content</label>
+      <textarea id="blogContent" required placeholder="Write your blog..."></textarea>
+
+      <label>Image URL</label>
+      <input id="blogImage" placeholder="Image URL (optional)">
+
+      <button type="submit">Create Blog</button>
+    </form>
+
+    <h2>All Blogs</h2>
+    <table width="100%">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Title</th>
+          <th>Content</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="blogTableBody"></tbody>
+    </table>
+    </main>
+    <script src="script.js"></script>
+    </body>
+</html>
