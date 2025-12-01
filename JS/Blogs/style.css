@@ -1,0 +1,272 @@
+body{
+    background-color: rgb(205, 230, 255);
+    margin: 0;
+    padding: 0;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+header{
+    height: 6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: azure;
+    align-items: center;
+}
+
+
+header div {
+    flex: 1;               
+    height: 100%;           
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #222;
+    color: white;
+}
+
+
+header div a{
+    text-decoration: none;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-weight: bolder;
+    padding: auto;
+    margin: auto;
+    transition: background-color 0.5 ease-in-out;
+}
+
+header div:hover {
+    background: #d8ffd8;
+    width: auto;
+    height: 100%;
+}
+
+header div:hover a {
+    color: #222;   
+}
+
+main{
+    display: none;
+    flex-direction: column;
+    margin: auto;
+    padding: auto;
+}
+
+.blogForm{
+  display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: 40%;
+    padding: 40px 30px;
+    margin: 60px auto;
+    background: white;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.blogForm h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 32px;
+    color: #333;
+}
+
+.blogForm label {
+    font-weight: bold;
+    color: #444;
+    font-size: 18px;
+}
+
+.blogForm input,
+.blogForm textarea {
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blogForm input:focus,
+.blogForm textarea:focus {
+    border-color: #4b8bff;
+    box-shadow: 0 0 6px rgba(75, 139, 255, 0.5);
+    outline: none;
+}
+
+.blogForm textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.blogForm button {
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: #4b8bff;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.blogForm button:hover {
+    background: #2465db;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 40px auto;
+    border-radius: 8px;
+    overflow: hidden; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+
+}
+
+thead {
+    background: #222;
+    color: white;
+}
+
+th {
+    padding: 14px;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+}
+
+tbody tr {
+    background: #f7f7f7;
+    transition: 0.25s ease;
+}
+
+tbody tr:nth-child(even) {
+    background: #ececec;
+}
+
+tbody tr:hover {
+    background: #d8ffd8;         
+}
+
+td {
+    padding: 12px auto;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.4;
+    text-align: center;
+    height: 20px;
+}
+
+tbody tr button:hover{
+    cursor: pointer;
+}
+
+
+.blogImageCell{
+    width: 100px;
+    height: 100px;
+}
+
+.buttonTableBody{
+    width: 90px;
+    height: 50px;
+    margin: 15px;
+    text-align: center;
+    color: whitesmoke;
+    background-color: #222;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+
+#editOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 90;
+}
+
+#editForm {
+    display: none; 
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 35px 30px;
+    width: 40%;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+   z-index: 100;
+}
+
+#icon{
+   position: absolute;
+   top: 35px;
+   right: 40px;
+   font-size: 45px;
+}
+
+#icon:hover, 
+#loginIcon:hover{
+   color: #2465db;
+    cursor: pointer;
+}
+
+#loginDiv {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    height: 100%;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(2px);
+    z-index: 90;
+}
+
+#loginIcon{
+   position: relative;
+   top: -70px;
+   left: 45%;
+   font-size: 45px;
+}
+
+#loginForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#loginForm input{
+    width: 60%;
+    text-align: center;
+    font-size: 45px;
+}
+
+#loginForm label{
+    margin-top: -50px;
+    font-size: 35px;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=close"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Blogs</title>
+  </head>
+  <body>
+    <header>
+      <div><a href="index.html">Admin</a></div>
+      <div><a href="cards.html">Blogs</a></div>
+    </header>
+
+    <main>
+      <form class="blogForm" id="blogForm">
+        <h1>Add Blog</h1>
+        <label for="blogTitle">Title</label>
+        <input id="blogTitle" required placeholder="Enter title" />
+
+        <label for="blogContent">Content</label>
+        <textarea
+          id="blogContent"
+          required
+          placeholder="Write your blog..."
+        ></textarea>
+
+        <label for="blogImage">Image URL</label>
+        <input id="blogImage" placeholder="Image URL (optional)" />
+
+        <button type="submit">Create Blog</button>
+      </form>
+
+      <h2>All Blogs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Image</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="blogTableBody"></tbody>
+      </table>
+    </main>
+
+    <div id="editOverlay">
+      <form class="blogForm" id="editForm">
+      
+          <h1>Edit Blog</h1>
+          <span class="material-symbols-outlined" id="icon" onclick="closeEditForm()"> close </span>
+      
+        <label for="blogID">Blog ID</label>
+        <input id="editBlogID" disabled />
+
+        <label for="blogTitle">Title</label>
+        <input id="editBlogTitle" required />
+
+        <label for="blogContent">Content</label>
+        <textarea id="editBlogContent" required></textarea>
+
+        <label for="blogImage">Image URL</label>
+        <input id="editBlogImage" />
+        <div class="btn">
+          <button type="button" onclick="resetBtn()">Reset</button>
+          <button type="button" onclick="updateBlog()">Save Changes</button>
+        </div>
+      </form>
+    </div>
+
+    
+    <div id="loginDiv">
+      <form class="blogForm" id="loginForm">
+      
+          <h1>Log In</h1>
+          <span class="material-symbols-outlined" id="loginIcon" onclick="closeLoginForm()"> close </span>
+      
+        <label for="password">Enter your password</label>
+        <input id="passwordInput" type="password" />
+        <div class="btn">
+          <button type="button" onclick="logIn()">Log In</button>
+          <button type="button" onclick="singIn()">Sing In</button>
+        
+        </div>
+          
+      </form>
+    </div>
+    <script src="script.js" defer></script>
+  </body>
+</html>
