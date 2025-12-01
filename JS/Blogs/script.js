@@ -159,7 +159,9 @@ function logIn() {
   const matchedUser = users.find((u) => u.password === password);
 
   if (!matchedUser) {
+    password.value = null;
     alert("Incorrect password or user does not exist!");
+    
     return;
   } else if (matchedUser.password == "1234") {
     document.getElementById("adminMain").style.display = "block";
