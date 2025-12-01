@@ -138,3 +138,43 @@ function closeLoginForm() {
   document.getElementById("loginForm").style.display = "none";
   document.getElementById("loginDiv").style.display = "none";
 }
+
+//user adding
+localStorage.setItem(
+  "users",
+  JSON.stringify([
+    {
+      username: "filip",
+      password: "1234",
+      gender: "male",
+      dateofBirth: "10/21/1994",
+    },
+  ])
+);
+
+// LOGIN
+function logIn() {
+  const password = document.getElementById("passwordInput").value.trim();
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const matchedUser = users.find((u) => u.password === password);
+
+  if (!matchedUser) {
+    alert("Incorrect password or user does not exist!");
+    return;
+  } else if (matchedUser.password == "1234") {
+    document.getElementById("adminMain").style.display = "block";
+    document.getElementById("loginDiv").style.display = "none";
+  }
+  //alert("Login successful!");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const passwordInput = document.getElementById("passwordInput");
+
+  passwordInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      logIn();
+    }
+  });
+});

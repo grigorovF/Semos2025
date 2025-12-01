@@ -52,10 +52,13 @@ header div:hover a {
 }
 
 main{
-    display: none;
     flex-direction: column;
     margin: auto;
     padding: auto;
+}
+
+#adminMain{
+    display: none;
 }
 
 .blogForm{

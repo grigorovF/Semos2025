@@ -16,7 +16,7 @@
       <div><a href="cards.html">Blogs</a></div>
     </header>
 
-    <main>
+    <main id="adminMain">
       <form class="blogForm" id="blogForm">
         <h1>Add Blog</h1>
         <label for="blogTitle">Title</label>
@@ -56,7 +56,7 @@
           <h1>Edit Blog</h1>
           <span class="material-symbols-outlined" id="icon" onclick="closeEditForm()"> close </span>
       
-        <label for="blogID">Blog ID</label>
+        <label for="editBlogID">Blog ID</label>
         <input id="editBlogID" disabled />
 
         <label for="blogTitle">Title</label>
@@ -81,7 +81,7 @@
           <h1>Log In</h1>
           <span class="material-symbols-outlined" id="loginIcon" onclick="closeLoginForm()"> close </span>
       
-        <label for="password">Enter your password</label>
+        <label for="passwordInput">Enter your password</label>
         <input id="passwordInput" type="password" />
         <div class="btn">
           <button type="button" onclick="logIn()">Log In</button>
