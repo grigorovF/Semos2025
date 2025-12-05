@@ -17,7 +17,7 @@ main{
 
 }
 
-#blogForm {
+.blogForm {
     background: white;
     width: 380px;
     padding: 20px;
@@ -29,23 +29,23 @@ main{
     margin-bottom: 30px;
 }
 
-#blogForm label {
+.blogForm label {
     font-weight: bold;
 }
 
-#blogForm input,
-#blogForm textarea {
+.blogForm input,
+.blogForm textarea {
     padding: 10px;
     border: 1px solid #aaa;
     border-radius: 6px;
     font-size: 15px;
 }
 
-#blogForm textarea {
+.blogForm textarea {
     min-height: 100px;
 }
 
-#blogForm button {
+.blogForm button {
     padding: 12px;
     background: #0077ff;
     border: none;
@@ -106,3 +106,4 @@ td {
     text-align: center;
     height: 20px;
 }
+
