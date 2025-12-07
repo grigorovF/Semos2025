@@ -33,8 +33,8 @@ fetch("https://api.tvmaze.com/shows")
           </span>
         </div>
 
-        <h2>${show.name}</h2>
-        <a href="casts.html?id=${show.id}">View Show</a>
+        <h2 id="movie-name">${show.name}</h2>
+        <a id="more" href="casts.html?id=${show.id}">View Show</a>
       </div>
     `;
   });
