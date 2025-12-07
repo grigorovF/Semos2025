@@ -34,7 +34,7 @@ fetch("https://api.tvmaze.com/shows")
         </div>
 
         <h2>${show.name}</h2>
-        <a href="show.html?id=${show.id}">View Show</a>
+        <a href="casts.html?id=${show.id}">View Show</a>
       </div>
     `;
   });
@@ -54,4 +54,46 @@ function toggleFavorite(id) {
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+
+function searchShows() {
+  const input = document.getElementById("search-show").value.toLowerCase().trim();
+
+  const filtered = shows.filter(show =>
+    show.name.toLowerCase().includes(input)
+  );
+
+  renderFilteredShows(filtered);
+}
+
+
+function renderFilteredShows(list) {
+  const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  const container = document.getElementById("shows-container");
+  
+  container.innerHTML = "";
+
+  list.forEach(show => {
+    const isFavorite = favorites.includes(show.id);
+
+    container.innerHTML += `
+      <div class="show-card">
+        <img src="${show.image ? show.image.medium : 'defaultImage.jpg'}" />
+
+        <div class="fav-class">
+          <span 
+            class="material-symbols-outlined ${isFavorite ? "active" : ""}"
+            data-id="${show.id}"
+            onclick="toggleFavorite(${show.id})"
+          >
+            favorite
+          </span>
+        </div>
+
+        <h2>${show.name}</h2>
+        <a href="show.html?id=${show.id}">View Show</a>
+      </div>
+    `;
+  });
 }
