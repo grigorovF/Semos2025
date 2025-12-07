@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Shows</a></li>
+            <li> <a href="casts.html">Casts</a></li>
+            <li><a href="favourites.html">Favourites</a></li>
+        </ul>  
+    </nav>
+
+    <div>
+      <h1>TV Shows</h1>
+      <p id="user"></p>
+    </div>
+
+    <input type="text" id="search-show"  placeholder="Enter your show..."/>
+    <button onclick="filterShows()">Search</button>
+
+    <div id="shows-container"></div>
+    <script src="index.js" defer></script>
+ 
+</body>
+</html>
