@@ -1,6 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const showId = urlParams.get("id");
 
+
 fetch(`https://api.tvmaze.com/shows/${showId}/cast`)
   .then(res => res.json())
   .then(data => renderCast(data))
