@@ -15,6 +15,8 @@ function renderFavoriteShows(favShows) {
     container.innerHTML += `
       <div class="show-card">
         <img src="${show.image ? show.image.medium : "defaultImage.jpg"}">
+           
+       
         <h2>${show.name}</h2>
         <a href="show.html?id=${show.id}">View Show</a>
       </div>

@@ -57,14 +57,25 @@ function toggleFavorite(id) {
 }
 
 
-function searchShows() {
-  const input = document.getElementById("search-show").value.toLowerCase().trim();
+async function searchShows() {
+  const input = document.getElementById("search-show").value.trim().toLowerCase();
 
-  const filtered = shows.filter(show =>
-    show.name.toLowerCase().includes(input)
-  );
+  if (input === "") {
+    renderShows();
+    return;
+  }
 
-  renderFilteredShows(filtered);
+  try {
+    const res = await fetch(`https://api.tvmaze.com/search/shows?q=${input}`);
+    const data = await res.json();
+
+    const results = data.map(item => item.show);
+
+    renderFilteredShows(results);
+
+  } catch (err) {
+    console.error("Search API error:", err);
+  }
 }
 
 
