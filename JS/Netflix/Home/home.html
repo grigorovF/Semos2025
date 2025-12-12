@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="exn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="/Netflix/img/netflix-logo-transparent-png-11660600805igxhzrr6b7.png"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite" />
+    <link rel="stylesheet"
+ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <header>
+      <img src="../img/netflix-3.svg" alt="header-logo" />
+      <div class="nav-div">
+        <nav>
+          <ul>
+            <li><a href="./home.html">Home</a></li>
+            <li><a href="../Favourites/favorites.html">Favorites</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <input type="text" placeholder="Enter the title..." id="title-input" />
+        <input
+          id="search-btn"
+          type="button"
+          value="Search"
+          onclick="search()"
+        />
+      </div>
+    </header>
+    <main>
+      <div class="main-container" id="main-container"></div>
+    </main>
+    <script src="home.js"></script>
+    <div class="login-div">
+      <img src="../img/363639-200.png" alt="">
+      <div class="name">
+        <span id="namespan"></span>
+        <button onclick="logOut()">Log Out</button>  
+      </div>
+      
+    </div>
+  </body>
+</html>

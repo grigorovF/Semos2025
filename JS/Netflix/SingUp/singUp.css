@@ -1,0 +1,120 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: black;
+    color: whitesmoke;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form1{
+    border: 3px solid red;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgb(99, 1, 1);
+    width: 40dvw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 30px;
+    position: relative;
+    top: 10;
+
+}
+
+#singUpForm{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 80%;
+    margin: auto;
+    padding: auto;
+}
+
+h2{
+    text-align: center;   
+    padding-bottom: 20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+#singUpForm input{
+    border-radius: 10px;
+    margin-bottom: 18px;
+    padding-left: 6px;
+    font-size: 18px;
+}
+
+#singUpForm input:focus{
+    padding-left: 6px;
+    border: none;
+
+}
+
+#singUpForm label{
+    font-size: 13px;
+    padding-bottom: 0;
+    padding-left: 6px;
+
+}
+
+.emailDiv, .passDiv{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.emailDiv span,
+.passDiv span{
+    position: relative;
+    top: -10px;
+    font-size: 10px;
+    color: red;
+    padding-left: 6px;
+}
+.help{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6px;
+}
+
+.help a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 100px;
+    height: 20px;
+    color: whitesmoke;
+    font-size: 12px;
+    padding: 5px 3px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+
+.help a:hover,
+.help button:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.help button{
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 25px;
+    background-color: red;
+    font-weight: bold;
+    color: whitesmoke;
+    border: none;
+    font-size: 12px;
+}
+

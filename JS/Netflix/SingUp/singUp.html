@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="exn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="/Netflix/img/netflix-logo-transparent-png-11660600805igxhzrr6b7.png"
+    />
+    <title>Login</title>
+    <link rel="stylesheet" href="singUp.css" />
+  </head>
+  <body>
+    <div class="form1">
+      <form id="singUpForm" action="submit">
+        <h2>Sing Up</h2>
+        <label for="firstNameInput"> First Name: </label>
+        <input type="text" id="firstNameInput" />
+        <label for="lastNameInput"> Last Name: </label>
+        <input type="text" id="lastNameInput" />
+        <label for="usernameInput"> Username: </label>
+        <input type="text" id="userNameInput" />
+        <div class="emailDiv">
+          <label for="emailInput"> E-mail: </label>
+          <input type="text" id="emailInput" onkeyup="returnEmail()" />
+          <span id="mailSpan"></span>
+        </div>
+        <div class="passDiv">
+          <label for="passwordInput"> Password: </label>
+          <input type="password" id="passwordInput" />
+          <label for="passwordInput"> Re-type Password: </label>
+          <input type="password" id="repasswordInput" onkeyup="returnPassword()" onkeypress=""/>
+          <span id="passSpan"></span>
+        </div>
+        <div class="help">
+          <a href="../LogIn/login.html">Back</a>
+          <button type="submit">Sign Up</button>
+        </div>
+      </form>
+    </div>
+    <script src="singUp.js"></script>
+  </body>
+</html>

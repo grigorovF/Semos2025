@@ -1,0 +1,145 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: black;
+}
+
+header {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header img{
+    margin: 10px 0;
+    height: 10rem;
+    width: 100%;
+    display: flex;
+}
+
+.search-div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgb(16, 16, 16);
+}
+
+#title-input{
+    width: 700px;
+    font-size: 25px;
+    padding: 8px 0;
+    border-radius: 15px;
+    margin: 15px 35px;
+    text-align: center;
+    border: none;
+    outline: 2px solid red;
+    background-color: rgb(33, 33, 33);
+}
+
+#title-input:focus{
+    color: rgb(218, 218, 218);
+    background-color: rgb(75, 75, 75);
+}
+
+#search-btn{
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    background-color: #E50914;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+#search-btn:hover{
+    cursor: pointer;
+    background-color: darkred;
+}
+
+nav ul{
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    font-size: 56px;
+}
+
+nav ul li{
+    list-style: none;
+
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+nav ul li a:hover{
+    color: red;
+}
+main {
+    position: relative;
+    top: 480px;
+    margin: 0;
+    padding: 0  ;
+    display: flex;
+    flex-direction: column;
+}
+
+h2{
+    font-size: 40px;
+    color: rgb(20, 20, 20);
+    width: 100dvw;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: red;
+}
+
+.character-container, .episodes-container {
+    display: flex;;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 15px;
+}
+
+.cast-card, .episode-card {
+    width: 220px;
+    background-color: rgb(247, 247, 247);
+    border-radius: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    border: 2px solid red;
+    box-shadow: 2px 2px 5px rgba(120, 0, 0, 0.5);   
+    transition: 0.4s ease;
+}
+
+.cast-card img, .episode-card img {
+    width: 100%;
+    height: 260px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    object-fit: cover;
+}
+
+.cast-card h3, .episode-card h3 {
+    margin: 10px 0;
+    font-size: 20px;
+}
+
+.cast-card p, .episode-card p {
+    font-size: 15px;
+    margin: 5px 0;
+}
+
+.cast-card:hover, .episode-card:hover {
+    transform: scale(1.07);
+    box-shadow: 5px 4px 6px rgba(120, 0, 0, 0.5);
+}

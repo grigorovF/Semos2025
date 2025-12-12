@@ -1,0 +1,120 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: black;
+    color: whitesmoke;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form1{
+    border: 3px solid red;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px rgb(99, 1, 1);
+    width: 40dvw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 20px;
+}
+
+#loginForm{
+    display: flex;
+    flex-direction: column;
+    
+    gap: 6px;
+    padding: 10px;
+    width: 80%;
+    margin: auto;
+    padding: auto;
+}
+
+h2{
+    text-align: center;   
+    padding-bottom: 20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+#loginForm input{
+    border-radius: 10px;
+    margin-bottom: 18px;
+    padding-left: 6px;
+    font-size: 18px;
+}
+
+#loginForm input:focus{
+    padding-left: 6px;
+    border: none;
+
+}
+
+#loginForm label{
+    font-size: 13px;
+    padding-bottom: 0;
+    padding-left: 6px;
+}
+
+
+.help{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+}
+
+.btn-div{
+    display: flex;
+    justify-content: center;
+}
+
+.btn-div button{
+    background-color: red;
+    width: 100px;
+    height: 35px;
+    color: whitesmoke;
+    font-size: 12px;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.help1{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 8px; 
+}
+
+.help a{
+    color: whitesmoke;
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.help #singinLink{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    width: 100px;
+    height: 20px;
+    color: whitesmoke;
+    font-size: 12px;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+
+}
+
+.help button:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
