@@ -54,7 +54,7 @@ header {
 .nav-list {
     display: flex;
     list-style: none;
-    gap: 10px;
+    gap: 15px;
     padding: 0;
     justify-content:space-between;
     float: right;
@@ -64,8 +64,8 @@ header {
 }
 
 .nav-list li .box-icon {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     stroke: #9fbee1; 
     stroke-width: 0.8px;     
 }
@@ -73,6 +73,7 @@ header {
 .nav-list li {
     display: flex;
     flex-direction: column; 
+    gap:10px;
 }
 
 .nav-list li span{
