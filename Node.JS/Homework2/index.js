@@ -1,41 +1,10 @@
+const readline = require('readline');
 const {
     gramVoKilogram,
     kilogramVoGram,
     litarVoMililitar,
-    mililitarVoLitar
+    mililitarVoLitar,
 } = require('./vaga');
-
-
-
-const readline = require('readline');
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-rl.question('Vnesi grami: ', (a) => {
-    a = Number(a);
-    console.log("Vo kilogrami: " + gramVoKilogram(a));
-
-    rl.question('Vnesi kilogrami: ', (b) => {
-        b = Number(b);
-        console.log("Vo grami: " + kilogramVoGram(b));
-
-        rl.question('Vnesi litri: ', (c) => {
-            c = Number(c);
-            console.log("Vo mililitri: " + litarVoMililitar(c));
-
-            rl.question('Vnesi mililitri: ', (d) => {
-                d = Number(d);
-                console.log("Vo litri: " + mililitarVoLitar(d));
-
-                rl.close();
-            });
-        });
-    });
-});
-
 
 const {
     daliEParen,
@@ -45,30 +14,42 @@ const {
     celsiusVoFahrenheit
 } = require('./domasna');
 
-const rl2 = readline.createInterface({
+const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
-}); 
-
-rl2.question('Vnesi broj: ', (num) => {
-    num = Number(num);
-    console.log(daliEParen(num));
-
-    rl2.question('Vnesi strani na pravoagolnik (a b): ', (sides) => {
-        const [a, b] = sides.split(' ').map(Number);
-        console.log("Perimetar: " + perimetarPravoagolnik(a, b));
-        console.log("Plostina: " + plostinaPravoagolnik(a, b));
-    
-
-        rl2.question('Vnesi temperatura vo Fahrenheit: ', (f) => {
-            f = Number(f);
-            console.log("Vo Celsius: " + fahrenheitVoCelsius(f));   
-
-            rl2.question('Vnesi temperatura vo Celsius: ', (c) => { 
-                c = Number(c);
-                console.log("Vo Fahrenheit: " + celsiusVoFahrenheit(c));});
-
-                rl2.close();
-            });
-    });
 });
+
+const question = (q) => {
+    return new Promise((resolve) => rl.question(q, resolve));
+};
+
+async function main() {
+    const q1 = Number(await question("Vnesi Grami: "));
+    console.log(`${q1} grami se ${gramVoKilogram(q1)} kilogrami.`);
+
+    const q2 = Number(await question("Vnesi Kilogrami: "));
+    console.log(`${q2} kilogrami se ${kilogramVoGram(q2)} grami.`);
+
+    const q3 = Number(await question("Vnesi Litri: "));
+    console.log(`${q3} litri se ${litarVoMililitar(q3)} mililitri.`);
+
+    const q4 = Number(await question("Vnesi Mililitri: "));
+    console.log(`${q4} mililitri se ${mililitarVoLitar(q4)} litri.`);
+
+    const broj = Number(await question("Vnesi broj: "));
+    console.log(`Brojot ${broj} e ${daliEParen(broj)}.`);
+
+    const strani = await (question("Vnesi gi stranite na pravoagolnikot: "));
+    const [a, b] = strani.split(' ').map(Number);
+    console.log(`Perimetarot na pravoagolnikot e ${perimetarPravoagolnik(a, b)} cm.`);
+    console.log(`Plostinata na pravoagolnikot e ${plostinaPravoagolnik(a, b)} cm2.`);
+
+    const farenheit = Number(await question("Vnesi temperatura vo Fahrenheit: "));
+    console.log(`${farenheit}°F se ${fahrenheitVoCelsius(farenheit)}°C.`);
+
+    const celzius = Number(await question("Vnesi temperatura vo Celsius: "));
+    console.log(`${celzius}°C se ${celsiusVoFahrenheit(celzius)}°F.`);
+    rl.close();
+}
+
+main();
