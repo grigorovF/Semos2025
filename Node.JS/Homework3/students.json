@@ -1,0 +1,616 @@
+[
+  {
+    "id": 523,
+    "ime": "Bojan",
+    "grad": "Skopje",
+    "prosek": 9.42
+  },
+  {
+    "id": 189,
+    "ime": "Ana",
+    "grad": "Bitola",
+    "prosek": 7.15
+  },
+  {
+    "id": 874,
+    "ime": "Marko",
+    "grad": "Ohrid",
+    "prosek": 8.8
+  },
+  {
+    "id": 921,
+    "ime": "Elena",
+    "grad": "Prilep",
+    "prosek": 6.34
+  },
+  {
+    "id": 343,
+    "ime": "Stefan",
+    "grad": "Tetovo",
+    "prosek": 5.9
+  },
+  {
+    "id": 690,
+    "ime": "Marija",
+    "grad": "Kumanovo",
+    "prosek": 9.95
+  },
+  {
+    "id": 50,
+    "ime": "Igor",
+    "grad": "Stip",
+    "prosek": 7.72
+  },
+  {
+    "id": 820,
+    "ime": "Katerina",
+    "grad": "Veles",
+    "prosek": 8.12
+  },
+  {
+    "id": 383,
+    "ime": "Darko",
+    "grad": "Strumica",
+    "prosek": 5.25
+  },
+  {
+    "id": 601,
+    "ime": "Milena",
+    "grad": "Kavadarci",
+    "prosek": 9.1
+  },
+  {
+    "id": 462,
+    "ime": "Viktor",
+    "grad": "Gostivar",
+    "prosek": 6.88
+  },
+  {
+    "id": 788,
+    "ime": "Sara",
+    "grad": "Kocani",
+    "prosek": 7.45
+  },
+  {
+    "id": 280,
+    "ime": "Filip2-smeneto",
+    "grad": "Kicevo",
+    "prosek": 8.33
+  },
+  {
+    "id": 938,
+    "ime": "Ivana",
+    "grad": "Gevgelija",
+    "prosek": 5.11
+  },
+  {
+    "id": 462,
+    "ime": "Nikola",
+    "grad": "Radovis",
+    "prosek": 9.67
+  },
+  {
+    "id": 657,
+    "ime": "Kristina",
+    "grad": "Kriva Palanka",
+    "prosek": 7.9
+  },
+  {
+    "id": 234,
+    "ime": "Aleksandar",
+    "grad": "Delcevo",
+    "prosek": 6.55
+  },
+  {
+    "id": 415,
+    "ime": "Teodora",
+    "grad": "Probistip",
+    "prosek": 8.22
+  },
+  {
+    "id": 569,
+    "ime": "Petar",
+    "grad": "Berovo",
+    "prosek": 5.48
+  },
+  {
+    "id": 722,
+    "ime": "Natalija",
+    "grad": "Vinica",
+    "prosek": 9.3
+  },
+  {
+    "id": 218,
+    "ime": "Daniel",
+    "grad": "Sveti Nikole",
+    "prosek": 7.02
+  },
+  {
+    "id": 943,
+    "ime": "Monika",
+    "grad": "Resen",
+    "prosek": 8.56
+  },
+  {
+    "id": 232,
+    "ime": "Goran",
+    "grad": "Debar",
+    "prosek": 6.18
+  },
+  {
+    "id": 831,
+    "ime": "Sofija",
+    "grad": "Valandovo",
+    "prosek": 9.78
+  },
+  {
+    "id": 980,
+    "ime": "Trajce",
+    "grad": "Kratovo",
+    "prosek": 5.6
+  },
+  {
+    "id": 679,
+    "ime": "Emilija",
+    "grad": "Skopje",
+    "prosek": 8.95
+  },
+  {
+    "id": 376,
+    "ime": "Dejan",
+    "grad": "Bitola",
+    "prosek": 7.22
+  },
+  {
+    "id": 555,
+    "ime": "Maja",
+    "grad": "Ohrid",
+    "prosek": 6.4
+  },
+  {
+    "id": 897,
+    "ime": "Zoran",
+    "grad": "Prilep",
+    "prosek": 9.85
+  },
+  {
+    "id": 312,
+    "ime": "Biljana",
+    "grad": "Tetovo",
+    "prosek": 5.35
+  },
+  {
+    "id": 563,
+    "ime": "Tomislav",
+    "grad": "Kumanovo",
+    "prosek": 8.15
+  },
+  {
+    "id": 302,
+    "ime": "Jovana",
+    "grad": "Stip",
+    "prosek": 7.6
+  },
+  {
+    "id": 543,
+    "ime": "Martin",
+    "grad": "Veles",
+    "prosek": 9.2
+  },
+  {
+    "id": 670,
+    "ime": "Simona",
+    "grad": "Strumica",
+    "prosek": 6.75
+  },
+  {
+    "id": 175,
+    "ime": "Andrej",
+    "grad": "Kavadarci",
+    "prosek": 5.82
+  },
+  {
+    "id": 888,
+    "ime": "Lidija",
+    "grad": "Gostivar",
+    "prosek": 8.44
+  },
+  {
+    "id": 381,
+    "ime": "Boris",
+    "grad": "Kocani",
+    "prosek": 7.91
+  },
+  {
+    "id": 510,
+    "ime": "Vesna",
+    "grad": "Kicevo",
+    "prosek": 9.55
+  },
+  {
+    "id": 920,
+    "ime": "Gjorgji",
+    "grad": "Gevgelija",
+    "prosek": 6.28
+  },
+  {
+    "id": 151,
+    "ime": "Marina",
+    "grad": "Radovis",
+    "prosek": 5.15
+  },
+  {
+    "id": 680,
+    "ime": "Hristijan",
+    "grad": "Kriva Palanka",
+    "prosek": 8.67
+  },
+  {
+    "id": 753,
+    "ime": "Aleksandra",
+    "grad": "Delcevo",
+    "prosek": 7.33
+  },
+  {
+    "id": 364,
+    "ime": "Vasko",
+    "grad": "Probistip",
+    "prosek": 9.12
+  },
+  {
+    "id": 295,
+    "ime": "Sanja",
+    "grad": "Berovo",
+    "prosek": 5.74
+  },
+  {
+    "id": 978,
+    "ime": "Mite",
+    "grad": "Vinica",
+    "prosek": 8.05
+  },
+  {
+    "id": 122,
+    "ime": "Tamara",
+    "grad": "Sveti Nikole",
+    "prosek": 6.9
+  },
+  {
+    "id": 712,
+    "ime": "Pavle",
+    "grad": "Resen",
+    "prosek": 9.38
+  },
+  {
+    "id": 461,
+    "ime": "Valentina",
+    "grad": "Debar",
+    "prosek": 7.5
+  },
+  {
+    "id": 564,
+    "ime": "Dragan",
+    "grad": "Valandovo",
+    "prosek": 5.92
+  },
+  {
+    "id": 784,
+    "ime": "Andrijana",
+    "grad": "Kratovo",
+    "prosek": 8.28
+  },
+  {
+    "id": 812,
+    "ime": "Ilija",
+    "grad": "Skopje",
+    "prosek": 9.99
+  },
+  {
+    "id": 400,
+    "ime": "Elena",
+    "grad": "Bitola",
+    "prosek": 6.12
+  },
+  {
+    "id": 223,
+    "ime": "Kiril",
+    "grad": "Ohrid",
+    "prosek": 7.85
+  },
+  {
+    "id": 122,
+    "ime": "Mirjana",
+    "grad": "Prilep",
+    "prosek": 8.41
+  },
+  {
+    "id": 435,
+    "ime": "Ognen",
+    "grad": "Tetovo",
+    "prosek": 5.55
+  },
+  {
+    "id": 91,
+    "ime": "Tanja",
+    "grad": "Kumanovo",
+    "prosek": 9.25
+  },
+  {
+    "id": 540,
+    "ime": "Robert",
+    "grad": "Stip",
+    "prosek": 7.18
+  },
+  {
+    "id": 320,
+    "ime": "Mihaela",
+    "grad": "Veles",
+    "prosek": 6.63
+  },
+  {
+    "id": 803,
+    "ime": "Ivan",
+    "grad": "Strumica",
+    "prosek": 8.76
+  },
+  {
+    "id": 510,
+    "ime": "Jasmina",
+    "grad": "Kavadarci",
+    "prosek": 5.4
+  },
+  {
+    "id": 623,
+    "ime": "Toni",
+    "grad": "Gostivar",
+    "prosek": 9.08
+  },
+  {
+    "id": 220,
+    "ime": "Meri",
+    "grad": "Kocani",
+    "prosek": 7.99
+  },
+  {
+    "id": 456,
+    "ime": "Dimitar",
+    "grad": "Kicevo",
+    "prosek": 6.47
+  },
+  {
+    "id": 334,
+    "ime": "Verica",
+    "grad": "Gevgelija",
+    "prosek": 8.19
+  },
+  {
+    "id": 663,
+    "ime": "Blagoja",
+    "grad": "Radovis",
+    "prosek": 5.21
+  },
+  {
+    "id": 778,
+    "ime": "Svetlana",
+    "grad": "Kriva Palanka",
+    "prosek": 9.82
+  },
+  {
+    "id": 938,
+    "ime": "Milos",
+    "grad": "Delcevo",
+    "prosek": 7.08
+  },
+  {
+    "id": 482,
+    "ime": "Zorica",
+    "grad": "Probistip",
+    "prosek": 6.51
+  },
+  {
+    "id": 195,
+    "ime": "Ace",
+    "grad": "Berovo",
+    "prosek": 8.6
+  },
+  {
+    "id": 511,
+    "ime": "Magdalena",
+    "grad": "Vinica",
+    "prosek": 5.89
+  },
+  {
+    "id": 240,
+    "ime": "Slavco",
+    "grad": "Sveti Nikole",
+    "prosek": 9.47
+  },
+  {
+    "id": 641,
+    "ime": "Dragana",
+    "grad": "Resen",
+    "prosek": 7.37
+  },
+  {
+    "id": 986,
+    "ime": "Vlatko",
+    "grad": "Debar",
+    "prosek": 8.01
+  },
+  {
+    "id": 332,
+    "ime": "Katica",
+    "grad": "Valandovo",
+    "prosek": 6.72
+  },
+  {
+    "id": 654,
+    "ime": "Borce",
+    "grad": "Kratovo",
+    "prosek": 5.05
+  },
+  {
+    "id": 413,
+    "ime": "Suzana",
+    "grad": "Skopje",
+    "prosek": 9.14
+  },
+  {
+    "id": 934,
+    "ime": "Metodi",
+    "grad": "Bitola",
+    "prosek": 7.82
+  },
+  {
+    "id": 609,
+    "ime": "Liljana",
+    "grad": "Ohrid",
+    "prosek": 8.55
+  },
+  {
+    "id": 188,
+    "ime": "Gligor",
+    "grad": "Prilep",
+    "prosek": 5.67
+  },
+  {
+    "id": 241,
+    "ime": "Irena",
+    "grad": "Tetovo",
+    "prosek": 9.7
+  },
+  {
+    "id": 437,
+    "ime": "Saso",
+    "grad": "Kumanovo",
+    "prosek": 6.25
+  },
+  {
+    "id": 120,
+    "ime": "Vesna",
+    "grad": "Stip",
+    "prosek": 7.42
+  },
+  {
+    "id": 939,
+    "ime": "Gjoko",
+    "grad": "Veles",
+    "prosek": 8.88
+  },
+  {
+    "id": 342,
+    "ime": "Aneta",
+    "grad": "Strumica",
+    "prosek": 5.33
+  },
+  {
+    "id": 631,
+    "ime": "Lazar",
+    "grad": "Kavadarci",
+    "prosek": 9.61
+  },
+  {
+    "id": 76,
+    "ime": "Emili",
+    "grad": "Gostivar",
+    "prosek": 7.1
+  },
+  {
+    "id": 515,
+    "ime": "Risto",
+    "grad": "Kocani",
+    "prosek": 6.94
+  },
+  {
+    "id": 295,
+    "ime": "Snezana",
+    "grad": "Kicevo",
+    "prosek": 8.27
+  },
+  {
+    "id": 630,
+    "ime": "Pece",
+    "grad": "Gevgelija",
+    "prosek": 5.98
+  },
+  {
+    "id": 829,
+    "ime": "Dusica",
+    "grad": "Radovis",
+    "prosek": 9.35
+  },
+  {
+    "id": 312,
+    "ime": "Zlatko",
+    "grad": "Kriva Palanka",
+    "prosek": 7.56
+  },
+  {
+    "id": 943,
+    "ime": "Biljana",
+    "grad": "Delcevo",
+    "prosek": 6.81
+  },
+  {
+    "id": 119,
+    "ime": "Miki",
+    "grad": "Probistip",
+    "prosek": 8.49
+  },
+  {
+    "id": 546,
+    "ime": "Olivera",
+    "grad": "Berovo",
+    "prosek": 5.18
+  },
+  {
+    "id": 490,
+    "ime": "Jane",
+    "grad": "Vinica",
+    "prosek": 9.03
+  },
+  {
+    "id": 845,
+    "ime": "Evgenija",
+    "grad": "Sveti Nikole",
+    "prosek": 7.29
+  },
+  {
+    "id": 934,
+    "ime": "Goce",
+    "grad": "Resen",
+    "prosek": 8.14
+  },
+  {
+    "id": 201,
+    "ime": "Ruzica",
+    "grad": "Debar",
+    "prosek": 6.07
+  },
+  {
+    "id": 812,
+    "ime": "Zivko",
+    "grad": "Valandovo",
+    "prosek": 9.52
+  },
+  {
+    "id": 375,
+    "ime": "Sonja",
+    "grad": "Kratovo",
+    "prosek": 5.77
+  },
+  {
+    "id": 1,
+    "ime": "Filip2-smeneto",
+    "prezime": "Grigorov",
+    "prosek": 9.2,
+    "grad": "Sveti Nikole"
+  },
+  {
+    "id": 4,
+    "ime": "Filip",
+    "prezime": "Angelov",
+    "prosek": 9.2,
+    "grad": "Sveti Nikole"
+  }
+]
