@@ -1,6 +1,5 @@
 const { log } = require("console");
 const {fileRead, fileWrite} = require("./readWrite.js");
-const { json } = require("stream/consumers");
 const file = "students.json";
 
 
@@ -75,12 +74,6 @@ async function deleteStudent(id) {
     //log
     
 }
-
-
-
-
-
-
 
 addStudent({
     id: 4,
