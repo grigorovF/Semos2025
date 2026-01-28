@@ -4,28 +4,12 @@ const express = require("express");
 
 
 const app = express();
-/*
-app.get('/zdravo', (req, res)=>{
-    res.send("zdravo sveti");
-})
 
-app.get('/zdravo/:ime', (req, res) => {
+app.get('/zdravo/:ime/:prezime', (req, res) => {
     res.send(`Zdravo ${req.params.ime} ${req.params.prezime}`);
 });
 
 
-
-app.get("/calculator/:op/:a/:b", (req, res) => {
-    switch(req.params.op){
-        case "sobiranjne":
-            return res.send(`${Number(req.params.a)} + ${Number(req.params.b)} + ` );
-    }
-});
-
-app.listen(10000, (err) => {
-    if (err) console.log(err.message);
-    console.log("Server started on 10000 porn");
-});*/
 
 
 const samoglaski = ['a', 'e', 'i', 'o', 'u'];
