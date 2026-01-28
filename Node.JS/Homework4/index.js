@@ -8,7 +8,8 @@ const karakteri = (name) => {
     let brojSamoglaski = 0;
     let brojSoglaski = 0;
     let brojKarakteri = name.length;
-    
+    let paren = "neparen";
+
     for (let i=0; i<name.length; i++){
         let katakter = name[i];
 
@@ -18,7 +19,9 @@ const karakteri = (name) => {
             brojSoglaski++;
 
     }
-    return {brojKarakteri, brojSamoglaski, brojSoglaski};
+    if (brojKarakteri % 2 == 0)
+        paren = "paren";
+    return {brojKarakteri, brojSamoglaski, brojSoglaski, paren};
 }
 
 const handler = (req, res) => {
@@ -26,11 +29,12 @@ const handler = (req, res) => {
     const [_, route, name] = pathname.split('/');
 
     if (route == 'ime' && name){
-        const {brojKarakteri, brojSamoglaski, brojSoglaski} = karakteri(name);
+        const {brojKarakteri, brojSamoglaski, brojSoglaski, paren} = karakteri(name);
 
         res.end('Karakeri: ' + brojKarakteri + "\n" +
                 'Soglaski: ' + brojSoglaski + "\n" +
-                'Samoglaski: ' + brojSamoglaski +"\n");
+                'Samoglaski: ' + brojSamoglaski +"\n" +
+                'Parnost: ' + paren);
             return;
             }
     res.end('Nepoznzata ruta');
@@ -41,7 +45,6 @@ const server = http.createServer(handler);
 server.listen(10000, (err) => {
     if (err) 
         return console.log(err.message);
-    console.log("Serverot e startuvan");
-    
+    console.log("Serverot e startuvan");    
         
 });
