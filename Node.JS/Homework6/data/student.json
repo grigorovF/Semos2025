@@ -1,14 +1,4 @@
 {
-  "ime": "Pero",
-  "prezime": "Peroski",
-  "niza": [
-    "Skopje",
-    "Bitola",
-    "Kumanovo",
-    "Tetovo",
-    "Ohrid",
-    "Veles"
-  ],
   "studenti": [
     {
       "id": 3,
