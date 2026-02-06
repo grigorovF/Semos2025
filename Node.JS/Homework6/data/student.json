@@ -1,0 +1,122 @@
+{
+  "ime": "Pero",
+  "prezime": "Peroski",
+  "niza": [
+    "Skopje",
+    "Bitola",
+    "Kumanovo",
+    "Tetovo",
+    "Ohrid",
+    "Veles"
+  ],
+  "studenti": [
+    {
+      "id": 3,
+      "ime": "Stanko",
+      "prezime": "Stankoski",
+      "prosek": 8.4
+    },
+    {
+      "id": 4,
+      "ime": "Mara",
+      "prezime": "Maroska",
+      "prosek": 9.5
+    },
+    {
+      "id": 5,
+      "ime": "Peco",
+      "prezime": "Pecoski",
+      "prosek": 6
+    },
+    {
+      "id": 6,
+      "ime": "Ana",
+      "prezime": "Anoska",
+      "prosek": 10
+    },
+    {
+      "id": 9,
+      "ime": "Filip",
+      "prezime": "Filiposki",
+      "prosek": 7.8
+    },
+    {
+      "id": 10,
+      "ime": "Ivana",
+      "prezime": "Ivanoska",
+      "prosek": 9.6
+    },
+    {
+      "id": 11,
+      "ime": "Darko",
+      "prezime": "Darkoski",
+      "prosek": 6.9
+    },
+    {
+      "id": 12,
+      "ime": "Marija",
+      "prezime": "Marijovska",
+      "prosek": 8.2
+    },
+    {
+      "id": 13,
+      "ime": "Nikola",
+      "prezime": "Nikoloski",
+      "prosek": 7.5
+    },
+    {
+      "id": 14,
+      "ime": "Stefan",
+      "prezime": "Stefanovski",
+      "prosek": 8.7
+    },
+    {
+      "id": 15,
+      "ime": "Teodora",
+      "prezime": "Teodorovska",
+      "prosek": 9.3
+    },
+    {
+      "id": 16,
+      "ime": "Kristijan",
+      "prezime": "Kristijanoski",
+      "prosek": 6.5
+    },
+    {
+      "id": 17,
+      "ime": "Simona",
+      "prezime": "Simonovska",
+      "prosek": 8.8
+    },
+    {
+      "id": 18,
+      "ime": "Goran",
+      "prezime": "Goranoski",
+      "prosek": 7
+    },
+    {
+      "id": 19,
+      "ime": "Aleksandar",
+      "prezime": "Aleksandrovski",
+      "prosek": 9
+    },
+    {
+      "id": 20,
+      "ime": "Viktorija",
+      "prezime": "Viktorovska",
+      "prosek": 8.1
+    },
+    {
+      "id": 1770385313624,
+      "ime": "Filip",
+      "prezime": "Grigorov",
+      "prosek": "6.3"
+    },
+    {
+      "id": 1770385743674,
+      "ime": "s1",
+      "prezime": "p1",
+      "prosek": "7.2"
+    }
+  ]
+}
