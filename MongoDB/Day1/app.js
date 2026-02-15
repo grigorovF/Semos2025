@@ -1,25 +1,27 @@
-const mongoose = require('mongoose');
-const express = require('express');
+const mongoose = require("mongoose");
+const express = require("express");
 
 const app = express();
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
 
-mongoose
-  .connect("mongodb://localhost:27017/blogs")
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err));
+const onlineDB = mongoose.createConnection(
+  "mongodb+srv://fgrigorov:Svetinikole1!@cluster0.slnkuyn.mongodb.net/?appName=Cluster0",
+);
+
+onlineDB.on("connected", () => {
+  console.log("Connected to ONLINE database");
+});
+
+const localDB = mongoose.createConnection("mongodb://127.0.0.1:27017/blogs");
+
+localDB.on("connected", () => {
+  console.log("Connected to LOCAL database");
+});
 
 
-
-app.post("/blogs", require("./controller/blogController").createBlog);
-app.get("/blogs", require("./controller/blogController").getAllBlogs);
-app.delete("/blogs/:naslov", require("./controller/blogController").deleteBlog);
-
-app.listen(5000, (err) => {
-    if(err){
-        console.log("Error starting server:", err);
-    } else {
-        console.log("Server is running on port 5000");
-    }
+  app.listen(10000, (err) => {
+  if (err) console.log(err.message);
+  console.log("Backend strated on port 10000");
 });

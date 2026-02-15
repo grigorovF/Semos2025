@@ -19,6 +19,8 @@ mongoose.connect('mongodb://localhost:27017/niva').
 
 app.post("/niva", niva.dodajNiva);
 app.get("/niva", niva.prikaziNivi);
+
+
 app.listen(10000, (err) => {
   if (err) {
     console.log(err);
