@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Додај блог</title>
+
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>Додај блог</h1>
+      <form action="/addBlogs" method="POST">
+        <div class="form-group">
+          <label>Наслов</label>
+          <input type="text" name="naslov" required />
+        </div>
+
+        <div class="form-group">
+          <label>Текст</label>
+          <textarea name="tekst" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Оценка</label>
+          <input type="number" name="ocenka" min="1" max="5" />
+        </div>
+
+        <div class="form-group">
+          <label>Автор</label>
+          <input type="text" name="avtor" />
+        </div>
+
+        <button type="submit">Додај блог</button>
+      </form>
+    </div>
+  </body>
+</html>

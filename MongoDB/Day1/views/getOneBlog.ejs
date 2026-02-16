@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= blog.naslov %></title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <ul>
+      <li><a href="/allBlogs">All Blogs</a></li>
+      <li><a href="/landing">Landing Page</a></li>
+    </ul>
+  </header>
+    <div class="wrapper blog-content">
+      <h1>Single Blog</h1>
+      <h2><%= blog.naslov %></h2>
+      <p><%= blog.tekst %></p>
+      <p class="blogOcenka">Оценка: <%= blog.ocenka %></p>
+      <p>Автор: <%= blog.avtor %></p>
+      <p><%= blog.vreme.toLocaleString() %></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Blogs</title>
+  <link rel="stylesheet" href="/style.css">
+
+</head>
+
+
+<body>
+
+  <div class="page-wrapper">
+
+    <h1>All Blogs</h1>
+
+    <div class="blogs-grid">
+      <% if (blogs.length === 0) { %>
+        <p class="no-blogs">Нема блогови.</p>
+      <% } %>
+
+      <% blogs.forEach(blog => { %>
+        <div class="blog-card">
+          <h2><%= blog.naslov %></h2>
+          <p class="blog-text">
+            <%= blog.tekst.substring(0, 120) %>...
+          </p>
+
+          <div class="blog-meta">
+            <span>⭐ <%= blog.ocenka %></span>
+            <span><%= blog.avtor || "Непознат" %></span>
+          </div>
+          <div><a class="read-more" href="/blog/<%= blog._id %>">
+            Прочитај повеќе
+          </a>
+          <button class="delete-btn" data-id="<%= blog._id %>">Избриши</button>
+
+          
+        </div>
+      <% }) %>
+    </div>
+
+  </div>
+
+</body>
+
+<script>
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      if (!confirm('Дали сте сигурни?')) return;
+      const id = btn.dataset.id;
+      await fetch(`/deleteBlog/${id}`, { method: 'DELETE' });
+      window.location.reload();
+    });
+  });
+  </script>
+</html>
