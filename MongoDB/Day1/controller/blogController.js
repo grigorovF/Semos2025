@@ -58,7 +58,7 @@ exports.getBlog = async (req, res) => {
     try{
         const blogId = req.params.id;
         const blog = await Blog.findById(blogId);
-        res.status(201).json({
+        res.render({
             status: "success",
             data: {blog},
         });

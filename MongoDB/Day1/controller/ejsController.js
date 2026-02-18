@@ -14,7 +14,7 @@ exports.getLanding = async (req, res) => {
 
 exports.getAllBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().sort({vreme: 1});
    
     res.render("getAllBlogs", {
       blogs: blogs,
