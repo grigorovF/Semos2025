@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../pkg/user/userSchema");
+const User = require("../pkg/users/userSchema");
 const bcrypt = require("bcryptjs");
 
 exports.signup = async (req, res) => {

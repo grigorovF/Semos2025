@@ -1,4 +1,4 @@
-const Movie = require('./pkg/movies/movieSchema');
+const Movie = require('../pkg/movies/movieSchema');
 
 exports.createOne = async (req, res) => {
     try{
