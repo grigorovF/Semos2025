@@ -10,11 +10,10 @@ const Blog = require("./model/blogmodel");
 
 
 mongoose
-  .connect(
-    "mongodb+srv://fgrigorov:Svetinikole1%21@cluster0.slnkuyn.mongodb.net/Semos1?appName=Cluster0",
-  )
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err.message));
+  .connect("mongodb://127.0.0.1:27017/netflix")
+  .then(() => console.log("Connected to LOCAL database"))
+  .catch((err) => console.log(err));
+
 
   app.get("/api/v1/blogs", blogController.getAllBlogs);
   //app.get("/api/v1/blogs/:id");
