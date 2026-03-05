@@ -12,7 +12,7 @@ app.use(express.json);
 db.init();
 
 app.post("/api/v1/signup", auth.signup);
-// app.post("/api/v1/login");
+app.post("/api/v1/login");
 
 //CRUD
 app.get("/movies", movies.getAll);

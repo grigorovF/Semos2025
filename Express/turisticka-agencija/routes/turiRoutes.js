@@ -4,42 +4,43 @@ const auth = require("../middleware/auth");
 
 const router = express.Router();
 
-router.get("/", auth.protect, turiController.getAllTuri);
+router.get(
+  "/reservations",
+  auth.protect,
+  auth.restrictTo("admin"),
+  turiController.getAllReservations,
+);
+
+router.get("/", auth.protect, turiController.getAllTours);
 
 router.post(
   "/",
   auth.protect,
   auth.restrictTo("admin"),
-  turiController.createTura,
+  turiController.createTour,
 );
 
-router.get("/:id", auth.protect, turiController.getOneTura);
+router.post(
+  "/:id/reserve",
+  auth.protect,
+  auth.restrictTo("user"),
+  turiController.reserveTour,
+);
+
+router.get("/:id", auth.protect, turiController.getOneTour);
 
 router.patch(
   "/:id",
   auth.protect,
   auth.restrictTo("admin"),
-  turiController.updateTura,
+  turiController.updateTour,
 );
 
 router.delete(
   "/:id",
   auth.protect,
   auth.restrictTo("admin"),
-  turiController.deleteTura,
+  turiController.deleteTour,
 );
 
-router.post(
-  "/:id/rezerviraj",
-  auth.protect,
-  auth.restrictTo("user"),
-  turiController.rezervirajTura,
-);
-
-router.get(
-  "/rezervacii",
-  auth.protect,
-  auth.restrictTo("admin"),
-  turiController.getAllRezervacii,
-);
 module.exports = router;
