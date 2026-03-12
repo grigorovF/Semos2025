@@ -6,14 +6,9 @@ const { protect, restrictTo } = require("../../middelwares/auth");
 
 router.post("/reserve", protect, reservationController.reserveTrip);
 
-//router.get("/my", protect, reservationController.getMyReservations);
+// router.get("/my", protect, reservationController.getMyReservations);
 
-// router.get(
-//   "/all",
-//   protect,
-//   restrictTo("admin"),
-//   reservationController.getAllReservations,
-// );
+// router.get("/all",protect,restrictTo("admin"),reservationController.getAllReservations, );
 
 // router.delete("/cancel/:id", protect, reservationController.cancelReservation);
 

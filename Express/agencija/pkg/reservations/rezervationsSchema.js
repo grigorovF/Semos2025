@@ -8,11 +8,13 @@ const reservationSchema = new mongoose.Schema(
       required: true,
     },
 
-    trip: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Trip",
-      required: true,
+    route: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Route",
     },
+
+    fromCity: String,
+    toCity: String,
 
     passengers: {
       type: Number,

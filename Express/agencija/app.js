@@ -3,11 +3,8 @@ const cookieParser = require("cookie-parser");
 const db = require("./pkg/db/index");
 const path = require("path");
 const { protect, restrictTo } = require("./middelwares/auth.js");
-
 const reservationRoutes = require("./handlers/routes/resrvations.js");
-const tripRoutes = require("./handlers/routes/trips");
 const userRoutes = require("./handlers/routes/users.js");
-
 const landRoutes = require("./handlers/routes/lands.js");
 const cityRoutes = require("./handlers/routes/cities");
 const routeRoutes = require("./handlers/routes/routes.js")
@@ -32,8 +29,6 @@ app.get("/dashboard", protect, (req, res) => {
 
 app.use("/api/users", userRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/trips", tripRoutes);
-
 app.use("/api/lands", landRoutes);
 app.use("/api/cities", cityRoutes);
 

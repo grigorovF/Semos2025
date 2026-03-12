@@ -32,4 +32,4 @@ const routeSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-module.exports = mongoose.model("Route", routeSchema);
+module.exports = mongoose.models.Route || mongoose.model("Route", routeSchema);

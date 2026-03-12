@@ -1,44 +1,37 @@
 const Reservation = require("../../pkg/reservations/rezervationsSchema");
-const Trip = require("../../pkg/tripSchema/tripSchema");
-
+const Route = require("../../pkg/routesSchema/routesSchema");
 
 exports.reserveTrip = async (req, res) => {
   try {
-    const { trip, passengers } = req.body;
+    const { route, fromCity, toCity, passengers } = req.body;
 
-    const foundTrip = await Trip.findById(trip);
+    const routeDoc = await Route.findById(route);
 
-    if (!foundTrip) return res.status(404).json({ message: "Trip not found" });
+    if (!routeDoc) {
+      return res.status(404).json({ message: "Route not found" });
+    }
 
-    const availableSeats =
-      foundTrip.maxPassengers - foundTrip.reservedPassengers;
+    const fromStop = routeDoc.stops.find((s) => s.city === fromCity);
+    const toStop = routeDoc.stops.find((s) => s.city === toCity);
 
-    if (passengers > availableSeats)
-      return res.status(400).json({
-        message: `Only ${availableSeats} seats left`,
-      });
+    if (!fromStop || !toStop) {
+      return res.status(400).json({ message: "Invalid stops" });
+    }
 
-    let totalPrice = passengers * foundTrip.price;
-    const userReservations = await Reservation.countDocuments({
-      user: req.user._id,
-    });
-
-    if (userReservations >= 3) {
-      totalPrice = totalPrice * 0.7;
+    if (fromStop.order >= toStop.order) {
+      return res.status(400).json({ message: "Invalid route direction" });
     }
 
     const reservation = await Reservation.create({
-      user: req.user._id,
-      trip,
+      user: req.user.id,
+      route,
+      fromCity,
+      toCity,
       passengers,
-      totalPrice,
     });
 
-    foundTrip.reservedPassengers += passengers;
-    await foundTrip.save();
-
     res.status(201).json({
-      message: "Reservation successful",
+      message: "Reservation created",
       reservation,
     });
   } catch (err) {
