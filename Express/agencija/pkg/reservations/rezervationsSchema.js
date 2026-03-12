@@ -23,7 +23,14 @@ const reservationSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid"],
+      default: "pending",
+    },
   },
+
   { timestamps: true },
 );
 

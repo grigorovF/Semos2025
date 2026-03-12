@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Route</title>
+    <link rel="stylesheet" href="/css/admin.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Add Route</h1>
+
+      <form id="routeForm">
+        <div id="stopsContainer">
+          <div class="stop">
+            <input type="text" name="city" placeholder="City" required />
+            <input type="text" name="land" placeholder="Country" required />
+          </div>
+        </div>
+
+        <button type="button" id="addStop">Add Stop</button>
+
+        <br /><br />
+
+        <input
+          type="number"
+          id="pricePerSegment"
+          placeholder="Price per segment"
+          required
+        />
+
+        <input
+          type="number"
+          id="maxPassengers"
+          placeholder="Max passengers"
+          required
+        />
+
+        <label>Start Date</label>
+        <input type="date" id="startDate" />
+
+        <label>End Date</label>
+        <input type="date" id="endDate" />
+
+        <br /><br />
+
+        <button type="submit">Create Route</button>
+      </form>
+    </div>
+
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

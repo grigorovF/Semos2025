@@ -1,6 +1,8 @@
 const User = require("../../pkg/userSchema/userSchema");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendEmail = require("../email/emailHandler");
+//import email
 
 exports.register = async (req, res) => {
   try {
@@ -28,6 +30,12 @@ exports.register = async (req, res) => {
       { expiresIn: "7d" },
     );
 
+    await sendEmail({
+      email: user.email,
+      subject: "Vi blagodarime za poddrskata",
+      message: "Vi blagodarime za registracijata",
+    });
+
     res.status(201).json({
       id: user._id,
       firstName: user.firstName,
@@ -35,7 +43,7 @@ exports.register = async (req, res) => {
       token,
     });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json("KAJ" + err.message);
   }
 };
 
@@ -45,33 +53,37 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({
-        message: "Email or password are incorrect!",
-      });
+      return res
+        .status(400)
+        .json({ message: "Email or password are incorrect!" });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-
     if (!passwordMatch) {
-      return res.status(400).json({
-        message: "Email or password are incorrect!",
-      });
+      return res
+        .status(400)
+        .json({ message: "Email or password are incorrect!" });
     }
 
     const token = jwt.sign(
-        {id: user._id, role: user.role},
-        process.env.JWT_SECRET,
-        { expiresIn: "7d"},
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
     );
 
-    res.status(201).json({
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        token,
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
+    res.status(201).json({
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+      token,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message});
+    res.status(500).json({ error: err.message });
   }
 };

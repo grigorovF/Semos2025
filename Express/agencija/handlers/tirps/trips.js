@@ -44,7 +44,7 @@ exports.addTrip = async (req, res) => {
 
 exports.deleteTrip = async (req, res) => {
   try {
-    const id = req.params;
+    const id = req.params.id;
 
     const trip = await Trip.findByIdAndDelete(id);
 
