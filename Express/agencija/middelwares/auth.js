@@ -39,8 +39,51 @@ exports.forgotPassword = async (req, res) =>{
       return res.status(404).send("This user doesnt exist");
     }
 
-    
+    const resetToken = user.createPasswordResetToken();
+    await user.save({validateBeforeSave: false});
+
+    const resetURL = `http://localhost:3000/resetPassword/${resetToken}`;
+
+    res.status(200).json({
+      message: "Reset link generated",
+      resetURL,
+    });
+
   }catch (err) {
     res.status(500).json({ message: err.message });
   }
 }
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Token invalid or expired",
+      });
+    }
+
+    user.password = req.body.password;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Password successfully reset",
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+};
