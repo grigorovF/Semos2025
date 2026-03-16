@@ -87,3 +87,45 @@ exports.login = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    // 1. Go pronaogjame korisnikot so pomosh na neogiviot submitiran email
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).send("This user doesnt exist");
+    }
+    // 2. generirame resetiracki token
+    const token = crypto.randomBytes(32).toString("hex");
+
+    // 3. generiraniot resetiracki token go hashirame i go vmetnuvame vo data baza kaj korisnikot
+    user.passwordResetToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+
+    // 4. Generirame vreme na resetirackiot token
+
+    user.passwordResetExpires = Date.now() + 30 * 60 * 1000;
+    // 5. novo komponiranite filda gi zacuvuvame vo data baza
+    await user.save({ validateBeforeSave: false });
+
+    // 6. Kreirame resetiracki link
+    const resetUrl = `${req.protocol}://${req.get("host")}/resetPassword/${token}`;
+    const message = `Ja zaboravivte lozinkata. ve molime iskosistete Patch request so vashata nova lozinka i ova e rest url: ${resetUrl}`;
+
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (30 min valid)",
+      message: message,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email",
+    });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};

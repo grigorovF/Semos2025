@@ -7,18 +7,32 @@
   </head>
 
   <body>
+    <header>
+      <ul>
+        <li  onclick="showSection('addRoute')">Add Route</li>
+        <li onclick="showSection('routesList')">Routes</li>
+        <li onclick="showSection('reservations')">Reservations</li>
+      </ul>
+    </header>
     <div class="container">
       <h1>Add Route</h1>
 
       <form id="routeForm">
-        <div id="stopsContainer">
-          <div class="stop">
-            <input type="text" name="city" placeholder="City" required />
-            <input type="text" name="land" placeholder="Country" required />
-          </div>
-        </div>
+        <h3>From</h3>
 
-        <button type="button" id="addStop">Add Stop</button>
+        <input type="text" id="fromCity" placeholder="City" required />
+        <input type="text" id="fromLand" placeholder="Country" required />
+
+        <h3>Stops</h3>
+
+        <div id="stopsContainer"></div>
+
+        <button type="button" id="addStop">+ Add Stop</button>
+
+        <h3>To</h3>
+
+        <input type="text" id="toCity" placeholder="City" required />
+        <input type="text" id="toLand" placeholder="Country" required />
 
         <br /><br />
 
@@ -26,21 +40,9 @@
           type="number"
           id="pricePerSegment"
           placeholder="Price per segment"
-          required
         />
 
-        <input
-          type="number"
-          id="maxPassengers"
-          placeholder="Max passengers"
-          required
-        />
-
-        <label>Start Date</label>
-        <input type="date" id="startDate" />
-
-        <label>End Date</label>
-        <input type="date" id="endDate" />
+        <input type="number" id="maxPassengers" placeholder="Max passengers" />
 
         <br /><br />
 
@@ -48,6 +50,6 @@
       </form>
     </div>
 
-    <script src="/js/admin.js"></script>
+    <script src="../public/js/admin.js"></script>
   </body>
 </html>

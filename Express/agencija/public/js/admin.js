@@ -1,5 +1,13 @@
 const token = localStorage.getItem("token");
 
+function showSection(section) {
+  document.querySelectorAll(".section").forEach((sec) => {
+    sec.style.display = "none";
+  });
+
+  document.getElementById(section).style.display = "block";
+}
+
 const stopsContainer = document.getElementById("stopsContainer");
 
 document.getElementById("addStop").addEventListener("click", () => {
@@ -8,8 +16,8 @@ document.getElementById("addStop").addEventListener("click", () => {
   div.classList.add("stop");
 
   div.innerHTML = `
-  <input type="text" name="city" placeholder="City" required>
-  <input type="text" name="land" placeholder="Country" required>
+    <input type="text" class="stopCity" placeholder="City">
+    <input type="text" class="stopLand" placeholder="Country">
   `;
 
   stopsContainer.appendChild(div);
@@ -18,33 +26,47 @@ document.getElementById("addStop").addEventListener("click", () => {
 document.getElementById("routeForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const cityInputs = document.querySelectorAll('input[name="city"]');
-  const landInputs = document.querySelectorAll('input[name="land"]');
-
   const stops = [];
 
-  cityInputs.forEach((cityInput, index) => {
+  stops.push({
+    city: document.getElementById("fromCity").value,
+    land: document.getElementById("fromLand").value,
+    order: 1,
+  });
+
+  const stopCities = document.querySelectorAll(".stopCity");
+  const stopLands = document.querySelectorAll(".stopLand");
+
+  stopCities.forEach((cityInput, index) => {
     stops.push({
       city: cityInput.value,
-      land: landInputs[index].value,
-      order: index + 1,
+      land: stopLands[index].value,
+      order: stops.length + 1,
     });
+  });
+
+  stops.push({
+    city: document.getElementById("toCity").value,
+    land: document.getElementById("toLand").value,
+    order: stops.length + 1,
   });
 
   const data = {
     stops,
+
     pricePerSegment: document.getElementById("pricePerSegment").value,
+
     maxPassengers: document.getElementById("maxPassengers").value,
-    startDate: document.getElementById("startDate").value,
-    endDate: document.getElementById("endDate").value,
   };
 
   const res = await fetch("/api/routes/add-route", {
     method: "POST",
+
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+
     body: JSON.stringify(data),
   });
 
@@ -55,13 +77,8 @@ document.getElementById("routeForm").addEventListener("submit", async (e) => {
 
     document.getElementById("routeForm").reset();
 
-    stopsContainer.innerHTML = `
-      <div class="stop">
-        <input type="text" name="city" placeholder="City" required>
-        <input type="text" name="land" placeholder="Country" required>
-      </div>
-    `;
+    stopsContainer.innerHTML = "";
   } else {
-    alert(result.error || "Error creating route");
+    alert(result.error || "Error");
   }
 });

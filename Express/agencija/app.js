@@ -50,9 +50,12 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
+//forma za promena na password -mora prvo da prati token
 app.get("/password", (req, res) =>{
   res.render("password");
 });
+
+
 
 app.listen(process.env.PORT, (err) => {
   if (err) {

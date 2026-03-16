@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../pkg/userSchema/userSchema");
+const crypto = require("")
 
 exports.protect = async (req, res, next) => {
   try {
@@ -28,3 +29,18 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+
+exports.forgotPassword = async (req, res) =>{
+  try{
+    const user = await User.findOne({email: req.body.mail});
+
+    if(!user){
+      return res.status(404).send("This user doesnt exist");
+    }
+
+    
+  }catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}

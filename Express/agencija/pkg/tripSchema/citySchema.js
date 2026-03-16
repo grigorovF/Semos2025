@@ -1,22 +1,15 @@
 const mongoose = require("mongoose");
 
-const citySchema = new mongoose.Schema(
-  {
-    ime: {
-      type: String,
-      required: [true, "You must enter the city"],
-      trim: true,
-    },
+const citySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
 
-    drzava: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Land",
-      required: true,
-    },
+  country: {
+    type: String,
+    required: true,
   },
-  {
-    timestamps: true,
-  },
-);
+});
 
 module.exports = mongoose.model("City", citySchema);
