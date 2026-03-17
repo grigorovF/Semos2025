@@ -42,6 +42,10 @@ app.get("/resetPassword/:token", (req, res) => {
   res.render("resetPassword", { token: req.params.token });
 });
 
+app.get("/forgotPassword", (req, res) => {
+  res.render("forgotPassword");
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reservations", reservationRoutes);
