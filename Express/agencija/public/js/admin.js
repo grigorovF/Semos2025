@@ -1,23 +1,12 @@
 const token = localStorage.getItem("token");
-
-function showSection(section) {
-  document.querySelectorAll(".section").forEach((sec) => {
-    sec.style.display = "none";
-  });
-
-  document.getElementById(section).style.display = "block";
-}
-
 const stopsContainer = document.getElementById("stopsContainer");
 
-document.getElementById("addStop").addEventListener("click", () => {
+document.getElementById("addStopBtn").addEventListener("click", () => {
   const div = document.createElement("div");
 
-  div.classList.add("stop");
-
   div.innerHTML = `
-    <input type="text" class="stopCity" placeholder="City">
-  `;
+  <input type="text" name="city[]" placeholder="City" required />
+`;
 
   stopsContainer.appendChild(div);
 });
@@ -25,54 +14,38 @@ document.getElementById("addStop").addEventListener("click", () => {
 document.getElementById("routeForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const stops = [];
-
-  stops.push({
-    city: document.getElementById("fromCity").value,
-    order: 1,
-  });
-
-  const stopCities = document.querySelectorAll(".stopCity");
- 
-  stopCities.forEach((cityInput, index) => {
-    stops.push({
-      city: cityInput.value,
-      order: stops.length + 1,
-    });
-  });
-
-  stops.push({
-    city: document.getElementById("toCity").value,
-    order: stops.length + 1,
-  });
+  const form = e.target;
 
   const data = {
-    stops,
-
-    pricePerSegment: document.getElementById("pricePerSegment").value,
-
-    maxPassengers: document.getElementById("maxPassengers").value,
+    city: [...form.querySelectorAll('input[name="city[]"]')].map(
+      (i) => i.value,
+    ),
+    pricePerSegment: form.pricePerSegment.value,
+    maxPassengers: form.maxPassengers.value,
+    startDate: form.startDate.value,
+    endDate: form.endDate.value,
   };
 
   const res = await fetch("/api/routes/add-route", {
     method: "POST",
-
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-
     body: JSON.stringify(data),
   });
 
   const result = await res.json();
 
   if (res.ok) {
-    alert("Route created");
+    alert("Route added!");
+    form.reset();
 
-    document.getElementById("routeForm").reset();
-
-    stopsContainer.innerHTML = "";
+    stopsContainer.innerHTML = `
+      <div>
+        <input type="text" name="city[]" placeholder="City" required />
+      </div>
+    `;
   } else {
     alert(result.error || "Error");
   }

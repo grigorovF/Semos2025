@@ -5,47 +5,55 @@
     <title>Add Route</title>
     <link rel="stylesheet" href="/css/admin.css" />
   </head>
-
+  
   <body>
-    <header>
-      <ul>
-        <li  onclick="showSection('addRoute')">Add Route</li>
-        <li onclick="showSection('routesList')">Routes</li>
-        <li onclick="showSection('reservations')">Reservations</li>
-      </ul>
-    </header>
-    <div class="container">
+  
+  <header>
+    <ul>
+      <li onclick="showSection('addRoute')">Add Route</li>
+      <li onclick="showSection('routesList')">Routes</li>
+      <li onclick="showSection('reservations')">Reservations</li>
+    </ul>
+  </header>
+  
+  <div class="container">
+    <div class="card">
       <h1>Add Route</h1>
-
+  
       <form id="routeForm">
-        <h3>From</h3>
-
-        <input type="text" id="fromCity" placeholder="City" required />
-        <h3>Stops</h3>
-
-        <div id="stopsContainer"></div>
-
-        <button type="button" id="addStop">+ Add Stop</button>
-
-        <h3>To</h3>
-
-        <input type="text" id="toCity" placeholder="City" required />
-        <br /><br />
-
-        <input
-          type="number"
-          id="pricePerSegment"
-          placeholder="Price per segment"
-        />
-
-        <input type="number" id="maxPassengers" placeholder="Max passengers" />
-
-        <br /><br />
-
-        <button type="submit">Create Route</button>
+  
+        <div class="route-section">
+          <label>Route</label>
+  
+          <div class="route-box">
+            <input type="text" name="city[]" placeholder="Start city" required />
+  
+            <div id="stopsContainer"></div>
+  
+            <button type="button" id="addStopBtn" class="secondary-btn">
+              + Add Stop
+            </button>
+  
+            <input type="text" name="city[]" placeholder="End city" required />
+          </div>
+        </div>
+  
+        <div class="form-row">
+          <input type="number" name="pricePerSegment" placeholder="Price per segment" required />
+          <input type="number" name="maxPassengers" placeholder="Max passengers" required />
+        </div>
+  
+        <div class="form-row">
+          <input type="date" name="startDate" required />
+          <input type="date" name="endDate" required />
+        </div>
+  
+        <button type="submit">Add Route</button>
+  
       </form>
     </div>
-
-    <script src="../public/js/admin.js" defer></script>
+  </div>
+  
+  <script src="../public/js/admin.js" defer></script>
   </body>
 </html>

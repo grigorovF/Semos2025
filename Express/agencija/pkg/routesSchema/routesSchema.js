@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const stopSchema = new mongoose.Schema({
   city: String,
-  land: String,
   order: Number,
 });
 
