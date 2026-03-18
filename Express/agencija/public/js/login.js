@@ -16,10 +16,10 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   const result = await res.json();
 
   if (res.ok) {
+    localStorage.setItem("token", result.token);
+
     if (result.role === "admin") {
       window.location.href = "/admin";
-    } else {
-      window.location.href = "/dashboard";
     }
   } else {
     alert(result.message || "Login failed");

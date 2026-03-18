@@ -19,11 +19,14 @@ form.addEventListener("submit", async (e) => {
 
     if (res.ok) {
       message.style.color = "green";
-      message.innerText = "Check console for reset link";
+      alert = "Link sent!";
+      window.location.href = "/login";
     } else {
       message.style.color = "red";
       message.innerText = data.message || "Error";
     }
+
+    window.location.href = "/login";
   } catch (err) {
     message.innerText = "Server error";
     console.error(err);

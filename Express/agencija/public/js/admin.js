@@ -1,19 +1,21 @@
 const token = localStorage.getItem("token");
 const stopsContainer = document.getElementById("stopsContainer");
-
-document.getElementById("addStopBtn").addEventListener("click", () => {
+function addStop() {
+  console.log("Add Stop clicked");
   const div = document.createElement("div");
 
   div.innerHTML = `
-  <input type="text" name="city[]" placeholder="City" required />
-`;
+    <input type="text" name="city[]" placeholder="Stop city" required />
+    <button type="button" onclick="this.parentElement.remove()">X</button>
+  `;
 
   stopsContainer.appendChild(div);
-});
+}
+
 
 document.getElementById("routeForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-
+  const token = localStorage.getItem("token");
   const form = e.target;
 
   const data = {
@@ -47,6 +49,6 @@ document.getElementById("routeForm").addEventListener("submit", async (e) => {
       </div>
     `;
   } else {
-    alert(result.error || "Error");
+    alert(result.error);
   }
 });

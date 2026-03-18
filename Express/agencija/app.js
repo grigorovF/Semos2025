@@ -51,6 +51,8 @@ app.use("/api/reservations", reservationRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/routes", routeRoutes);
 
+
+
 db.init();
 
 app.listen(process.env.PORT, (err) => {

@@ -151,7 +151,7 @@ exports.resetPassword = async (req, res) => {
       });
     }
 
-    user.password = req.body.password;
+    user.password = await bcrypt.hash(req.body.password, 12);
 
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
