@@ -17,7 +17,6 @@ document.getElementById("addStop").addEventListener("click", () => {
 
   div.innerHTML = `
     <input type="text" class="stopCity" placeholder="City">
-    <input type="text" class="stopLand" placeholder="Country">
   `;
 
   stopsContainer.appendChild(div);
@@ -30,24 +29,20 @@ document.getElementById("routeForm").addEventListener("submit", async (e) => {
 
   stops.push({
     city: document.getElementById("fromCity").value,
-    land: document.getElementById("fromLand").value,
     order: 1,
   });
 
   const stopCities = document.querySelectorAll(".stopCity");
-  const stopLands = document.querySelectorAll(".stopLand");
-
+ 
   stopCities.forEach((cityInput, index) => {
     stops.push({
       city: cityInput.value,
-      land: stopLands[index].value,
       order: stops.length + 1,
     });
   });
 
   stops.push({
     city: document.getElementById("toCity").value,
-    land: document.getElementById("toLand").value,
     order: stops.length + 1,
   });
 

@@ -16,4 +16,4 @@ const routeSchema = new mongoose.Schema({
   maxPassengers: Number,
 });
 
-module.exports = mongoose.model("Route", routeSchema);
+module.exports = mongoose.models.Route || mongoose.model("Route", routeSchema);

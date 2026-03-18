@@ -7,7 +7,6 @@ const { protect, restrictTo } = require("./middelwares/auth.js");
 
 const reservationRoutes = require("./handlers/routes/resrvations.js");
 const userRoutes = require("./handlers/routes/users.js");
-const landRoutes = require("./handlers/routes/lands.js");
 const cityRoutes = require("./handlers/routes/cities");
 const routeRoutes = require("./handlers/routes/routes.js");
 const authRoutes = require("./handlers/routes/auth");
@@ -49,7 +48,6 @@ app.get("/forgotPassword", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/lands", landRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/routes", routeRoutes);
 
