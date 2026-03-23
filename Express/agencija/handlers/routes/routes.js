@@ -11,4 +11,14 @@ router.post(
   routeController.addRoute,
 );
 
+router.get("/", routeController.getAllRoutesPublic);
+
+router.get("/all", protect, restrictTo("admin"), routeController.getAllRoutes);
+
+router.delete(
+  "/:id",
+  protect,
+  restrictTo("admin"),
+  routeController.deleteRoute,
+);
 module.exports = router;

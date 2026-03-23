@@ -7,10 +7,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     password: form.password.value,
   };
 
-  const res = await fetch("/api/users/login", {
+  const res = await fetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include"
   });
 
   const result = await res.json();
@@ -20,6 +21,8 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
     if (result.role === "admin") {
       window.location.href = "/admin";
+    } else {
+      window.location.href = "/user"; 
     }
   } else {
     alert(result.message || "Login failed");

@@ -2,58 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Add Route</title>
+    <title>Admin Panel</title>
     <link rel="stylesheet" href="/css/admin.css" />
   </head>
-  
+
   <body>
-  
-  <header>
-    <ul>
-      <li onclick="showSection('addRoute')">Add Route</li>
-      <li onclick="showSection('routesList')">Routes</li>
-      <li onclick="showSection('reservations')">Reservations</li>
-    </ul>
-  </header>
-  
-  <div class="container">
-    <div class="card">
-      <h1>Add Route</h1>
-  
-      <form id="routeForm">
-  
-        <div class="route-section">
-          <label>Route</label>
-  
-          <div class="route-box">
-            <input type="text" name="city[]" placeholder="Start city" required />
-  
-            <div id="stopsContainer"></div>
-  
-            <button type="button" id="addStopBtn" class="secondary-btn" onclick="addStop()">
-              + Add Stop
-            </button>
-  
-            <input type="text" name="city[]" placeholder="End city" required />
-          </div>
+
+    <header>
+      <ul>
+        <li onclick="showSection('addRoute')">Add Route</li>
+        <li onclick="showSection('routesList')">Routes</li>
+      </ul>
+    </header>
+
+    <div class="container">
+      
+      <div id="addRouteSection">
+        <div class="card">
+          <h1>Add Route</h1>
+
+          <form id="routeForm">
+            <div class="route-section">
+              <label>Route</label>
+              <div class="route-box">
+                <input type="text" name="city[]" placeholder="Start city" required />
+                <div id="stopsContainer"></div>
+                <button type="button" id="addStopBtn" class="secondary-btn">+ Add Stop</button>
+                <input type="text" name="city[]" placeholder="End city" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <input type="number" name="pricePerSegment" placeholder="Price per segment" required />
+              <input type="number" name="maxPassengers" placeholder="Max passengers" required />
+            </div>
+
+            <div class="form-row">
+              <input type="date" name="startDate" required />
+              <input type="date" name="endDate" required />
+            </div>
+
+            <button type="submit">Add Route</button>
+          </form>
         </div>
-  
-        <div class="form-row">
-          <input type="number" name="pricePerSegment" placeholder="Price per segment" required />
-          <input type="number" name="maxPassengers" placeholder="Max passengers" required />
+      </div>
+
+      <div id="routesListSection" class="hidden">
+        <h2>All Routes</h2>
+        <div id="routesContainer" class="routes-container">
         </div>
-  
-        <div class="form-row">
-          <input type="date" name="startDate" required />
-          <input type="date" name="endDate" required />
-        </div>
-  
-        <button type="submit">Add Route</button>
-  
-      </form>
+      </div>
+
     </div>
-  </div>
-  
-  <script src="/js/admin.js" defer></script>
+
+    <script src="/js/admin.js" defer></script>
   </body>
 </html>

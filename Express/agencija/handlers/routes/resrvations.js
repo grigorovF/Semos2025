@@ -6,12 +6,17 @@ const { protect, restrictTo } = require("../../middelwares/auth");
 
 router.post("/reserve", protect, reservationController.reserveTrip);
 
-// router.get("/my", protect, reservationController.getMyReservations);
+router.get("/my", protect, reservationController.getMyReservations);
 
-// router.get("/all",protect,restrictTo("admin"),reservationController.getAllReservations, );
+router.get(
+  "/all",
+  protect,
+  restrictTo("admin"),
+  reservationController.getAllReservations,
+);
 
-// router.delete("/cancel/:id", protect, reservationController.cancelReservation);
+//router.delete("/cancel/:id", protect, reservationController.cancelReservation);
 
-// router.patch("/pay/:id", protect, reservationController.payReservation);
+//router.patch("/pay/:id", protect, reservationController.payReservation);
 
 module.exports = router;

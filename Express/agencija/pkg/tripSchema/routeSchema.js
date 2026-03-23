@@ -12,8 +12,9 @@ const routeSchema = new mongoose.Schema({
   ],
 
   pricePerSegment: Number,
-
   maxPassengers: Number,
+  startDate: Date,
+  endDate: Date,
 });
 
 module.exports = mongoose.models.Route || mongoose.model("Route", routeSchema);

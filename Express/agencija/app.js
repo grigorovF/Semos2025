@@ -33,9 +33,6 @@ app.get("/admin", protect, restrictTo("admin"), (req, res) => {
   res.render("admin", { user: req.user });
 });
 
-app.get("/dashboard", protect, (req, res) => {
-  res.render("dashboard", { user: req.user });
-});
 
 app.get("/resetPassword/:token", (req, res) => {
   res.render("resetPassword", { token: req.params.token });
@@ -43,6 +40,10 @@ app.get("/resetPassword/:token", (req, res) => {
 
 app.get("/forgotPassword", (req, res) => {
   res.render("forgotPassword");
+});
+
+app.get("/user", protect, (req, res) => {
+  res.render("user", { user: req.user });
 });
 
 app.use("/api/auth", authRoutes);
