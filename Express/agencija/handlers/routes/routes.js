@@ -15,10 +15,7 @@ router.get("/", routeController.getAllRoutesPublic);
 
 router.get("/all", protect, restrictTo("admin"), routeController.getAllRoutes);
 
-router.delete(
-  "/:id",
-  protect,
-  restrictTo("admin"),
-  routeController.deleteRoute,
-);
+router.delete("/:id",protect, restrictTo("admin"), routeController.deleteRoute);
+
+router.get("/stats", protect,  restrictTo("admin"), routeController.getRoutesWithStats);
 module.exports = router;

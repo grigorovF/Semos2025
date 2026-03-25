@@ -31,7 +31,7 @@ exports.reserveTrip = async (req, res) => {
       fromCity,
       toCity,
       passengers,
-      totalPrice
+      totalPrice,
     });
 
     res.status(201).json({
@@ -43,13 +43,9 @@ exports.reserveTrip = async (req, res) => {
   }
 };
 
-
-
 exports.getAllRoutes = async (req, res) => {
   try {
-    const routes = await Route.find()
-      .populate("stops.city", "name") 
-      .exec();
+    const routes = await Route.find().populate("stops.city", "name").exec();
 
     res.status(200).json({
       status: "success",
@@ -76,9 +72,11 @@ exports.deleteRoute = async (req, res) => {
 exports.getMyReservations = async (req, res) => {
   try {
     const reservations = await Reservation.find({ user: req.user.id }).populate(
-      "route",
+      {
+        path: "route",
+        populate: { path: "stops.city", select: "name" },
+      },
     );
-    console.log("user:", req.user);
     res.json(reservations);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -98,6 +96,28 @@ exports.getAllReservations = async (req, res) => {
       });
 
     res.json(reservations);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.payReservation = async (req, res) => {
+  try {
+    const reservation = await Reservation.findByIdAndUpdate(
+      req.params.id,
+      { paymentStatus: "paid" },
+      { new: true },
+    );
+    res.json({ message: "Успешно платено!", reservation });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.cancelReservation = async (req, res) => {
+  try {
+    await Reservation.findByIdAndDelete(req.params.id);
+    res.json({ message: "Резервацијата е откажана!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

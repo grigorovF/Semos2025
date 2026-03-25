@@ -1,5 +1,6 @@
 const Route = require("../../pkg/tripSchema/routeSchema");
 const City = require("../../pkg/tripSchema/citySchema");
+const Reservation = require("../../pkg/reservations/rezervationsSchema")
 
 exports.addRoute = async (req, res) => {
   try {
@@ -57,12 +58,9 @@ exports.deleteRoute = async (req, res) => {
   try {
     const route = await Route.findById(req.params.id);
     if (!route) return res.status(404).json({ message: "Route not found" });
-
-    await route.remove();
-
     res.status(200).json({ message: "Route deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: + err.message });
   }
 };
 
@@ -73,5 +71,37 @@ exports.getAllRoutesPublic = async (req, res) => {
     res.json(routes);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getRoutesWithStats = async (req, res) => {
+  try {
+    const routes = await Route.find().populate("stops.city", "name");
+
+    const result = [];
+
+    for (let route of routes) {
+      const reservations = await Reservation.find({
+        route: route._id,
+      }).populate("user", "firstName lastName email");
+
+      const totalReserved = reservations.reduce(
+        (sum, r) => sum + r.passengers,
+        0,
+      );
+
+      const availableSeats = route.maxPassengers - totalReserved;
+
+      result.push({
+        ...route.toObject(),
+        reservations,
+        totalReserved,
+        availableSeats,
+      });
+    }
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

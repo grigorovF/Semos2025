@@ -1,51 +1,95 @@
-body{
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    margin:0;
-    }
-    
-    .auth-container{
-    background:white;
-    padding:40px;
-    border-radius:10px;
-    width:320px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
-    text-align:center;
-    }
-    
-    h2{
-    margin-bottom:20px;
-    justify-content:center;
-    }
-    
-    input{
-    width:100%;
-    padding:10px;
-    margin:10px 0;
-    border:1px solid #ccc;
-    border-radius:5px;
-    }
-    
-    button{
-    width:100%;
-    padding:10px;
-    background:#2b7cff;
-    border:none;
-    color:white;
-    border-radius:5px;
-    cursor:pointer;
-    font-size:16px;
-    }
-    
-    button:hover{
-    background:#1f5edc;
-    }
-    
-    a{
-    color:#2b7cff;
-    text-decoration:none;
-    }
+:root {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --bg: #0f172a;
+  --card-bg: rgba(30, 41, 59, 0.7);
+  --text: #f8fafc;
+  --glass: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: radial-gradient(circle at top left, #1e1b4b, #0f172a);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-container,
+.container {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  border: 1px solid var(--glass);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+h1,
+h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid #334155;
+  border-radius: 0.75rem;
+  color: white;
+  box-sizing: border-box;
+  transition: all 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--primary);
+  ring: 2px var(--primary);
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 0.75rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    background 0.2s;
+}
+
+button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.route-card {
+  background: var(--glass);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

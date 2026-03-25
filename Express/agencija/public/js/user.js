@@ -82,43 +82,68 @@ function setupReserveBtn() {
 
   btn.addEventListener("click", reserve);
 }
-async function loadReservations() {
-  const token = localStorage.getItem("token");
 
+async function loadReservations() {
   const res = await fetch("/api/reservations/my", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   const data = await res.json();
-
-  console.log("RES:", data);
-
-  if (!res.ok) {
-    alert(data.message || "Error loading reservations");
-    return;
-  }
-
-  if (!Array.isArray(data)) {
-    console.error("Not array:", data);
-    return;
-  }
-
   const container = document.getElementById("reservationsContainer");
   container.innerHTML = "";
 
   data.forEach((r) => {
+    // 1. Ги наоѓаме објектите на градовите во низата stops на рутата
+    const startStop = r.route.stops.find((s) => s.city._id === r.fromCity);
+    const endStop = r.route.stops.find((s) => s.city._id === r.toCity);
+
+    // 2. Ги земаме имињата (ако не ги најде, става "Непознато")
+    const fromName = startStop ? startStop.city.name : "Непознат град";
+    const toName = endStop ? endStop.city.name : "Непознат град";
+
     const div = document.createElement("div");
-
+    const isPaid = r.paymentStatus === "paid";
+    div.className = "route-card";
     div.innerHTML = `
-        <p><strong>Passengers:</strong> ${r.passengers}</p>
-        <p><strong>Total:</strong> ${r.totalPrice}</p>
-        <hr/>
-      `;
-
+        <div style="border-left: 4px solid #8b5cf6; padding-left: 15px;">
+            <h4 style="margin: 0; color: #fff;">${fromName} → ${toName}</h4>
+            <p style="margin: 5px 0; font-size: 0.9rem; opacity: 0.8;">
+                👥 Патници: <strong>${r.passengers}</strong> | 
+                💰 Цена: <strong>${r.totalPrice} ден.</strong>
+            </p>
+            <div style="margin-top: 10px; display: flex; gap: 10px;">
+        ${!isPaid ? `<button onclick="pay('${r._id}')" style="background: #10b981; font-size: 0.8rem; padding: 5px;">Плати</button>` : '<span style="color: #10b981;">✅ Платено</span>'}
+        <button onclick="cancel('${r._id}')" style="background: #ef4444; font-size: 0.8rem; padding: 5px;">Откажи</button>
+    </div>
+            <span style="font-size: 0.75rem; color: #10b981;">● Статус: Потврдено</span>
+        </div>
+    `;
     container.appendChild(div);
   });
+}
+
+async function pay(id) {
+  const res = await fetch(`/api/reservations/pay/${id}`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.ok) {
+    alert("Успешна уплата!");
+    loadReservations();
+  }
+}
+
+async function cancel(id) {
+  if (!confirm("Дали сте сигурни дека сакате да ја откажете резервацијата?"))
+    return;
+  const res = await fetch(`/api/reservations/cancel/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.ok) {
+    alert("Откажано!");
+    loadReservations();
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

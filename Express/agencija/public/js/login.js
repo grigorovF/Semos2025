@@ -18,13 +18,11 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
 
   if (res.ok) {
     localStorage.setItem("token", result.token);
-
+    localStorage.setItem("role", result.role);
     if (result.role === "admin") {
       window.location.href = "/admin";
     } else {
-      window.location.href = "/user"; 
+      window.location.href = "/user";
     }
-  } else {
-    alert(result.message || "Login failed");
   }
 });

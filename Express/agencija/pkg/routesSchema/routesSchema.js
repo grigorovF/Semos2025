@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const stopSchema = new mongoose.Schema({
-  city: String,
-  order: Number,
-});
-
 const routeSchema = new mongoose.Schema({
-  stops: [stopSchema],
-  maxPassengers: Number,
+  stops: [
+    {
+      city: { type: mongoose.Schema.ObjectId, ref: "City" },
+      order: Number,
+    },
+  ],
   pricePerSegment: Number,
+  maxPassengers: Number,
   startDate: Date,
   endDate: Date,
 });

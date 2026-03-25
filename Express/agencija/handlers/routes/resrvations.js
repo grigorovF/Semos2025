@@ -15,8 +15,8 @@ router.get(
   reservationController.getAllReservations,
 );
 
-//router.delete("/cancel/:id", protect, reservationController.cancelReservation);
+router.delete("/cancel/:id", protect, reservationController.cancelReservation);
 
-//router.patch("/pay/:id", protect, reservationController.payReservation);
+router.patch("/pay/:id", protect, reservationController.payReservation);
 
 module.exports = router;
