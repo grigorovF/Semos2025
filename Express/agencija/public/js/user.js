@@ -152,3 +152,19 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRouteChange();
   setupReserveBtn();
 });
+
+function showTab(tab) {
+  document.getElementById("reserveTab").classList.add("hidden");
+  document.getElementById("myTab").classList.add("hidden");
+
+  if (tab === "reserve") {
+    document.getElementById("reserveTab").classList.remove("hidden");
+  } else {
+    document.getElementById("myTab").classList.remove("hidden");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "/login";
+}

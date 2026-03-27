@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Резервации</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <style> .container { max-width: 600px; } </style>
+  <meta charset="UTF-8" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-    <div class="container" style="max-width: 900px;">
-        <h1>Администраторски панел</h1>
-        
-        <div class="route-card" style="margin-bottom: 2rem; text-align: left;">
-            <h3>Додај Нова Дестинација</h3>
-            <form id="addRouteForm">
-                <input type="text" id="citiesInput" placeholder="Градови (одвоени со запирка: Скопје, Велес, Гевгелија)" required />
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                    <input type="number" id="pricePerSegment" placeholder="Цена по сегмент" required />
-                    <input type="number" id="maxPassengers" placeholder="Макс. патници" required />
-                </div>
-                <button type="submit" style="background: #10b981;">Креирај Рута</button>
-            </form>
-        </div>
-    
-        <hr style="opacity: 0.1; margin: 2rem 0;">
-    
-        <h2>Активни Рути и Статистика</h2>
-        <div id="routesContainer"></div>
-    </div>
-    <script src="/js/user.js"></script>
+  <%- include("partials/header", { user }) %>
+
+<div class="container">
+  <h2>Admin Dashboard</h2>
+
+  <div class="card">
+    <h3>Add Route</h3>
+
+    <form id="addRouteForm">
+      <input type="text" id="citiesInput" placeholder="Cities" required />
+
+      <div class="grid">
+        <input type="number" id="pricePerSegment" placeholder="Price" />
+        <input type="number" id="maxPassengers" placeholder="Passengers" />
+      </div>
+
+      <button class="btn">Add</button>
+    </form>
+  </div>
+
+  <div id="routesContainer"></div>
+</div>
+
+<script src="/js/admin.js"></script>
 </body>
 </html>

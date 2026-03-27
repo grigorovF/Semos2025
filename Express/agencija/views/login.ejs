@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login | Agency</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Login</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <div class="auth-container">
-        <h2>Добредојдовте</h2>
-        <form id="loginForm">
-            <input type="email" name="email" placeholder="Email адреса" required />
-            <input type="password" name="password" placeholder="Лозинка" required />
-            <button type="submit">Најави се</button>
-        </form>
-        <div style="margin-top: 1.5rem;">
-            <a href="/forgotPassword">Ја заборавивте лозинката?</a><br><br>
-            <span style="font-size: 0.9rem; opacity: 0.7;">Немаш профил?</span> 
-            <a href="/register">Регистрирај се</a>
-        </div>
-    </div>
-    <script src="/js/login.js"></script>
+
+<%- include("partials/header", { user: null }) %>
+
+<div class="auth-container">
+  <h2>Login</h2>
+
+  <form id="loginForm">
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+
+    <button type="submit">Login</button>
+  </form>
+
+  <p>
+    <a href="/forgotPassword">Forgot password?</a>
+  </p>
+
+  <p>
+    No account? <a href="/register">Register</a>
+  </p>
+</div>
+
+<script src="/js/login.js"></script>
 </body>
 </html>

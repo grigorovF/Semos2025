@@ -1,0 +1,20 @@
+<header class="header">
+    <h2>Travel App</h2>
+  
+    <div class="nav">
+      <% if(user) { %>
+        <span><%= user.firstName %></span>
+        <button onclick="logout()">Logout</button>
+      <% } else { %>
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+      <% } %>
+    </div>
+  </header>
+  
+  <script>
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  }
+  </script>

@@ -73,3 +73,19 @@ async function deleteRoute(id) {
 }
 
 loadRoutes();
+
+function showTab(tab) {
+  document.getElementById("addTab").classList.add("hidden");
+  document.getElementById("statsTab").classList.add("hidden");
+
+  if (tab === "add") {
+    document.getElementById("addTab").classList.remove("hidden");
+  } else {
+    document.getElementById("statsTab").classList.remove("hidden");
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "/login";
+}

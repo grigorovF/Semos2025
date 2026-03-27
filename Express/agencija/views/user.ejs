@@ -1,27 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Резервации</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <style> .container { max-width: 600px; } </style>
+  <meta charset="UTF-8" />
+  <title>User Panel</title>
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
-    <div class="container">
-        <h2>Резервирај патување</h2>
-        <div class="route-card">
-            <select id="routeSelect"></select>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <select id="fromCity"></select>
-                <select id="toCity"></select>
-            </div>
-            <input type="number" id="passengers" placeholder="Број на патници" min="1" />
-            <button id="reserveBtn">Потврди резервација</button>
-        </div>
 
-        <h2 style="margin-top: 2rem;">Мои резервации</h2>
-        <div id="reservationsContainer"></div>
+<body>
+  <%- include("partials/header", { user }) %>
+
+  <div class="container">
+    <h2>Reserve Trip</h2>
+  
+    <div class="card">
+      <select id="routeSelect"></select>
+  
+      <div class="grid">
+        <select id="fromCity"></select>
+        <select id="toCity"></select>
+      </div>
+  
+      <input type="number" id="passengers" placeholder="Passengers" />
+  
+      <button class="btn" id="reserveBtn">Reserve</button>
     </div>
-    <script src="/js/user.js"></script>
+  
+    <h3>My Reservations</h3>
+    <div id="reservationsContainer"></div>
+  </div>
+  
+  <script src="/js/user.js"></script>
 </body>
 </html>
