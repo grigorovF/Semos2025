@@ -13,6 +13,11 @@ exports.reserveTrip = async (req, res) => {
     const fromStop = routeDoc.stops.find((s) => s.city.toString() === fromCity);
 
     const toStop = routeDoc.stops.find((s) => s.city.toString() === toCity);
+
+    const fromCityDoc = await City.findById(fromCity);
+    const toCityDoc = await City.findById(toCity);
+
+
     if (!fromStop || !toStop) {
       return res.status(400).json({ message: "Invalid stops" });
     }
@@ -21,9 +26,9 @@ exports.reserveTrip = async (req, res) => {
       return res.status(400).json({ message: "Invalid route direction" });
     }
 
-    const segments = toStop.order - fromStop.order;
+    const distance = await calculateDistance(fromCityDoc, toCityDoc);
 
-    const totalPrice = segments * routeDoc.pricePerSegment * passengers;
+    const totalPrice = (distance / 1000) * pricePerKm * passengers;
 
     const reservation = await Reservation.create({
       user: req.user.id,

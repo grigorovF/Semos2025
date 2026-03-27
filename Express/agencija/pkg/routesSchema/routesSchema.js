@@ -7,6 +7,10 @@ const routeSchema = new mongoose.Schema({
       order: Number,
     },
   ],
+  pricePerKm: {
+    type: Number,
+    required: true
+  },
   pricePerSegment: Number,
   maxPassengers: Number,
   startDate: Date,
