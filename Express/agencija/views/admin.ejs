@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <%- include("partials/header", { user }) %>
+  <%- include("partials/header", { user: user || null }) %>
 
 <div class="container">
   <h2>Admin Dashboard</h2>
@@ -29,7 +29,7 @@
 
   <div id="routesContainer"></div>
 </div>
-
+<script src="/js/auth.js"></script>
 <script src="/js/admin.js"></script>
 </body>
 </html>

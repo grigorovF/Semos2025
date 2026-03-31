@@ -48,6 +48,7 @@ function setupRouteChange() {
 }
 
 async function reserve() {
+  if(!requreAuth()) return;
   const route = document.getElementById("routeSelect").value;
   const fromCity = document.getElementById("fromCity").value;
   const toCity = document.getElementById("toCity").value;
@@ -61,10 +62,12 @@ async function reserve() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
     body: JSON.stringify({ route, fromCity, toCity, passengers }),
   });
+
+  if (handleAuthError(res)) return;
 
   const data = await res.json();
 

@@ -53,14 +53,17 @@ async function loadRoutes() {
 }
 
 async function deleteRoute(id) {
+  if(!requireAuth()) return;
   if (!confirm("Delete this route?")) return;
 
   const res = await fetch(`/api/routes/${id}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
+
+  if (handleAuthError(res)) return;
 
   const data = await res.json();
 

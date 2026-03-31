@@ -17,7 +17,6 @@ exports.reserveTrip = async (req, res) => {
     const fromCityDoc = await City.findById(fromCity);
     const toCityDoc = await City.findById(toCity);
 
-
     if (!fromStop || !toStop) {
       return res.status(400).json({ message: "Invalid stops" });
     }
@@ -125,5 +124,32 @@ exports.cancelReservation = async (req, res) => {
     res.json({ message: "Резервацијата е откажана!" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getPopularRoutes = async (req, res) => {
+  try {
+    const stats = await Reservation.aggregate([
+      {
+        $group: {
+          _id: "$route",
+          totalReservations: { $sum: 1 },
+          totalPassengers: { $sum: "$passangers" },
+        },
+      },
+      { $sort: { totalPassengers: -1 } },
+      { $limit: 5 }
+    ]);
+
+    const populated = await Route.populate(stats, {
+      path: "_id",
+      populate: {path: "stops.city"}
+    });
+
+    res.json(populated);
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
   }
 };

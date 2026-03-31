@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Agency</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <%- include("partials/header") %>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Патувај паметно ✈️</h1>
+        <p>Резервирај патување за неколку секунди</p>
+    </section>
+
+    <!-- ROUTE SEARCH -->
+    <section class="container">
+        <h2>Резервирај патување</h2>
+
+        <div class="card">
+            <select id="routeSelect"></select>
+
+            <div class="grid-2">
+                <select id="fromCity"></select>
+                <select id="toCity"></select>
+            </div>
+
+            <input type="number" id="passengers" placeholder="Број на патници" min="1" />
+
+            <button id="reserveBtn">Резервирај</button>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2>🔥 Популарни рути</h2>
+
+        <div id="popularRoutes" class="grid-3"></div>
+    </section>
+
+    <!-- ALL ROUTES -->
+    <section class="container">
+        <h2>Сите достапни рути</h2>
+
+        <div id="allRoutes" class="grid-3"></div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Travel Agency</p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="/js/auth.js"></script>
+    <script src="/js/home.js"></script>
+
+</body>
+</html>

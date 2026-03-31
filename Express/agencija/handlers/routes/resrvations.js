@@ -15,6 +15,8 @@ router.get(
   reservationController.getAllReservations,
 );
 
+router.get("/popular", reservationController.getPopularRoutes);
+
 router.delete("/cancel/:id", protect, reservationController.cancelReservation);
 
 router.patch("/pay/:id", protect, reservationController.payReservation);

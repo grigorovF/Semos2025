@@ -11,7 +11,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-    credentials: "include"
+    credentials: "include",
   });
 
   const result = await res.json();
@@ -26,3 +26,16 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
   }
 });
+
+const redirect = localStorage.getItem("redirectAfterLogin");
+
+if (redirect) {
+  localStorage.removeItem("redirectAfterLogin");
+  window.location.href = redirect;
+} else {
+  if (result.role === "admin") {
+    window.location.href = "/admin";
+  } else {
+    window.location.href = "/";
+  }
+}
