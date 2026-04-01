@@ -1,56 +1,83 @@
-const mongoose = require("mongoose");
-const crypto = require("crypto");
+//pkg>schemas>userSchema.js
 
-const userSchema = new mongoose.Schema(
+// validator, bcryptjs
+
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+
+const korisnikSchema = new mongoose.Schema(
   {
-    firstName: {
+    ime: {
       type: String,
-      required: true,
-      trim: true,
+      required: [true, "Poleto za ime e zadolzitelno"],
     },
-    lastName: {
+
+    prezime: {
       type: String,
-      required: true,
-      trim: true,
+      required: [true, "Poleto za prezime e zadolzitelno"],
+    },
+
+    indeks: {
+      type: String,
+      unique: true,
+    },
+
+    role: {
+      type: String,
+      enum: ["student", "professor"],
+      default: "student",
+    },
+
+    year: {
+      type: Number,
+      enum: [1, 2, 3, 4],
+      default: 1,
     },
 
     email: {
       type: String,
-      required: true,
-      unique: true,
+      required: [true, "Email is required"],
       lowercase: true,
-      trim: true,
+      unique: true,
+      validate: [validator.isEmail, "Ve molam vnesete validen email"],
     },
+    studyProgram: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "StudyProgram",
+      required: true,
+    },
+    akademskiEmail: {
+      type: String,
+      unique: true,
+    },
+
     password: {
       type: String,
-      required: true,
-      minlength: 4,
+      required: [true, "Mora da ima password"],
+      minLength: [6, "Mora da ima najmalce 6 karakteri"],
     },
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
+
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
+
+    verificationToken: String,
+    verificationExpires: Date,
 
     passwordResetToken: String,
     passwordResetExpires: Date,
   },
-  {
-    timestamps: true,
-  },
+  { timestamps: true },
 );
 
-userSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString("hex");
+korisnikSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
 
-  this.passwordResetToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex");
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-
-  return resetToken;
-};
-
-module.exports = mongoose.model("User", userSchema);
+const Korisnik = mongoose.model("Korisnik", korisnikSchema);
+module.exports = Korisnik;
