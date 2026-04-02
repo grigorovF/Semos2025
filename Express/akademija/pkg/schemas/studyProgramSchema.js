@@ -7,6 +7,12 @@ const studyProgramSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+  },
 });
 
 module.exports = mongoose.model("StudyProgram", studyProgramSchema);

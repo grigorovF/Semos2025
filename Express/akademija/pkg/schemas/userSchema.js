@@ -18,6 +18,21 @@ const korisnikSchema = new mongoose.Schema(
       required: [true, "Poleto za prezime e zadolzitelno"],
     },
 
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      lowercase: true,
+      unique: true,
+      validate: [validator.isEmail, "Ve molam vnesete validen email"],
+    },
+    studyProgram: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "StudyProgram",
+      required: function () {
+        return this.role === "student";
+      },
+    },
+
     indeks: {
       type: String,
       unique: true,
@@ -32,21 +47,11 @@ const korisnikSchema = new mongoose.Schema(
     year: {
       type: Number,
       enum: [1, 2, 3, 4],
-      default: 1,
+      required: function () {
+        return this.role === "student";
+      },
     },
 
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      lowercase: true,
-      unique: true,
-      validate: [validator.isEmail, "Ve molam vnesete validen email"],
-    },
-    studyProgram: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "StudyProgram",
-      required: true,
-    },
     akademskiEmail: {
       type: String,
       unique: true,
