@@ -8,10 +8,8 @@ const Counter = require("../pkg/schemas/counterSchema");
 const getNextSequence = require("./counterHelper");
 const sendMail = require("./emailHandler");
 const bcyipt = require("bcryptjs");
-const User = require("../pkg/schemas/korisnikSchema");
 const StudyProgram = require("../pkg/schemas/studyProgram");
-const getNextSequence = require("./helpers/counterHelper");
-const sendMail = require("./emailHandler");
+
 
 exports.userRegister = async (req, res) => {
   try {

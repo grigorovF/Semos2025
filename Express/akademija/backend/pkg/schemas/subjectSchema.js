@@ -31,10 +31,10 @@ const predmetSchema = new mongoose.Schema(
       required: true,
     },
 
-    profesor: {
+    profesor:[ {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Korisnik",
-    },
+    }],
   },
   { timestamps: true },
 );
