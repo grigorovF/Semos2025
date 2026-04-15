@@ -1,0 +1,42 @@
+export const movies = [
+  {
+    name: "Inception",
+    date: "2010",
+    genre: "Sci-Fi",
+    plot: "A thief enters dreams to steal secrets.",
+    imdbLink: "https://www.imdb.com/title/tt1375666/",
+    imgUrl: "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg",
+  },
+  {
+    name: "The Dark Knight",
+    date: "2008",
+    genre: "Action",
+    plot: "Batman faces Joker.",
+    imdbLink: "https://www.imdb.com/title/tt0468569/",
+    imgUrl: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+  },
+  {
+    name: "Interstellar",
+    date: "2014",
+    genre: "Adventure",
+    plot: "Journey through space to save humanity.",
+    imdbLink: "https://www.imdb.com/title/tt0816692/",
+    imgUrl: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+  },
+  {
+    name: "Titanic",
+    date: "1997",
+    genre: "Romance",
+    plot: "Love story on a sinking ship.",
+    imdbLink: "https://www.imdb.com/title/tt0120338/",
+    imgUrl: "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg",
+  },
+  {
+    name: "The Matrix",
+    date: "1999",
+    genre: "Sci-Fi",
+    plot: "Reality is a simulation.",
+    imdbLink: "https://www.imdb.com/title/tt0133093/",
+    imgUrl: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+  },
+];
