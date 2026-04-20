@@ -36,7 +36,7 @@ export function App(){
 
   return(
     <div>
-      <h2>Users by Age</h2>
+      <h2>Users older than 18</h2>
       <Age users={users} />
 
       <h2>Users from Skopje</h2>
