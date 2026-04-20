@@ -14,9 +14,18 @@ export const Login = () =>{
         console.log("Password: ",password);
     },[username,password])
 
+    function changeType(){
+        setInputType(inputType == 'password' ? 'text' : 'password');
+    }
+
+    function showValues(){
+        alert("Username: ${userName}/n"
+           + "Password: {password}"
+        )
+    }
     return(
         <div id='login'>
-            <form>
+            <form onSubmit={showValues}>
                 <Input 
                     type={'text'}
                     placeholder={'Enter Username'}
@@ -32,6 +41,7 @@ export const Login = () =>{
                     placeholder={'Enter Password'}
                     value={password}
                     name='togglePass'
+                    setTogle= {changeType}
                     onChange={(e)=>{
                         console.log(e)
                         setPassword(e.target.value)
