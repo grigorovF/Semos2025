@@ -54,7 +54,7 @@ export function Singup() {
         </span>
       </div>
 
-      <input name="age" placeholder="Age" onChange={handleChange} />
+      <input name="age" type="number" placeholder="Age" onChange={handleChange} />
       <input name="city" placeholder="City" onChange={handleChange} />
 
       <div>
