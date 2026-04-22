@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0f172a;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+    color: white;
+}
+
+.top {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: #3b82f6;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2563eb;
+}
+
+table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+    background: #334155;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #475569;
+    text-align: center;
+}
