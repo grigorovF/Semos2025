@@ -1,4 +1,5 @@
 import "./App.css";
+import {Link} from 'react-router-dom'
 
 export function Posts({ posts }) {
   return (
@@ -11,6 +12,7 @@ export function Posts({ posts }) {
             <th>ID</th>
             <th>Title</th>
             <th>Body</th>
+            <th>Comments</th>
           </tr>
         </thead>
 
@@ -20,6 +22,9 @@ export function Posts({ posts }) {
               <td>{p.id}</td>
               <td>{p.title}</td>
               <td>{p.body}</td>
+              <td>
+                <Link to={`/posts/${p.id}/comments`}>View Comments</Link>
+              </td>
             </tr>
           ))}
         </tbody>

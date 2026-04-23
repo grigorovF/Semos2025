@@ -23,12 +23,12 @@ export function Todo() {
     setTodos(todos.map (td => td.id === id ? {... td, editing:true} : td));
   }
 
-  function cancelEdit(id){
-    setTodos(todos.map (td => td.id === id ? {... td, editing:false} : td));
+  function saveEdit(id) {
+    setTodos(todos.map((td) => td.id === id ? { ...td, text: td.editText, editing: true } : td));
   }
-
-  function saveEdit(id){
-    setTodos(todos.map (td => td.id === id ? {...td, text:td.editText} : td));
+  
+  function cancelEdit(id){
+    setTodos(todos.map(td => td.id === id ? { ...td, text: td.text, editing: true } : td));
   }
 
   function deleteTodo(id){
@@ -39,8 +39,8 @@ export function Todo() {
     setTodos(todos.map(td => td.id === id ? {...td, completed: !td.completed} : td));
   }
 
-  function editChange(id, value){
-    setTodos(todos.map(td => td.id === id ? {...td, editText: value} : td));
+  function editChange(id){
+    setTodos(todos.map(td => td.id === id ? {...td, text: td.editText} : td));
   }
   
   const completedTodos = todos.filter (td => td.completed).length;
