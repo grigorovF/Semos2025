@@ -23,7 +23,7 @@ export function App() {
   }, []);
 
   function deleteImage() {
-    setPhotos((prev) => prev.filter((p) => p.download_url !== selectedImage));
+    setPhotos((photo) => photo.filter((p) => p.download_url !== selectedImage));
     setSelectedImage("");
   }
 
