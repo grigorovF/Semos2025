@@ -132,6 +132,7 @@ exports.forgotPassword = async(req, res) => {
       `UPDATE Users SET 
         passwordResetToken = '${hashedToken}',
         passwordResetExpires = '${expires}'
+      WHERE id = '${user.id}'
       `
     )
 

@@ -9,8 +9,8 @@ env.config();
 app.use(express.json())
 app.use(cookieParser());
 
-app.use('api/users', require("./routes/userRoutes"))
-
+app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/admin", require("./routes/adminRoutes"));
 app.get("/", (req, res) => {
   res.send("API Working");
 });
