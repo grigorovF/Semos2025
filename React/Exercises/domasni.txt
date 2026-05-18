@@ -1,0 +1,51 @@
+Domashna1: Ke kreirate 4 useri so atributi {ime,prezime,adresa,godini} vo App.jsx fajlot definirani kako varijabli
+
+koristejki props vo 2 posebni fajla ke gi prfrlite userite vo edniot fajl (Age.jsx) ke gi prikazete userite koi se postari od 18 god za ostanatite ke prikazete paragraf "Less then 18", vo drugiot fajl  (Address.jsx) ke gi prikazete userite koi imaat adresa Skopje.
+
+**Atributite na userite gi zadavate vie
+ 
+
+
+
+Домашна: da se prikaze vo dopolnitelen fajl lista od filmovi (minimum 5 po vash izbor)
+izdefinirana vo app so atributi {name,date,genre plot,imdbLink,imgUrl}
+listata na atributi prikaz i slika za filmot (slikata ne mora da bide od imdb),
+dopolnitelno da se koristi proptypes za definiranje na prenesenite properties.
+imdb.com e stranata za filmovite
+
+
+омашна:
+
+1)Da se kreira sign up forma (so min 5 polinja) i button koj na klik ke gi prikaze vnesenite
+
+vrednosti vo edna tabela, a na povtoren klik ke ja trgne (skrie) tabelata.
+
+ 
+
+2) Ke se dodade pole za komentari i button koe na klik na button-ot (mozete da gi koristite od font awesome ikonkite
+
+za buttonot kako sto pravevme za password) ke stane textarea za multiline comment (da ne se izgubi vrednosta
+
+vnesena vo input fieldot za single line comment pri promena).
+
+3) to rework password eye hide/show using mouse up/down
+
+
+
+
+
+Nov proekt so setup na router v7 i 2 komponenti
+za Posts fetchot da se napravi vo App.jsx
+(Obicen tabelaren prikaz na propertijata na postovite)
+i Todos fectchot da se napravi vo samata komponenta
+(checkbox lista na elementi so OnChange handler na vrednosta zemena od https://jsonplaceholder.typicode.com/todos)
+
+
+
+
+Da se dodade edit opcija na polinjata od Comments details 
+i moznost za prakjanje na editiraniot objekt so http metoda (PUT/PATCH) 
+do server po isprakjanjeto prikaz na response vo alert ako e 200 redirect nazad kon 
+comments ako ne prikaz na greskata pod detalite, 
+dopolnitelno da se dodade loader pri izvrsuvanje na povicite
+

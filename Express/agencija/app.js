@@ -55,6 +55,9 @@ app.get("/user", protect, (req, res) => {
   res.render("user", { user: req.user });
 });
 
+app.get("/routes", (req, res) => {
+  res.render("routes", { user: null });
+});
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reservations", reservationRoutes);

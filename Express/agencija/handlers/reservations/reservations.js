@@ -126,30 +126,34 @@ exports.cancelReservation = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 exports.getPopularRoutes = async (req, res) => {
   try {
-    const stats = await Reservation.aggregate([
+    const routes = await Route.find().populate("stops.city").lean();
+
+    const reservations = await Reservation.aggregate([
       {
         $group: {
           _id: "$route",
-          totalReservations: { $sum: 1 },
-          totalPassengers: { $sum: "$passangers" },
+          total: { $sum: 1 },
         },
       },
-      { $sort: { totalPassengers: -1 } },
-      { $limit: 5 }
     ]);
 
-    const populated = await Route.populate(stats, {
-      path: "_id",
-      populate: {path: "stops.city"}
+    const map = {};
+    reservations.forEach((r) => {
+      map[r._id.toString()] = r.total;
     });
 
-    res.json(populated);
+    const sorted = routes
+      .map((r) => ({
+        ...r,
+        totalReservations: map[r._id.toString()] || 0,
+      }))
+      .sort((a, b) => b.totalReservations - a.totalReservations)
+      .slice(0, 5); // топ 5
+
+    res.json(sorted);
   } catch (err) {
-    res.status(500).json({
-      error: err.message,
-    });
+    res.status(500).json({ error: err.message });
   }
 };
