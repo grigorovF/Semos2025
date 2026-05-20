@@ -1,4 +1,3 @@
-const { route } = require("../routes/userRoutes");
 const sql = require("./../db");
 
 exports.createRoute = async (req, res) => {

@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { protect } = require("../middelwares/auth");
 
 const {
   register,
@@ -11,7 +10,13 @@ const {
 
 const { getAllTrips, getTripById } = require("../handlers/tripHandler");
 
-const { getAllRoutes, getRouteByID } = require("../handlers/routesHandler");
+const {
+  getRouteByID,
+  getAllRoutes,
+  createRoute,
+  deleteRoute,
+  updateRoute,
+} = require("../handlers/routesHandler");
 
 const {
   reserveTrip,
@@ -20,25 +25,31 @@ const {
   cancelReservation,
 } = require("../handlers/reservationHandler");
 
-const { addInstallment } = require("../handlers/paymentHandler");
+const {
+  confirmInstallment,
+  createPaymentIntent,
+} = require("../handlers/paymentHandler");
 
-const { protect } = require("../middelwares/auth");
+const { protect } = require("../middlewares/auth");
 
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", passwordReset);
-router.get("/all-routes", getAllRoutes);
+
+router.post("/create-route", createRoute);
+router.get("/routes/:id", getRouteByID);
 router.get("/all-trips", getAllTrips);
-router.get("trips/:id", getTripById);
-router.get("/available-seats", getAvaiableSeats);
-router.post("payments/installment", addInstallment);
-router.patch("/reservations/cancel/:id", cancelReservation);
+router.get("/trips/:id", getTripById);
+//router.get("/avaiable-seats", getAvaiableSeats);
+router.post("/payments/installment", createPaymentIntent);
+router.post("/payments/comfirm-installment", confirmInstallment);
+//router.patch("/reservations/cancel/:id", cancelReservation);
 
-router.post("/reservations", reserveTrip);
+//router.post("/reservations", reserveTrip);
 
-router.use(protect);
-router.get("reservations/my-reservations", getMyReservations);
-router.patch("/payments/:paymentId/confirm", confirmPayment);
+// router.use(protect);
+// router.get("reservations/my-reservations", getMyReservations);
+// router.patch("/payments/:paymentId/confirm", confirmPayment);
 
 module.exports = router;
