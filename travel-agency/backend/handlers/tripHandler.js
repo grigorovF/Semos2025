@@ -93,7 +93,7 @@ exports.getAllTrips = async (req, res) => {
 
     const getAllTripsResult = await getAllTripsRequest.query(getAllTripsQuery);
     const trips = getAllTripsResult.recordset;
-    res.status(201).json({
+    res.status(200).json({
       message: "All trips",
       trips,
     });

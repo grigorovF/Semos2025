@@ -12,17 +12,19 @@ const sendMail = async (credentials) => {
 
     const mailOptions = {
       from: '"Turisticka Agencija" <turistickaagencija@semos.com.mk>',
-      to: credentials.email,
+      to: credentials.to,
       subject: credentials.subject,
-      text: credentials.message,
+      text: credentials.html,
     };
 
     // dali e pratena
     try{
-        const info = transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions);
         console.log("Emai sent successfully")
     }
     catch(err){
         console.error("Sending fail: ", err);
     }
 }
+
+module.exports = sendMail;

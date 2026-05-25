@@ -1,0 +1,8 @@
+const express = require("express");
+const router = express.Router();
+const { getCheckInDetails, submitCheckIn } = require("../handlers/checkInHandler");
+
+router.get("/details/:reservationId", getCheckInDetails);
+router.post("/submit", submitCheckIn);
+
+module.exports = router;

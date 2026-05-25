@@ -1,17 +1,19 @@
 const sql = require("mssql");
 
 const config = {
-  user: "filip-login",
-  password: "12345",
-  server: "GRIGOROV",
-  database: "turistickaAgencija",
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  server: process.env.DB_SERVER,
+  database: process.env.DB_NAME,
 
   options: {
     trustServerCertificate: true,
+    encrypt: true,
   },
 };
 
-sql.connect(config)
+sql
+  .connect(config)
   .then(() => {
     console.log("Connected to SQL Server");
   })

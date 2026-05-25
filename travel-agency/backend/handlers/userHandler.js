@@ -6,87 +6,191 @@ const sendMail = require("./emailHandler");
 
 exports.register = async (req, res) => {
   try {
-    const registerPayload = req.body;
-
-    const { firstName, lastName, email, password, passportNumber, expDay } =
-      registerPayload;
-
-    const findUserQuery = `
-      SELECT * FROM Users
-      WHERE email = '${email}'
-    `;
-
-    const findUserResult = await sql.query(findUserQuery);
-
-    if (findUserResult.recordset.length > 0) {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      passportNumber,
+      expiredDate,
+    } = req.body;
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !passportNumber ||
+      !expiredDate
+    ) {
       return res.status(400).json({
-        message: "User already exists",
+        message: "All fields are required",
+      });
+    }
+    //proverka na mail so regex
+    const normalizedMail = email.trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(normalizedMail)) {
+      return res.status(400).json({
+        message: "Invalid email format",
       });
     }
 
+    //proverka na pass so regex
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must contain uppercase, lowercase, number and special character",
+      });
+    }
+
+    const findUserRequest = new sql.Request();
+    findUserRequest.input("email", sql.VarChar, normalizedMail);
+    const findUserQuery = `SELECT email FROM Users WHERE email = @email`;
+    const userResult = await findUserRequest.query(findUserQuery);
+    if (userResult.recordset.length > 0) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+
+    const createUserRequest = new sql.Request();
+    createUserRequest.input("firstName", sql.NVarChar(100), firstName.trim());
+
+    createUserRequest.input("lastName", sql.NVarChar(100), lastName.trim());
+
+    createUserRequest.input("email", sql.NVarChar(255), normalizedMail);
+
+    createUserRequest.input("password", sql.NVarChar(255), hashedPassword);
+
+    createUserRequest.input(
+      "passportNumber",
+      sql.NVarChar(10),
+      passportNumber.trim(),
+    );
+
+    createUserRequest.input(
+      "verificationToken",
+      sql.NVarChar(255),
+      verificationToken,
+    );
+
+    createUserRequest.input("expiredDate", sql.Date, expiredDate);
 
     const createUserQuery = `
-      INSERT INTO Users(
+      INSERT INTO Users
+      (
         firstName,
         lastName,
         email,
         password,
         passportNumber,
-        expDay
+        expiredDate,
+        verificationToken,
+        isVerified,
+        createdAt
       )
-      VALUES(
-        '${firstName}',
-        '${lastName}',
-        '${email}',
-        '${hashedPassword}',
-        '${passportNumber}',
-        '${expDay}'
+      OUTPUT INSERTED.id
+      VALUES
+      (
+        @firstName,
+        @lastName,
+        @email,
+        @password,
+        @passportNumber,
+        @expiredDate,
+        @verificationToken,
+        0,
+        GETDATE()
       )
     `;
 
-    await sql.query(createUserQuery);
+    const creeatedUserResult = await createUserRequest.query(createUserQuery);
+    const userId = creeatedUserResult.recordset[0].id;
 
-    const getCreatedUserQuery = `
-      SELECT * FROM Users
-      WHERE email = '${email}'
-    `;
+    //token
+    const token = jwt.sign(
+      {
+        id: userId,
+        email: normalizedMail,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
 
-    const getCreatedUserResult = await sql.query(getCreatedUserQuery);
-
-    const createdUser = getCreatedUserResult.recordset[0];
-
-    const jwtToken = jwt.sign({ id: createdUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+    //cokie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(201).json({
-      id: createdUser.id,
-      firstName: createdUser.firstName,
-      lastName: createdUser.lastName,
-      token: jwtToken,
+    //sendMail
+    const verificationLink = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
+
+    await sendMail({
+      to: normalizedMail,
+      subject: "Verify your account",
+      html: `
+        <h2>Email Verification</h2>
+        <p>Click the link below to verify your account:</p>
+        <a href="${verificationLink}">
+          Verify Account
+        </a>
+      `,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "User registered successfully. Please verify your email.",
+      token,
     });
   } catch (err) {
-    res.status(500).json(err.message);
+    console.error("REGISTER ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
 exports.login = async (req, res) => {
   try {
-    const loginPayload = req.body;
+    const { email, password } = req.body;
 
-    const { email, password } = loginPayload;
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required",
+      });
+    }
+
+    const normalizedMail = email.trim().toLowerCase();
+
+    const findUserRequest = new sql.Request();
+    findUserRequest.input("email", sql.VarChar(255), normalizedMail);
 
     const findUserQuery = `
-      SELECT * FROM Users
-      WHERE email = '${email}'
+      SELECT
+        id,
+        email,
+        password,
+      FROM Users
+      WHERE email = @email
     `;
-
-    const findUserResult = await sql.query(findUserQuery);
+    const findUserResult = await findUserRequest.query(findUserQuery);
 
     if (findUserResult.recordset.length === 0) {
-      return res.status(400).json({
-        message: "User doesn't exist, please register",
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
       });
     }
 
@@ -98,25 +202,39 @@ exports.login = async (req, res) => {
     );
 
     if (!isPasswordValid) {
-      return res.status(400).json({
-        message: "Email or password are incorrect",
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
       });
     }
 
-    const jwtToken = jwt.sign({ id: existingUser.id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const jwtToken = jwt.sign(
+      {
+        id: existingUser.id,
+        email: existingUser.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      },
+    );
 
     res.cookie("jwt", jwtToken, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
       message: "Successfully logged in",
     });
   } catch (err) {
-    res.status(500).json(err.message);
+    console.error("LoGIN ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
   }
 };
 
@@ -128,7 +246,7 @@ exports.forgotPassword = async (req, res) => {
 
     const findUserQuery = `
       SELECT * FROM Users
-      WHERE email = '${email}'
+      WHERE email = '@email'
     `;
 
     const findUserResult = await sql.query(findUserQuery);
@@ -236,7 +354,7 @@ exports.passwordReset = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const deleteUserPayload = req.body.params;
+    const deleteUserPayload = req.body;
 
     const { id } = deleteUserPayload;
 
@@ -266,5 +384,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json(err.message + " Error deleting user");
   }
 };
-
-

@@ -3,3 +3,4 @@ config.env
 project.txt
 createdTables.txt
 nezavrseno.txt
+db.js
