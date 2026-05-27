@@ -34,7 +34,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
     const threeMonthsFromNow = new Date();
     threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3);
 
-    if (expiredDate < today || expiredDate > threeMonthsFromNow) {
+    if (expiredDate < today || expiredDate  < threeMonthsFromNow) {
       alert("Passport expiry date must be between now and 3 months from now");
       return;
     }

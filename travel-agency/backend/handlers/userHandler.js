@@ -133,7 +133,7 @@ exports.register = async (req, res) => {
     });
 
     //sendMail
-    const verificationLink = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`;
+    const verificationLink = `${process.env.SERVER_URL}/api/user-routes/verify-email/${verificationToken}`;
 
     await sendMail({
       to: normalizedMail,
@@ -162,6 +162,49 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    if (!token) {
+      return res.redirect(`${process.env.CLIENT_URL}/?verification=failed`);
+    }
+
+    const findUserByTokenRequest = new sql.Request();
+    findUserByTokenRequest.input("token", sql.VarChar(255), token);
+
+    const findUserByTokenQuery = `
+       SELECT id, email, isVerified FROM Users
+       WHERE verificationToken = @token
+     `;
+
+    const findUserByTokenResult =
+      await findUserByTokenRequest.query(findUserByTokenQuery);
+    if (findUserByTokenResult.recordset.length === 0) {
+      return res.redirect(`${process.env.CLIENT_URL}/?verification=failed`);
+    }
+
+    const user = findUserByTokenResult.recordset[0];
+    if (!user.isVerified) {
+      const verifyUserRequest = new sql.Request();
+      verifyUserRequest.input("token", sql.VarChar(255), token);
+      const verifyUserQuery = `
+        UPDATE Users
+        SET isVerified = 1, verificationToken = NULL
+        WHERE verificationToken = @token
+      `;
+
+      await verifyUserRequest.query(verifyUserQuery);
+    }
+    res.redirect(`${process.env.CLIENT_URL}/?verification=success`);
+  } catch (err) {
+    console.log(err);
+
+    return res.redirect(`${process.env.CLIENT_URL}/?verification=failed`);
+  }
+};
+
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -181,7 +224,8 @@ exports.login = async (req, res) => {
       SELECT
         id,
         email,
-        password
+        password,
+        isVerified
       FROM Users
       WHERE email = @email
     `;
@@ -207,8 +251,14 @@ exports.login = async (req, res) => {
         message: "Invalid email or password",
       });
     }
+    if (!existingUser.isVerified) {
+      return res.status(403).json({
+        success: false,
+        message: "Please verify your email first",
+      });
+    }
 
-    const jwtToken = jwt.sign(
+    const token = jwt.sign(
       {
         id: existingUser.id,
         email: existingUser.email,
@@ -219,7 +269,7 @@ exports.login = async (req, res) => {
       },
     );
 
-    res.cookie("jwt", jwtToken, {
+    res.cookie("token", token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -227,13 +277,18 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Successfully logged in",
+      token,
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+      },
     });
   } catch (err) {
-    console.error("LoGIN ERROR:", err);
+    console.error("LOGIN ERROR:", err.message);
 
     return res.status(500).json({
       success: false,
-      message: "Internal server error",
+      message: "Internal server error," + err.message ,
     });
   }
 };
@@ -384,61 +439,3 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json(err.message + " Error deleting user");
   }
 };
-
-
-exports.verifyEmail = async (req, res) =>{
-  try {
-    const { token } = req.params;
-
-    if (!token) {
-      return res.status(400).json({
-        message: "Verification token is required",
-      });
-    }
-
-    const findUserRequest = new sql.Request();
-    findUserRequest.input("token", sql.NVarChar(255), token);
-    const findUserQuery = `
-    SELECT id, email, isVerified
-    FROM Users
-    WHERE verificationToken = @token`;
-
-    const findUserResult = await findUserRequest.query(findUserQuery);
-    if (findUserResult.recordset.length === 0) {
-      return res.status(400).json({
-        message: "Invalid or expired token",
-      });
-    }
-
-    const user = findUserResult.recordset[0];
-
-    const verifyUserRequest = new sql.Request();
-    verifyUserRequest.input("token", sql.NVarChar(255), token);
-    const verifyUserQuery = `
-    UPDATE Users SET
-      isVerified = 1,
-      verificationToken = NULL
-      WHERE verificationToken = @token
-    `;
-
-    await verifyUserRequest.query(verifyUserQuery);
-
-    return res.status(200).json({
-      success: true,
-      message: "Email verified successfully",
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-    });
-
-  } catch (err) {
-    console.log(err);
-
-    return res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
-  }
-
-}
