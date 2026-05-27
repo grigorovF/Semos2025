@@ -20,8 +20,8 @@ export default function ForgotPasswordForm({ onSwitchToLogin }) {
 
   return (
     <>
-      <h2 className="text-4xl font-black mb-2">Reset Password</h2>
-      <p className="text-gray-400 mb-8">
+      <h2 className="text-4xl font-black mb-2 text-center">Reset Password</h2>
+      <p className="text-gray-400 mb-8  text-center">
         Enter your email to receive a reset link
       </p>
 
@@ -47,7 +47,9 @@ export default function ForgotPasswordForm({ onSwitchToLogin }) {
             onClick={onSwitchToLogin}
             className="text-gray-400 hover:text-white"
           >
-            Back to Sign In
+            <span className="text-cyan-400 font-semibold hover:underline cursor-pointer">
+              Back to Sign In
+            </span>
           </button>
         </div>
       </form>

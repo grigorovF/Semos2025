@@ -6,6 +6,7 @@ const {
   login,
   forgotPassword,
   passwordReset,
+  verifyEmail
 } = require("../handlers/userHandler");
 
 const { getAllTrips, getTripById } = require("../handlers/tripHandler");
@@ -36,6 +37,8 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", passwordReset);
+router.get("/verify-email/:token", verifyEmail);
+
 
 router.post("/create-route", createRoute);
 router.get("/routes/:id", getRouteByID);

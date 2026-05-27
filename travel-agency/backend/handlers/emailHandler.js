@@ -14,7 +14,7 @@ const sendMail = async (credentials) => {
       from: '"Turisticka Agencija" <turistickaagencija@semos.com.mk>',
       to: credentials.to,
       subject: credentials.subject,
-      text: credentials.html,
+      html: credentials.html,
     };
 
     // dali e pratena

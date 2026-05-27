@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
+
 export default function LoginForm({
   onSwitchToRegister,
   onSwitchToForgot,
@@ -33,8 +34,8 @@ export default function LoginForm({
 
   return (
     <>
-      <h2 className="text-4xl font-black mb-2">Welcome Back</h2>
-      <p className="text-gray-400 mb-8">Sign in to continue</p>
+      <h2 className="text-4xl font-black mb-2x text-center">Welcome Back</h2>
+      <p className="text-gray-400 mb-8 text-center">Sign in to continue</p>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <input
@@ -62,14 +63,19 @@ export default function LoginForm({
             onClick={onSwitchToForgot}
             className="text-cyan-400 hover:underline text-sm"
           >
-            Forgot Password?
+            <span className="cursor-pointer  text-cyan-500 hover:underline">
+              Forgot Password?
+            </span>
           </button>
           <button
             type="button"
             onClick={onSwitchToRegister}
             className="text-gray-400 hover:text-white text-sm"
           >
-            Don't have an account? Sign Up
+            Don't have an account?{" "}
+            <span className="cursor-pointer text-cyan-500 hover:underline">
+              Sign Up
+            </span>
           </button>
         </div>
       </form>

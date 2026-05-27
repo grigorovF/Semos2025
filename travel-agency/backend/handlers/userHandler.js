@@ -181,7 +181,7 @@ exports.login = async (req, res) => {
       SELECT
         id,
         email,
-        password,
+        password
       FROM Users
       WHERE email = @email
     `;
@@ -384,3 +384,61 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json(err.message + " Error deleting user");
   }
 };
+
+
+exports.verifyEmail = async (req, res) =>{
+  try {
+    const { token } = req.params;
+
+    if (!token) {
+      return res.status(400).json({
+        message: "Verification token is required",
+      });
+    }
+
+    const findUserRequest = new sql.Request();
+    findUserRequest.input("token", sql.NVarChar(255), token);
+    const findUserQuery = `
+    SELECT id, email, isVerified
+    FROM Users
+    WHERE verificationToken = @token`;
+
+    const findUserResult = await findUserRequest.query(findUserQuery);
+    if (findUserResult.recordset.length === 0) {
+      return res.status(400).json({
+        message: "Invalid or expired token",
+      });
+    }
+
+    const user = findUserResult.recordset[0];
+
+    const verifyUserRequest = new sql.Request();
+    verifyUserRequest.input("token", sql.NVarChar(255), token);
+    const verifyUserQuery = `
+    UPDATE Users SET
+      isVerified = 1,
+      verificationToken = NULL
+      WHERE verificationToken = @token
+    `;
+
+    await verifyUserRequest.query(verifyUserQuery);
+
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+    });
+
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+
+}

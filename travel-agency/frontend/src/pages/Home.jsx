@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { MapPin } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import AuthModal from "../components/AuthModal";
@@ -45,30 +44,12 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[#081120]/80"></div>
 
         {/* NAVBAR */}
-        {/* Можеш да му го пратиш `user` проп-от и на Navbar-от доколку сакаш и таму промени */}
         <Navbar onOpenLogin={() => setShowAuthModal(true)} />
 
         {/* MAIN */}
         <main className="relative z-10 h-[calc(100vh-100px)] flex items-center justify-between px-16">
           {/* RESERVATION */}
-          <div className="w-[45%] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[35px] p-10 shadow-2xl">
-            <h2 className="text-4xl text-white font-black mb-8">Reservation</h2>
-
-            <div className="space-y-5">
-              <div className="relative">
-                <MapPin className="absolute top-1/2 -translate-y-1/2 left-4 text-cyan-400 w-5 h-5" />
-                <input
-                  type="text"
-                  placeholder="From"
-                  className="w-full bg-white/10 text-white rounded-2xl py-4 pl-12 pr-4 border border-white/10 outline-none focus:border-cyan-500"
-                />
-              </div>
-
-              <button className="w-full bg-cyan-500 hover:bg-cyan-600 transition py-4 rounded-2xl text-white font-bold text-lg">
-                Reserve Now
-              </button>
-            </div>
-          </div>
+          
 
           {/* RIGHT SIDE (WITH CONDITIONAL RENDERING) */}
           <div className="w-[45%]">

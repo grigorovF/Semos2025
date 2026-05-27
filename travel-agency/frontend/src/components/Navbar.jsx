@@ -1,24 +1,52 @@
 export default function Navbar({ onOpenLogin }) {
   return (
-    <header className="relative z-20 flex items-center justify-between px-16 py-8">
+    <header className="relative border-b border-white/50 backdrop-blur-md z-20 flex items-center justify-between px-16 py-8">
       {/* LOGO */}
       <h1 className="text-3xl font-black text-white">SEMOS TRAVEL</h1>
 
       {/* NAVIGATION */}
-      <nav className="flex items-center gap-10">
-        <a href="#" className="text-white hover:text-cyan-400 transition">
+      <nav className="flex items-center gap-10 font-bold text-2xel text-white">
+        <a
+          href="#"
+          className="relative text-white hover:text-cyan-400 transition
+             after:content-[''] after:absolute after:left-0 after:-bottom-2
+             after:h-0.5 after:w-0 after:bg-cyan-400
+             after:transition-all after:duration-300
+             hover:after:w-full"
+        >
           Home
         </a>
 
-        <a href="#" className="text-white hover:text-cyan-400 transition">
+        <a
+          href="#"
+          className="relative text-white hover:text-cyan-400 transition
+             after:content-[''] after:absolute after:left-0 after:-bottom-2
+             after:h-0.5 after:w-0 after:bg-cyan-400
+             after:transition-all after:duration-300
+             hover:after:w-full"
+        >
           Trips
         </a>
 
-        <a href="#" className="text-white hover:text-cyan-400 transition">
+        <a
+          href="#"
+          className="relative text-white hover:text-cyan-400 transition
+             after:content-[''] after:absolute after:left-0 after:-bottom-2
+             after:h-0.5 after:w-0 after:bg-cyan-400
+             after:transition-all after:duration-300
+             hover:after:w-full"
+        >
           About
         </a>
 
-        <a href="#" className="text-white hover:text-cyan-400 transition">
+        <a
+          href="#"
+          className="relative text-white hover:text-cyan-400 transition
+             after:content-[''] after:absolute after:left-0 after:-bottom-2
+             after:h-0.5 after:w-0 after:bg-cyan-400
+             after:transition-all after:duration-300
+             hover:after:w-full"
+        >
           Contact
         </a>
 
