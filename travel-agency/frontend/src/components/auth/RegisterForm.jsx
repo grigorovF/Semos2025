@@ -48,7 +48,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
       alert("Account created successfully");
       onSwitchToLogin();
     } catch (err) {
-      console.log(err);
+      alert(err.response?.data?.message || "Error");
     }
   };
 

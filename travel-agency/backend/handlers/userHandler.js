@@ -204,7 +204,6 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -277,42 +276,35 @@ exports.login = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Successfully logged in",
-      token,
-      user: {
-        id: existingUser.id,
-        email: existingUser.email,
-      },
+      token: token,
     });
   } catch (err) {
     console.error("LOGIN ERROR:", err.message);
 
     return res.status(500).json({
       success: false,
-      message: "Internal server error," + err.message ,
+      message: "Internal server error," + err.message,
     });
   }
 };
 
 exports.forgotPassword = async (req, res) => {
   try {
-    const forgotPasswordPayload = req.body;
-
-    const { email } = forgotPasswordPayload;
-
-    const findUserQuery = `
-      SELECT * FROM Users
-      WHERE email = '@email'
-    `;
-
-    const findUserResult = await sql.query(findUserQuery);
-
-    if (findUserResult.recordset.length === 0) {
-      return res.status(400).json({
-        message: "User doesn't exist, please register",
-      });
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
     }
+    const normalizedMail = email.trim().toLowerCase();
 
-    const existingUser = findUserResult.recordset[0];
+    const findUserRequest = new sql.Request();
+    findUserRequest.input("email", sql.VarChar(255), normalizedMail);
+    const findUserQuery = `SELECT id, email FROM Users WHERE email = @email`;
+    const userResult = await findUserRequest.query(findUserQuery);
+    if (userResult.recordset.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "User doesn't exist, please register" });
+    }
 
     const resetToken = crypto.randomBytes(32).toString("hex");
 
@@ -323,32 +315,43 @@ exports.forgotPassword = async (req, res) => {
 
     const resetTokenExpiresAt = new Date(Date.now() + 30 * 60 * 1000);
 
+    const existingUser = userResult.recordset[0];
+
+    const updateResetTokenRequest = new sql.Request();
+    updateResetTokenRequest.input(
+      "hashedResetToken",
+      sql.VarChar(255),
+      hashedResetToken,
+    );
+    updateResetTokenRequest.input(
+      "resetTokenExpiresAt",
+      sql.DateTime,
+      resetTokenExpiresAt,
+    );
+    updateResetTokenRequest.input("email", sql.VarChar(255), normalizedMail);
+
     const updateResetTokenQuery = `
       UPDATE Users
-      SET
-        passwordResetToken = '${hashedResetToken}',
-        passwordResetExpires = '${resetTokenExpiresAt}'
-      WHERE id = '${existingUser.id}'
+      SET verificationToken = @hashedResetToken,
+          passwordResetExpires = @resetTokenExpiresAt
+      WHERE email = @email
     `;
 
-    await sql.query(updateResetTokenQuery);
-
+    await updateResetTokenRequest.query(updateResetTokenQuery);
     const resetUrl = `${req.protocol}://${req.get(
       "host",
-    )}/resetPassword/${resetToken}`;
+    )}/reset-password/${resetToken}`;
 
-    const resetPasswordMessage = `
-      Reset password message.
-      Please follow the link:
-      ${resetUrl}
-    `;
-
+    console.log("normalizedMail", normalizedMail);
     await sendMail({
-      email: existingUser.email,
+      to: normalizedMail,
       subject: "Reset password",
-      message: resetPasswordMessage,
+      html: `
+        Reset password message.<br/>
+        Please follow the link:<br/>
+        <a href="${resetUrl}">${resetUrl}</a>
+      `,
     });
-
     res.status(200).json({
       message: "Token sent to email",
     });

@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import LoginForm from "./auth/LoginForm";
 import RegisterForm from "./auth/RegisterForm";
 import ForgotPasswordForm from "./auth/ForgotPasswordForm";
+import ResetPasswordForm from "./auth/ResetPasswordForm";
 
 export default function AuthModal({ isOpen, onClose }) {
   const [view, setView] = useState("login");
@@ -35,6 +36,10 @@ export default function AuthModal({ isOpen, onClose }) {
 
         {view === "forgot" && (
           <ForgotPasswordForm onSwitchToLogin={() => setView("login")} />
+        )}
+
+        {view === "reset" && (
+          <ResetPasswordForm onSwitchToLogin={() => setView("login")} />
         )}
       </div>
     </div>
