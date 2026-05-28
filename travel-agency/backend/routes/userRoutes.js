@@ -5,7 +5,7 @@ const {
   register,
   login,
   forgotPassword,
-  passwordReset,
+  resetPassword,
   verifyEmail
 } = require("../handlers/userHandler");
 
@@ -36,7 +36,7 @@ const { protect } = require("../middlewares/auth");
 router.post("/register", register);
 router.post("/login", login);
 router.post("/forgot-password", forgotPassword);
-router.post("/reset-password/:token", passwordReset);
+router.post("/reset-password/:token", resetPassword);
 router.get("/verify-email/:token", verifyEmail);
 
 

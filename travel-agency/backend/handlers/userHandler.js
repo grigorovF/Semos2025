@@ -331,16 +331,13 @@ exports.forgotPassword = async (req, res) => {
     updateResetTokenRequest.input("email", sql.VarChar(255), normalizedMail);
 
     const updateResetTokenQuery = `
-      UPDATE Users
-      SET verificationToken = @hashedResetToken,
-          passwordResetExpires = @resetTokenExpiresAt
-      WHERE email = @email
-    `;
-
+  UPDATE Users
+  SET passwordResetToken = @hashedResetToken,
+      passwordResetExpires = @resetTokenExpiresAt
+  WHERE email = @email
+`;
     await updateResetTokenRequest.query(updateResetTokenQuery);
-    const resetUrl = `${req.protocol}://${req.get(
-      "host",
-    )}/reset-password/${resetToken}`;
+    const resetUrl = `http://localhost:5173/password-reset/${resetToken}`;
 
     console.log("normalizedMail", normalizedMail);
     await sendMail({
@@ -357,12 +354,29 @@ exports.forgotPassword = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err.message);
+    
   }
 };
 
-exports.passwordReset = async (req, res) => {
+exports.resetPassword = async (req, res) => {
   try {
-    const resetPasswordPayload = req.body;
+    const { password } = req.body;
+
+    if (!password) {
+      return res.status(400).json({
+        message: "Password is required",
+      });
+    }
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        message:
+          "Password must contain uppercase, lowercase, number and special character",
+      });
+    }
 
     const resetToken = req.params.token;
 
@@ -371,42 +385,60 @@ exports.passwordReset = async (req, res) => {
       .update(resetToken)
       .digest("hex");
 
-    const findUserByResetTokenQuery = `
-      SELECT * FROM Users
-      WHERE passwordResetToken = '${hashedResetToken}'
-      AND passwordResetExpires > GETDATE()
-    `;
+    const findUserRequest = new sql.Request();
 
-    const findUserByResetTokenResult = await sql.query(
-      findUserByResetTokenQuery,
+    findUserRequest.input(
+      "passwordResetToken",
+      sql.VarChar(255),
+      hashedResetToken,
     );
 
-    if (findUserByResetTokenResult.recordset.length === 0) {
+    findUserRequest.input("currentTime", sql.DateTime, new Date());
+
+    const findUserQuery = `
+  SELECT *
+  FROM Users
+  WHERE passwordResetToken = @passwordResetToken
+    AND passwordResetExpires > @currentTime
+`;
+    const userResult = await findUserRequest.query(findUserQuery);
+
+    if (userResult.recordset.length === 0) {
       return res.status(400).json({
-        message: "Token is invalid or expired",
+        message: "Token invalid or expired. here",
       });
     }
 
-    const existingUser = findUserByResetTokenResult.recordset[0];
+    const existingUser = userResult.recordset[0];
+    console.log("existingUser", existingUser);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const hashedPassword = await bcrypt.hash(resetPasswordPayload.password, 10);
+    const updateRequest = new sql.Request();
+
+    updateRequest.input("password", sql.VarChar(255), hashedPassword);
+
+    updateRequest.input("id", sql.Int, existingUser.id);
 
     const updatePasswordQuery = `
       UPDATE Users
       SET
-        password = '${hashedPassword}',
+        password = @password,
         passwordResetToken = NULL,
         passwordResetExpires = NULL
-      WHERE id = '${existingUser.id}'
+      WHERE id = @id
     `;
 
-    await sql.query(updatePasswordQuery);
+    await updateRequest.query(updatePasswordQuery);
 
     res.status(200).json({
-      message: "Password successfully reset",
+      message: "Password reset successful",
     });
   } catch (err) {
-    res.status(500).json(err.message + " Error resetting password");
+    console.error(err + " Error resetting password");
+
+    res.status(500).json({
+      message: "Error resetting password",
+    });
   }
 };
 

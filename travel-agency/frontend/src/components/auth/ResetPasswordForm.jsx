@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 export default function ResetPasswordForm  ({ onSwitchToLogin }) {
   const { token } = useParams();
+  console.log("Токенот на Frontend е:", token);
   const [formData, setFormData] = useState({
     newPassword: "",
     newConfirmPassword: "",
@@ -27,10 +28,13 @@ export default function ResetPasswordForm  ({ onSwitchToLogin }) {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/user-routes/password-reset", {
-        token,
-        newPassword: formData.newPassword,
-      });
+
+      await axios.post(
+        `http://localhost:3000/api/user-routes/reset-password/${token}`,
+        {
+          password: formData.newPassword,
+        },
+      );
 
       alert("Password reset successfully");
       onSwitchToLogin();
@@ -40,49 +44,36 @@ export default function ResetPasswordForm  ({ onSwitchToLogin }) {
   };
 
   return (
-    <div className="w-125  items-center justify-center text-white px-3 py-6">
-      <div className="w-full max-w-xl">
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-extrabold tracking-tight">
-            Reset Password
-          </h2>
-          <p className="text-gray-400 text-sm mt-2">
-            Type your new password below and confirm it.
-          </p>
-        </div>
+    <div className="w-full max-w-md mx-auto text-white">
+      <h2 className="text-4xl font-black mb-2 text-center">Reset Password</h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3 space-y-6">
-          <div className=" flex flex-col gap-6">
-            <div>
-              <input
-                type="password"
-                name="newPassword"
-                placeholder="Enter New Password"
-                onChange={handleChange}
-                className="w-full bg-white/5 hover:bg-white/10 text-white placeholder-gray-500 rounded-2xl py-4 px-5 outline-none focus:bg-white/10 focus:ring-2 focus:ring-cyan-500/50 transition-all"
-              />
-            </div>
+      <p className="text-gray-400 mb-8 text-center">
+        Type your new password below and confirm it
+      </p>
 
-            <div>
-              <input
-                type="password"
-                name="newConfirmPassword"
-                placeholder="Confirm Password"
-                onChange={handleChange}
-                className="w-full bg-white/5 hover:bg-white/10 text-white placeholder-gray-500 rounded-2xl py-4 px-5 outline-none focus:bg-white/10 focus:ring-2 focus:ring-cyan-500/50 transition-all"
-              />
-            </div>
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <input
+          type="password"
+          name="newPassword"
+          placeholder="Enter New Password"
+          onChange={handleChange}
+          className="w-full bg-white/10 rounded-2xl py-4 px-4 text-white border border-white/10 outline-none placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/30 transition"
+          required
+        />
 
-          
+        <input
+          type="password"
+          name="newConfirmPassword"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+          className="w-full bg-white/10 rounded-2xl py-4 px-4 text-white border border-white/10 outline-none placeholder-gray-400 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/30 transition"
+          required
+        />
 
-          {/* Главно копче */}
-          <button className="w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-4 rounded-2xl font-bold tracking-wide active:scale-[0.99] transition-all shadow-lg shadow-cyan-500/10 mt-2">
-            Reset Password
-          </button>
-
-        </form>
-      </div>
+        <button className="w-full bg-cyan-500 py-4 rounded-2xl font-bold text-white hover:bg-cyan-600 transition">
+          Reset Password
+        </button>
+      </form>
     </div>
   );
 }
