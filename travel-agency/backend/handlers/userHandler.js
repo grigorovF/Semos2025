@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const sendMail = require("./emailHandler");
+const { name } = require("ejs");
 
 exports.register = async (req, res) => {
   try {
@@ -221,10 +222,13 @@ exports.login = async (req, res) => {
 
     const findUserQuery = `
       SELECT
+        firstName,
+        lastName,
         id,
         email,
         password,
-        isVerified
+        isVerified,
+        role
       FROM Users
       WHERE email = @email
     `;
@@ -277,6 +281,13 @@ exports.login = async (req, res) => {
       success: true,
       message: "Successfully logged in",
       token: token,
+
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+        role: existingUser.role,
+        name: existingUser.firstName + " " + existingUser.lastName,
+      },
     });
   } catch (err) {
     console.error("LOGIN ERROR:", err.message);
@@ -354,7 +365,6 @@ exports.forgotPassword = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json(err.message);
-    
   }
 };
 

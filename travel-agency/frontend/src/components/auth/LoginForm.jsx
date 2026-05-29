@@ -19,14 +19,18 @@ export default function LoginForm({
         {
           email,
           password,
-        },
+        },  
       );
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("user", JSON.stringify(response.data.user));
       onClose();
 
-      window.location.reload();
+      if (response.data.user.role === "admin") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/";
+      }
     } catch (err) {
       alert(err.response?.data?.message || "Error logging in");
     }
