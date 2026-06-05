@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Navbar from "../components/AdminComponents/AdminNavbar";
 import AuthModal from "../components/AuthModal";
+
 //import { useAuth } from "../context/AuthContext";
 
-export default function HomePage() {
+export default function AAdminPage() {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   //const { user, logout } = useAuth();

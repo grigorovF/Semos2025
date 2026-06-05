@@ -27,8 +27,7 @@ export default function Navbar({ onOpenLogin }) {
 
             <button
               onClick={logout}
-              className="bg-red-500 hover:bg-red-700 transition px-4 py-2 rounded-full hover:cursor-pointer text-white font-bold
-          >     "
+              className="bg-red-500 hover:bg-red-700 transition px-4 py-2 rounded-full hover:cursor-pointer text-white font-bold"
             >
               Logout
             </button>
