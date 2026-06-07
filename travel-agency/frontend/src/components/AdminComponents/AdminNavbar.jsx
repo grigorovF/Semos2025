@@ -1,6 +1,6 @@
 
 import { useAuth } from "../../context/AuthContext";
-import BussManager from './BussManager';
+
 export default function Navbar({ onOpenLogin, setActiveSection }) {
   const { user, logout } = useAuth();
 
@@ -58,9 +58,7 @@ export default function Navbar({ onOpenLogin, setActiveSection }) {
           )}
         </nav>
       </header>
-      <main className="relative z-10">
-          <BussManager/>
-      </main>
+      
     </div>
   );
 }

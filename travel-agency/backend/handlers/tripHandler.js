@@ -64,90 +64,102 @@ exports.createTrip = async (req, res) => {
 };
 
 exports.getAllTrips = async (req, res) => {
-  //SO join za se da dade
   try {
     const getAllTripsRequest = new sql.Request();
+
     const getAllTripsQuery = `
-    SELECT
+      SELECT
         t.id,
         t.departureDate,
         t.price,
         t.status,
-
         r.routeName,
         r.startCity,
         r.endCity,
-
         b.busNumber,
         b.totalSeats
-
       FROM Trips t
-
-      JOIN Routes r
-      ON t.routeId = r.id
-
-      JOIN Buses b
-      ON t.busId = b.id
-
+      JOIN Routes r ON t.routeId = r.id
+      JOIN Buses b ON t.busId = b.id
+      ORDER BY t.departureDate DESC
     `;
 
     const getAllTripsResult = await getAllTripsRequest.query(getAllTripsQuery);
-    const trips = getAllTripsResult.recordset;
     res.status(200).json({
       message: "All trips",
-      trips,
+      trips: getAllTripsResult.recordset,
     });
   } catch (err) {
     res.status(500).json({
-      message: err.message + "Error fatching trips",
+      message: "Error fetching trips: " + err.message,
     });
   }
 };
 
 exports.getTripById = async (req, res) => {
-    try{
-        const {id} = req.params;
+  try {
+    const { id } = req.params;
     const getTripRequest = new sql.Request();
     getTripRequest.input("id", sql.Int, id);
 
     const getTripQuery = `
       SELECT
-        t.*,
-        r.routeName,
-        r.startCity,
-        r.endCity,
-        b.busNumber,
-        b.totalSeats
-
+        t.id AS tripId, t.departureDate, t.price, t.status,
+        r.id AS routeId, r.routeName, r.startCity, r.endCity,
+        b.id AS busId, b.busNumber, b.totalSeats, b.plateNumber,
+        s.cityName, s.stopOrder, s.arrivalTime, s.departureTime, s.platform
       FROM Trips t
-
-      JOIN Routes r
-      ON t.routeId = r.id
-
-      JOIN Buses b
-      ON t.busId = b.id
-
+      JOIN Routes r ON t.routeId = r.id
+      JOIN Buses b ON t.busId = b.id
+      LEFT JOIN RouteStops s ON r.id = s.routeId
       WHERE t.id = @id
+      ORDER BY s.stopOrder ASC
     `;
 
     const getTripResult = await getTripRequest.query(getTripQuery);
 
-    if (getTripResult.recordset.length === 0){
-        return res.status(404).json({
-            message: "Trip not found"
-        })
+    if (getTripResult.recordset.length === 0) {
+      return res.status(404).json({ message: "Trip not found" });
     }
 
-    const existingTrip = getTripResult.recordset[0];
-    res.status(200).json({existingTrip});
-    }
-    catch(err){
-        return res.status(500).json({
-            message: "Cant find trip with this ID"
-        })
-    }
-}
+    const rows = getTripResult.recordset;
 
+   
+    const tripDetails = {
+      tripId: rows[0].tripId,
+      departureDate: rows[0].departureDate,
+      price: rows[0].price,
+      status: rows[0].status,
+      bus: {
+        id: rows[0].busId,
+        busNumber: rows[0].busNumber,
+        plateNumber: rows[0].plateNumber,
+        totalSeats: rows[0].totalSeats,
+      },
+      route: {
+        id: rows[0].routeId,
+        routeName: rows[0].routeName,
+        startCity: rows[0].startCity,
+        endCity: rows[0].endCity,
+      },
+      stops: rows
+        .map((row) => ({
+          cityName: row.cityName,
+          stopOrder: row.stopOrder,
+          arrivalTime: row.arrivalTime,
+          departureTime: row.departureTime,
+          platform: row.platform,
+        }))
+        .filter((stop) => stop.cityName !== null),
+    };
+
+    res.status(200).json(tripDetails);
+  } catch (err) {
+    res.status(500).json({
+      message: "Can't find trip with this ID: " + err.message,
+    });
+  }
+};
 exports.updateTrip = async (req, res) => {
   try {
     const updateTripParams = req.params;

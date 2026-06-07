@@ -57,26 +57,14 @@ exports.createRoute = async (req, res) => {
       stopRequest.input("cityName", sql.NVarChar, stop.cityName);
       stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
       stopRequest.input("arr", sql.Time, stop.arrivalTime || null);
-
       stopRequest.input("dep", sql.Time, stop.departureTime || null);
+      stopRequest.input("platform", sql.NVarChar, stop.platform || null); // Ново
 
       await stopRequest.query(`
-        INSERT INTO RouteStops(
-          routeId,
-          cityName,
-          stopOrder,
-          arrivalTime,
-          departureTime
-        )
-        VALUES(
-          @routeId,
-          @cityName,
-          @stopOrder,
-          @arr,
-          @dep
-        )
-      `);
-    }
+    INSERT INTO RouteStops(routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
+    VALUES(@routeId, @cityName, @stopOrder, @arr, @dep, @platform)
+  `);
+  }
 
     res.status(201).json({
       message: "Route successfully added!",
@@ -201,37 +189,23 @@ exports.updateRoute = async (req, res) => {
         WHERE routeId = @id
       `);
 
-    if (stops && stops.length > 0) {
-      for (const stop of stops) {
-        const stopRequest = new sql.Request();
+      if (stops && stops.length > 0) {
+        for (const stop of stops) {
+          const stopRequest = new sql.Request();
 
-        stopRequest.input("routeId", sql.Int, id);
-        stopRequest.input("cityName", sql.NVarChar, stop.cityName);
+          stopRequest.input("routeId", sql.Int, id);
+          stopRequest.input("cityName", sql.NVarChar, stop.cityName);
+          stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
+          stopRequest.input("arr", sql.Time, stop.arrivalTime || null);
+          stopRequest.input("dep", sql.Time, stop.departureTime || null);
+          stopRequest.input("platform", sql.NVarChar, stop.platform || null); // Ново
 
-        stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
-
-        stopRequest.input("arr", sql.Time, stop.arrivalTime || null);
-
-        stopRequest.input("dep", sql.Time, stop.departureTime || null);
-
-        await stopRequest.query(`
-            INSERT INTO RouteStops(
-              routeId,
-              cityName,
-              stopOrder,
-              arrivalTime,
-              departureTime
-            )
-            VALUES(
-              @routeId,
-              @cityName,
-              @stopOrder,
-              @arr,
-              @dep
-            )
-          `);
+          await stopRequest.query(`
+              INSERT INTO RouteStops(routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
+              VALUES(@routeId, @cityName, @stopOrder, @arr, @dep, @platform)
+            `);
+        }
       }
-    }
 
     res.status(200).json({
       message: "Route updated successfully!",

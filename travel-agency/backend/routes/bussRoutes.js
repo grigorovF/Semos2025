@@ -2,16 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 const { addBuss, 
-        getAllBuses,
+        getAllBusses,
         deleteBus,
         updateBus
 } = require("../handlers/busController");
 
 router.post("/add-bus", addBuss);
 
-router.get("/all-buses", getAllBuses);
+router.get("/all-buses", getAllBusses);
 
-router.patch("/update-bus/:plateNumber", updateBus);
+router.patch("/update-bus/:id", updateBus);
 
 router.delete("/delete-bus/:plateNumber", deleteBus);
 
