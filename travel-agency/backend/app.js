@@ -31,7 +31,6 @@ app.use("/api/route-routes", require("./routes/routeRoutes"));
 app.use("/api/trip-routes", require("./routes/tripRoutes"));
 app.use("/api/user-routes", require("./routes/userRoutes"));
 app.use("/api/buss-routes", require("./routes/bussRoutes"));
-
 //handlers
 app.get("/", (req, res) => {
   res.send("API Working");

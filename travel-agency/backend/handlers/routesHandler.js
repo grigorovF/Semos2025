@@ -1,221 +1,227 @@
-const sql = require("./../db");
+const sql = require("../db");
 
 exports.createRoute = async (req, res) => {
+  let transaction;
   try {
     const { startCity, endCity, stops } = req.body;
 
-    if (!startCity || !endCity || !stops || stops.length < 2) {
+    if (!startCity || !endCity) {
       return res.status(400).json({
-        message: "Invalid credentials. Please enter correct fields",
+        error: "Cities are required",
       });
     }
 
-    for (const stop of stops) {
-      if (!stop.cityName || stop.stopOrder == null) {
-        return res.status(400).json({
-          message: "Each stop must have cityName and stopOrder",
-        });
-      }
-    }
+    const routeName = `${startCity} - ${endCity}`;
 
-    const routeName = req.body.routeName || `${startCity} - ${endCity}`;
+    transaction = new sql.Transaction();
+    await transaction.begin();
 
-    const checkRoute = new sql.Request();
-
-    checkRoute.input("name", sql.NVarChar, routeName);
-
-    const existingRoute = await checkRoute.query(`
-      SELECT id
-      FROM Routes
-      WHERE routeName = @name
-    `);
-
-    if (existingRoute.recordset.length > 0) {
-      return res.status(400).json({
-        message: "This route already exists!",
-      });
-    }
-
-    const routeRequest = new sql.Request();
-
+    const routeRequest = new sql.Request(transaction);
     routeRequest.input("routeName", sql.NVarChar, routeName);
     routeRequest.input("startCity", sql.NVarChar, startCity);
     routeRequest.input("endCity", sql.NVarChar, endCity);
 
-    const insertRoute = await routeRequest.query(`
-      INSERT INTO Routes(routeName, startCity, endCity)
-      OUTPUT INSERTED.*
-      VALUES(@routeName, @startCity, @endCity)
+    const addRouteResult = await routeRequest.query(`
+      INSERT INTO Routes (routeName, startCity, endCity, createdAt)
+      OUTPUT INSERTED.id
+      VALUES (@routeName, @startCity, @endCity, GETDATE())
     `);
 
-    const routeId = insertRoute.recordset[0].id;
+    const routeId = addRouteResult.recordset[0].id;
+    if (stops && stops.length > 0) {
+      for (const stop of stops) {
+        const stopRequest = new sql.Request(transaction);
+        stopRequest.input("routeId", sql.Int, routeId);
+        stopRequest.input("cityName", sql.NVarChar, stop.cityName);
+        stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
+        stopRequest.input("arrivalTime", sql.NVarChar, stop.arrivalTime);
+        stopRequest.input("departureTime", sql.NVarChar, stop.departureTime);
+        stopRequest.input("platform", sql.NVarChar, stop.platform);
 
-    for (const stop of stops) {
-      const stopRequest = new sql.Request();
-
-      stopRequest.input("routeId", sql.Int, routeId);
-      stopRequest.input("cityName", sql.NVarChar, stop.cityName);
-      stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
-      stopRequest.input("arr", sql.Time, stop.arrivalTime || null);
-      stopRequest.input("dep", sql.Time, stop.departureTime || null);
-      stopRequest.input("platform", sql.NVarChar, stop.platform || null); // Ново
-
-      await stopRequest.query(`
-    INSERT INTO RouteStops(routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
-    VALUES(@routeId, @cityName, @stopOrder, @arr, @dep, @platform)
-  `);
-  }
-
+        await stopRequest.query(`
+          INSERT INTO RouteStops (routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
+          VALUES (@routeId, @cityName, @stopOrder, @arrivalTime, @departureTime, @platform)
+        `);
+      }
+    }
+    await transaction.commit();
     res.status(201).json({
-      message: "Route successfully added!",
-      route: insertRoute.recordset[0],
+      message: "Route created successfully",
+      routeName,
     });
-  } catch (err) {
+  } catch (error) {
+    if (transaction) await transaction.rollback();
     res.status(500).json({
-      error: err.message + "Failed creating route",
+      error: error.message,
     });
   }
 };
 
 exports.getAllRoutes = async (req, res) => {
   try {
-    const reqest = new sql.Request();
+    const result = await sql.query(`
+      SELECT r.*, 
+      (SELECT rs.* FROM RouteStops rs WHERE rs.routeId = r.id ORDER BY rs.stopOrder FOR JSON PATH) AS stops
+      FROM Routes r
+    `);
 
-    const getRotes = await reqest.query(`SELECT * FROM Routes`);
-    res.status(200).json(getRotes.recordset);
-  } catch (err) {
-    res.status(500).json({
-      error: err.message + "Failed fetching routes",
-    });
+    const formattedRoutes = result.recordset.map((row) => ({
+      ...row,
+      stops: JSON.parse(row.stops || "[]"),
+    }));
+
+    res.status(200).json(formattedRoutes);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-exports.getRouteByID = async (req, res) => {
+exports.updateRoute = async (req, res) => {
+  let transaction;
   try {
     const { id } = req.params;
+    const { startCity, endCity, stops } = req.body;
 
-    const request = new sql.Request();
-    request.input("id", sql.Int, id);
-    const route = await request.query(`
-        SELECT * FROM Routes WHERE id = @id
-        `);
+    const routeName = `${startCity} - ${endCity}`;
 
-    if (route.recordset.length === 0) {
-      return res.status(404).json({
-        message: "Route not found",
-      });
-    }
-    const stopRequest = new sql.Request();
-    stopRequest.input("id", sql.Int, id);
-    const stops = await stopRequest.query(
-      `SELECT * FROM routeStops WHERE routeId = @id`,
+    transaction = new sql.Transaction();
+    await transaction.begin();
+
+    const updateRouteReq = new sql.Request(transaction);
+    updateRouteReq.input("id", sql.Int, id);
+    updateRouteReq.input("routeName", sql.NVarChar, routeName);
+    updateRouteReq.input("startCity", sql.NVarChar, startCity);
+    updateRouteReq.input("endCity", sql.NVarChar, endCity);
+
+    await updateRouteReq.query(`
+      UPDATE Routes 
+      SET routeName = @routeName, startCity = @startCity, endCity = @endCity 
+      WHERE id = @id
+    `);
+
+    const deleteStopsReq = new sql.Request(transaction);
+    deleteStopsReq.input("routeId", sql.Int, id);
+    await deleteStopsReq.query(
+      "DELETE FROM RouteStops WHERE routeId = @routeId",
     );
 
-    res.status(200).json({
-      route: route.recordset[0],
-      stops: stops.recordset,
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message + "Failed finding route",
-    });
+    if (stops && stops.length > 0) {
+      for (const stop of stops) {
+        const stopReq = new sql.Request(transaction);
+        stopReq.input("routeId", sql.Int, id);
+        stopReq.input("cityName", sql.NVarChar, stop.cityName);
+        stopReq.input("stopOrder", sql.Int, stop.stopOrder);
+        stopReq.input("arrivalTime", sql.NVarChar, stop.arrivalTime);
+        stopReq.input("departureTime", sql.NVarChar, stop.departureTime);
+        stopReq.input("platform", sql.NVarChar, stop.platform);
+
+        await stopReq.query(`
+          INSERT INTO RouteStops (routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
+          VALUES (@routeId, @cityName, @stopOrder, @arrivalTime, @departureTime, @platform)
+        `);
+      }
+    }
+
+    await transaction.commit();
+    res.status(200).json({ message: "Route updated successfully." });
+  } catch (error) {
+    if (transaction) await transaction.rollback();
+    res.status(500).json({ error: error.message });
   }
 };
 
 exports.deleteRoute = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const deleteStops = new sql.Request();
-    deleteStops.input("id", sql.Int, id);
-    await deleteStops.query(`
-            DELETE FROM RouteStops
-            WHERE routeId = @id
-            `);
-
-    const deleteRouteRequest = new sql.Request();
-    deleteRouteRequest.input("id", sql.Int, id);
-    const deletedRoute = await deleteRouteRequest.query(`
-            DELETE FROM Routes
-            OUTPUT DELETED.*
-            WHERE id = @id
-            `);
-
-    res.status(200).json({
-      message: "Route deleted successfully",
-      route: deletedRoute.recordset[0],
+    const { routeId } = req.params;
+    const request = new sql.Request();
+    request.input("routeId", sql.Int, routeId);
+    await request.query("DELETE FROM Routes WHERE routeId = @routeId");
+    return res.status(200).json({
+      message: "Route successfully deleted",
     });
-  } catch (err) {
-    res.status(500).json({
-      error: err.message + "Failed deleting route",
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
     });
   }
 };
 
-exports.updateRoute = async (req, res) => {
+exports.scheduleTrip = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { routeName, startCity, endCity, stops } = req.body;
+    const { routeId, busId, departureDateTime, arrivalDateTime, basePrice } =
+      req.body;
 
-    const updateRequest = new sql.Request();
+    const start = new Date(departureDateTime);
+    const end = new Date(arrivalDateTime);
 
-    updateRequest.input("id", sql.Int, id);
-    updateRequest.input("routeName", sql.NVarChar, routeName);
-    updateRequest.input("startCity", sql.NVarChar, startCity);
-    updateRequest.input("endCity", sql.NVarChar, endCity);
+    const checkBusReq = new sql.Request();
+    checkBusReq.input("busId", sql.Int, busId);
+    checkBusReq.input("start", sql.DateTime, start);
+    checkBusReq.input("end", sql.DateTime, end);
 
-    const updatedRoute = await updateRequest.query(`
-        UPDATE Routes
-        SET
-          routeName = @routeName,
-          startCity = @startCity,
-          endCity = @endCity
-        OUTPUT INSERTED.*
-        WHERE id = @id
-      `);
+    const conflictingTrips = await checkBusReq.query(`
+      SELECT id FROM Trips
+      WHERE busId = @busId
+        AND ((departureDateTime <= @start AND arrivalDateTime >= @start)
+         OR (departureDateTime <= @end AND arrivalDateTime >= @end)
+         OR (@start <= departureDateTime AND @end >= departureDateTime))
+    `);
 
-    if (updatedRoute.recordset.length === 0) {
-      return res.status(404).json({
-        message: "Route not found",
+    if (conflictingTrips.recordset.length > 0) {
+      return res.status(400).json({
+        error:
+          "This bus is already scheduled for another trip during this time period.",
       });
     }
 
-    const deleteStopsRequest = new sql.Request();
+    const request = new sql.Request();
+    request.input("routeId", sql.Int, routeId);
+    request.input("busId", sql.Int, busId);
+    request.input("departure", sql.DateTime, start);
+    request.input("arrival", sql.DateTime, end);
+    request.input("price", sql.Decimal(10, 2), basePrice);
 
-    deleteStopsRequest.input("id", sql.Int, id);
+    await request.query(`
+      INSERT INTO Trips (routeId, busId, departureDateTime, arrivalDateTime, basePrice)
+      VALUES (@routeId, @busId, @departure, @arrival, @price)
+    `);
 
-    await deleteStopsRequest.query(`
-        DELETE FROM RouteStops
-        WHERE routeId = @id
-      `);
+    res.status(201).json({ message: "Trip scheduled successfully." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-      if (stops && stops.length > 0) {
-        for (const stop of stops) {
-          const stopRequest = new sql.Request();
+exports.getAvailableBusesForPeriod = async (req, res) => {
+  try {
+    const { departureDateTime, arrivalDateTime } = req.query;
 
-          stopRequest.input("routeId", sql.Int, id);
-          stopRequest.input("cityName", sql.NVarChar, stop.cityName);
-          stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
-          stopRequest.input("arr", sql.Time, stop.arrivalTime || null);
-          stopRequest.input("dep", sql.Time, stop.departureTime || null);
-          stopRequest.input("platform", sql.NVarChar, stop.platform || null); // Ново
+    if (!departureDateTime || !arrivalDateTime) {
+      return res
+        .status(400)
+        .json({ error: "Both departure and arrival dates are required." });
+    }
 
-          await stopRequest.query(`
-              INSERT INTO RouteStops(routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
-              VALUES(@routeId, @cityName, @stopOrder, @arr, @dep, @platform)
-            `);
-        }
-      }
+    const start = new Date(departureDateTime);
+    const end = new Date(arrivalDateTime);
 
-    res.status(200).json({
-      message: "Route updated successfully!",
-      route: updatedRoute.recordset[0],
-    });
-  } catch (err) {
-    console.error(err);
+    const request = new sql.Request();
+    request.input("start", sql.DateTime, start);
+    request.input("end", sql.DateTime, end);
 
-    res.status(500).json({
-      error: "Failed updating route",
-    });
+    const buses = await request.query(`
+      SELECT * FROM Buses b
+      WHERE b.available = 'Yes'
+        AND b.id NOT IN (
+          SELECT busId FROM Trips
+          WHERE (departureDateTime <= @start AND arrivalDateTime >= @start)
+             OR (departureDateTime <= @end AND arrivalDateTime >= @end)
+             OR (@start <= departureDateTime AND @end >= departureDateTime)
+        )
+    `);
+
+    res.status(200).json(buses.recordset);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

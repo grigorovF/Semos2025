@@ -2,48 +2,56 @@ import { useState, useEffect, useCallback } from "react";
 import "../../../src/index.css";
 
 export default function BusManager() {
-  const [buses, setBuses] = useState([]);
-  const [editingBus, setEditingBus] = useState(null);
+  const [busses, setBusses] = useState([]);
+  const [editingBuss, setEditingBuss] = useState(null);
 
-  const [newBus, setNewBus] = useState({
+  const [newBuss, setNewBuss] = useState({
     busNumber: "",
     plateNumber: "",
     totalSeats: "",
     registrationExpiryDate: "",
     availableFrom: "",
-    available: 1,
+    available: 1, 
   });
 
+  const fetchBusses = useCallback(async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:3000/api/buss-routes/all-busses",
+      );
+      const data = await res.json();
+      setBusses(data.buses || []);
+    } catch (error) {
+      console.error("Error fetching buses:", error.message);
+    }
+  }, []);
+
   useEffect(() => {
-  (async () => {
-    const res = await fetch("http://localhost:3000/api/bus-routes/all-buses");
-    const data = await res.json();
-    setBuses(data.buses);
-  })();
-}, []);
+    fetchBusses();
+  }, [fetchBusses]);
 
-  // ADD BUS
-  const handleAddBus = async (e) => {
+  const handleAddBuss = async (e) => {
     e.preventDefault();
-
     try {
       const payload = {
-        ...newBus,
-        totalSeats: Number(newBus.totalSeats),
-        available: Number(newBus.available),
+        ...newBuss,
+        totalSeats: Number(newBuss.totalSeats),
+        available: Number(newBuss.available),
       };
 
-      const res = await fetch("http://localhost:3000/api/bus-routes/add-bus", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "http://localhost:3000/api/buss-routes/add-buss",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
-      if (!res.ok) throw new Error("Failed to add bus");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to add bus");
 
-      setNewBus({
+      setNewBuss({
         busNumber: "",
         plateNumber: "",
         totalSeats: "",
@@ -52,120 +60,120 @@ export default function BusManager() {
         available: 1,
       });
 
-      fetchBuses();
+      fetchBusses();
     } catch (error) {
-      console.error("Error adding bus:", error.message);
+      alert("Error: " + error.message);
     }
   };
-  
+
   const handleUpdate = async (e) => {
     e.preventDefault();
-
     try {
-      await fetch(
-        `http://localhost:3000/api/bus-routes/update-bus/${editingBus.id}`,
+      const res = await fetch(
+        `http://localhost:3000/api/buss-routes/update-buss/${editingBuss.id}`,
         {
           method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editingBus),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(editingBuss),
         },
       );
 
-      setEditingBus(null);
-      fetchBuses();
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to update bus");
+
+      setEditingBuss(null);
+      fetchBusses();
     } catch (error) {
-      console.error("Error updating bus:", error.message);
+      alert("Error updating bus: " + error.message);
     }
   };
 
-  // DELETE BUS
-  const deleteBus = async (plateNumber) => {
+  const deleteBuss = async (plateNumber) => {
+    if (!window.confirm("Are you sure you want to delete this bus?")) return;
     try {
-      await fetch(
-        `http://localhost:3000/api/bus-routes/delete-bus/${plateNumber}`,
-        {
-          method: "DELETE",
-        },
+      const res = await fetch(
+        `http://localhost:3000/api/buss-routes/delete-buss/${plateNumber}`,
+        { method: "DELETE" },
       );
-      fetchBuses();
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete bus");
+
+      fetchBusses();
     } catch (error) {
       console.error("Error deleting bus:", error);
     }
   };
 
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? "" : date.toISOString().split("T")[0];
+  };
+
   return (
-    <div className="text-white flex flex-col justify-center items-center w-full">
-      {/* FORM */}
+    <div className="text-white flex flex-col justify-center items-center w-full p-6">
       <div className="flex justify-center">
         <form
-          onSubmit={handleAddBus}
-          className="flex flex-col w-[500px] gap-3 bg-[#1a2233] border border-white/10 rounded-xl px-6 py-6 shadow-lg"
+          onSubmit={handleAddBuss}
+          className="flex flex-col w-125 gap-3 bg-[#1a2233] border border-white/10 rounded-xl px-6 py-6 shadow-lg"
         >
           <h2 className="text-2xl font-bold mb-4 text-cyan-400">Add New Bus</h2>
 
           <input
             type="text"
-            value={newBus.busNumber}
+            value={newBuss.busNumber}
             onChange={(e) =>
-              setNewBus({ ...newBus, busNumber: e.target.value })
+              setNewBuss({ ...newBuss, busNumber: e.target.value })
             }
             placeholder="Bus Number"
-            className="p-3 rounded-lg bg-white/10 border border-white/10"
+            className="p-3 rounded-lg bg-white/10 border border-white/10 text-white"
           />
 
           <input
             type="text"
-            value={newBus.plateNumber}
+            value={newBuss.plateNumber}
             onChange={(e) =>
-              setNewBus({ ...newBus, plateNumber: e.target.value })
+              setNewBuss({ ...newBuss, plateNumber: e.target.value })
             }
             placeholder="Plate Number"
-            className="p-3 rounded-lg bg-white/10 border border-white/10"
+            className="p-3 rounded-lg bg-white/10 border border-white/10 text-white"
           />
 
           <input
             type="number"
-            value={newBus.totalSeats}
+            value={newBuss.totalSeats}
             onChange={(e) =>
-              setNewBus({ ...newBus, totalSeats: e.target.value })
+              setNewBuss({ ...newBuss, totalSeats: e.target.value })
             }
             placeholder="Total Seats"
-            className="p-3 rounded-lg bg-white/10 border border-white/10"
+            className="p-3 rounded-lg bg-white/10 border border-white/10 text-white"
           />
 
-          {/* LABEL + DATE 1 */}
           <label className="text-sm text-cyan-300">
             Registration Expiry Date
           </label>
           <input
             type="date"
-            value={newBus.registrationExpiryDate}
+            value={newBuss.registrationExpiryDate}
             onChange={(e) =>
-              setNewBus({
-                ...newBus,
-                registrationExpiryDate: e.target.value,
-              })
+              setNewBuss({ ...newBuss, registrationExpiryDate: e.target.value })
             }
-            className="p-3 rounded-lg bg-white/10 border border-white/10"
+            className="p-3 rounded-lg bg-white/10 border border-white/10 text-white"
           />
 
-          {/* AVAILABLE */}
           <label className="text-sm text-cyan-300">Available</label>
-
           <select
-            value={newBus.available}
+            value={newBuss.available}
             onChange={(e) =>
-              setNewBus({ ...newBus, available: Number(e.target.value) })
+              setNewBuss({ ...newBuss, available: Number(e.target.value) })
             }
-            className="p-3 rounded-lg bg-white/10 border border-cyan-500/30 text-white
-             focus:outline-none focus:border-cyan-400 transition"
+            className="p-3 rounded-lg bg-white/10 border border-cyan-500/30 text-white focus:outline-none focus:border-cyan-400 transition"
           >
-            <option value="Yes" className="bg-[#1a2233] text-green-400">
+            <option value={1} className="bg-[#1a2233] text-green-400">
               YES
             </option>
-            <option value="No" className="bg-[#1a2233] text-red-400">
+            <option value={0} className="bg-[#1a2233] text-red-400">
               NO
             </option>
           </select>
@@ -173,27 +181,18 @@ export default function BusManager() {
           <label className="text-sm text-cyan-300 mt-2">
             Available From Date
           </label>
-
           <input
             type="date"
-            value={newBus.availableFrom}
+            value={newBuss.availableFrom}
             onChange={(e) =>
-              setNewBus({
-                ...newBus,
-                availableFrom: e.target.value,
-              })
+              setNewBuss({ ...newBuss, availableFrom: e.target.value })
             }
-            disabled={newBus.available === 0}
-            className={`p-3 rounded-lg border transition
-    ${
-      newBus.available === 0
-        ? "bg-gray-700/30 border-gray-600 cursor-not-allowed opacity-50"
-        : "bg-white/10 border-white/10 focus:border-cyan-400"
-    }`}
+            className="p-3 rounded-lg bg-white/10 border border-white/10 text-white"
           />
+
           <button
             type="submit"
-            className="mt-4 bg-cyan-500 hover:bg-cyan-600 py-3 rounded-lg font-semibold"
+            className="mt-4 bg-cyan-500 hover:bg-cyan-600 py-3 rounded-lg font-semibold transition"
           >
             Add Bus
           </button>
@@ -204,53 +203,58 @@ export default function BusManager() {
         Available Buses
       </h2>
 
-      <table className="w-full mt-4 border border-white/10 bg-white/5">
+      <table className="w-full max-w-6xl mt-4 border border-white/10 bg-white/5 rounded-xl overflow-hidden">
         <thead>
-          <tr className="bg-white/10">
+          <tr className="bg-white/10 text-left">
             <th className="p-4">Bus Number</th>
             <th className="p-4">Plate Number</th>
             <th className="p-4">Seats</th>
             <th className="p-4">Registration Expiry</th>
             <th className="p-4">Available</th>
             <th className="p-4">Available From</th>
-            <th className="p-4">Actions</th>
+            <th className="p-4 text-center">Actions</th>
           </tr>
         </thead>
-
         <tbody>
-          {buses.map((bus) => (
-            <tr key={bus.id} className="border-t border-white/10">
-              <td className="p-4">{bus.busNumber}</td>
-              <td className="p-4">{bus.plateNumber}</td>
-              <td className="p-4">{bus.totalSeats}</td>
-
-              {/* DATE 1 */}
+          {busses.map((buss) => (
+            <tr
+              key={buss.id}
+              className="border-t border-white/10 hover:bg-white/5 transition"
+            >
+              <td className="p-4">{buss.id}</td>
+              <td className="p-4">{buss.plateNumber}</td>
+              <td className="p-4">{buss.totalSeats}</td>
               <td className="p-4">
-                {bus.registrationExpiryDate
-                  ? new Date(bus.registrationExpiryDate).toLocaleDateString()
+                {buss.registrationExpiryDate
+                  ? new Date(buss.registrationExpiryDate).toLocaleDateString()
                   : "-"}
               </td>
-
-              <td className="p-4">{bus.available === 'Yes' ? "YES" : "NO"}</td>
-
-              {/* DATE 2 */}
               <td className="p-4">
-                {bus.availableFrom
-                  ? new Date(bus.availableFrom).toLocaleDateString()
+                <span
+                  className={`px-2 py-1 rounded text-xs font-bold ${
+                    buss.available === "Yes"
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-red-500/20 text-red-400"
+                  }`}
+                >
+                  {buss.available === "Yes" ? "YES" : "NO"}
+                </span>
+              </td>
+              <td className="p-4">
+                {buss.availableFrom
+                  ? new Date(buss.availableFrom).toLocaleDateString()
                   : "-"}
               </td>
-
-              <td className="p-4 flex gap-6 justify-center">
+              <td className="p-4 flex gap-3 justify-center">
                 <button
-                  onClick={() => setEditingBus(bus)}
-                  className="px-3 py-1 w-25  bg-cyan-500/20 text-cyan-300 rounded-3xl"
+                  onClick={() => setEditingBuss(buss)}
+                  className="px-4 py-1 bg-cyan-500/20 text-cyan-300 rounded-3xl hover:bg-cyan-500/40 transition"
                 >
                   Edit
                 </button>
-
                 <button
-                  onClick={() => deleteBus(bus.plateNumber)}
-                  className="px-3 py-1 bg-red-500/20 w-25 text-red-300 rounded-3xl"
+                  onClick={() => deleteBuss(buss.plateNumber)}
+                  className="px-4 py-1 bg-red-500/20 text-red-300 rounded-3xl hover:bg-red-500/40 transition"
                 >
                   Delete
                 </button>
@@ -260,101 +264,75 @@ export default function BusManager() {
         </tbody>
       </table>
 
-      {/* EDIT MODAL */}
-      {editingBus && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center">
+      {editingBuss && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
           <form
             onSubmit={handleUpdate}
-            className="bg-[#1a2233] p-6 rounded-xl w-[500px] flex flex-col gap-3"
+            className="bg-[#1a2233] p-6 rounded-xl w-100 flex flex-col gap-3 border border-white/10"
           >
             <h3 className="text-xl font-bold text-cyan-400">Edit Bus</h3>
 
+            <label className="text-xs text-gray-400">
+              Bus Number
+            </label>
             <input
-              className="w-full p-3 bg-white/10 rounded"
-              placeholder="Bus Number"
-              value={editingBus.busNumber}
-              onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
-                  busNumber: e.target.value,
-                })
-              }
-              readOnly={true}
+              className="w-full p-3 bg-white/5 border border-white/10 rounded opacity-50 text-white"
+              value={editingBuss.id || ""}
             />
 
+            <label className="text-xs text-gray-400">Plate Number</label>
             <input
-              className="w-full p-3 bg-white/10 rounded"
-              placeholder="Plate Number"
-              value={editingBus.plateNumber}
+              className="w-full p-3 bg-white/10 border border-white/10 rounded text-white"
+              value={editingBuss.plateNumber || ""}
               onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
-                  plateNumber: e.target.value,
-                })
+                setEditingBuss({ ...editingBuss, plateNumber: e.target.value })
               }
             />
 
+            <label className="text-xs text-gray-400">
+              Total Seats (Read-only)
+            </label>
             <input
               type="number"
-              className="w-full p-3 bg-white/10 rounded"
-              placeholder="Total Seats"
-              value={editingBus.totalSeats}
-              readOnly={true}
-              onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
-                  totalSeats: Number(e.target.value),
-                })
-              }
+              className="w-full p-3 bg-white/5 border border-white/10 rounded opacity-50 cursor-not-allowed text-white"
+              value={editingBuss.totalSeats || ""}
+              readOnly
             />
 
-            <label>Registration Expiry Date</label>
-
+            <label className="text-xs text-gray-400">
+              Registration Expiry Date
+            </label>
             <input
               type="date"
-              className="w-full p-3 bg-white/10 rounded"
-              value={
-                editingBus.registrationExpiryDate
-                  ? new Date(editingBus.registrationExpiryDate)
-                      .toISOString()
-                      .split("T")[0]
-                  : ""
-              }
+              className="w-full p-3 bg-white/10 border border-white/10 rounded text-white"
+              value={formatDateForInput(editingBuss.registrationExpiryDate)}
               onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
+                setEditingBuss({
+                  ...editingBuss,
                   registrationExpiryDate: e.target.value,
                 })
               }
             />
 
-            <label>Available</label>
+            <label className="text-xs text-gray-400">Available From</label>
             <input
               type="date"
-              className="w-full p-3 bg-white/10 rounded"
-              value={
-                editingBus.availableFrom
-                  ? new Date(editingBus.availableFrom)
-                      .toISOString()
-                      .split("T")[0]
-                  : ""
-              }
+              className="w-full p-3 bg-white/10 border border-white/10 rounded text-white"
+              value={formatDateForInput(editingBuss.availableFrom)}
               onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
+                setEditingBuss({
+                  ...editingBuss,
                   availableFrom: e.target.value,
                 })
               }
             />
 
+            <label className="text-xs text-gray-400">Available Status</label>
             <select
-              className="w-full p-3 bg-white/10 rounded"
-              value={editingBus.available}
+              className="w-full p-3 bg-[#1a2233] border border-white/10 rounded text-white"
+              value={editingBuss.available || "No"}
               onChange={(e) =>
-                setEditingBus({
-                  ...editingBus,
-                  available: Number(e.target.value),
-                })
+                setEditingBuss({ ...editingBuss, available: e.target.value })
               }
             >
               <option value="Yes">YES</option>
@@ -364,15 +342,14 @@ export default function BusManager() {
             <div className="flex gap-4 mt-4">
               <button
                 type="submit"
-                className="bg-green-600 px-4 py-2 rounded flex-1"
+                className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded flex-1 transition"
               >
                 Save
               </button>
-
               <button
                 type="button"
-                onClick={() => setEditingBus(null)}
-                className="bg-gray-600 px-4 py-2 rounded flex-1"
+                onClick={() => setEditingBuss(null)}
+                className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded flex-1 transition"
               >
                 Cancel
               </button>

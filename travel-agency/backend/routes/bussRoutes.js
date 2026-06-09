@@ -1,18 +1,19 @@
 const express = require('express');
-
 const router = express.Router();
-const { addBuss, 
-        getAllBusses,
-        deleteBus,
-        updateBus
-} = require("../handlers/busController");
+const { 
+    addBuss, 
+    updateBuss,
+    deleteBuss,
+    getAllBusses,
+    updateSeatConfig,
+    getBussSeats,
+} = require("../handlers/bussHandler");
 
-router.post("/add-bus", addBuss);
-
-router.get("/all-buses", getAllBusses);
-
-router.patch("/update-bus/:id", updateBus);
-
-router.delete("/delete-bus/:plateNumber", deleteBus);
+router.post("/add-buss", addBuss);
+router.patch("/update-buss/:id", updateBuss);
+router.delete("/delete-buss/:plateNumber", deleteBuss);
+router.get("/all-busses", getAllBusses);
+router.patch("/seat-config/:id", updateSeatConfig);
+router.get("/buss-seats/:busId", getBussSeats);
 
 module.exports = router;
