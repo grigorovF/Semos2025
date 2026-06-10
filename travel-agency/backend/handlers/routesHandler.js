@@ -3,9 +3,9 @@ const sql = require("../db");
 exports.createRoute = async (req, res) => {
   let transaction;
   try {
-    const { startCity, endCity, stops } = req.body;
+    const { startCity, endCity, totalPrice, stops } = req.body;
 
-    if (!startCity || !endCity) {
+    if (!startCity || !endCity || !totalPrice    ) {
       return res.status(400).json({
         error: "Cities are required",
       });
@@ -20,28 +20,47 @@ exports.createRoute = async (req, res) => {
     routeRequest.input("routeName", sql.NVarChar, routeName);
     routeRequest.input("startCity", sql.NVarChar, startCity);
     routeRequest.input("endCity", sql.NVarChar, endCity);
+    routeRequest.input("totalPrice", sql.Decimal(10, 2), totalPrice);
+    
 
     const addRouteResult = await routeRequest.query(`
-      INSERT INTO Routes (routeName, startCity, endCity, createdAt)
+      INSERT INTO Routes (routeName, startCity, endCity, totalPrice, createdAt)
       OUTPUT INSERTED.id
-      VALUES (@routeName, @startCity, @endCity, GETDATE())
+      VALUES (@routeName, @startCity, @endCity, @totalPrice GETDATE())
     `);
 
     const routeId = addRouteResult.recordset[0].id;
+
     if (stops && stops.length > 0) {
       for (const stop of stops) {
         const stopRequest = new sql.Request(transaction);
+
         stopRequest.input("routeId", sql.Int, routeId);
         stopRequest.input("cityName", sql.NVarChar, stop.cityName);
         stopRequest.input("stopOrder", sql.Int, stop.stopOrder);
-        stopRequest.input("arrivalTime", sql.NVarChar, stop.arrivalTime);
-        stopRequest.input("departureTime", sql.NVarChar, stop.departureTime);
+
+        stopRequest.input(
+          "arrivalTime",
+          sql.DateTime,
+          stop.arrivalTime && !isNaN(new Date(stop.arrivalTime))
+            ? new Date(stop.arrivalTime)
+            : null,
+        );
+
+        stopRequest.input(
+          "departureTime",
+          sql.DateTime,
+          stop.departureTime && !isNaN(new Date(stop.departureTime))
+            ? new Date(stop.departureTime)
+            : null,
+        );
+
         stopRequest.input("platform", sql.NVarChar, stop.platform);
 
         await stopRequest.query(`
-          INSERT INTO RouteStops (routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
-          VALUES (@routeId, @cityName, @stopOrder, @arrivalTime, @departureTime, @platform)
-        `);
+      INSERT INTO RouteStops (routeId, cityName, stopOrder, arrivalTime, departureTime, platform)
+      VALUES (@routeId, @cityName, @stopOrder, @arrivalTime, @departureTime, @platform)
+    `);
       }
     }
     await transaction.commit();
@@ -80,7 +99,7 @@ exports.updateRoute = async (req, res) => {
   let transaction;
   try {
     const { id } = req.params;
-    const { startCity, endCity, stops } = req.body;
+    const { startCity, endCity, totalPrice, stops } = req.body;
 
     const routeName = `${startCity} - ${endCity}`;
 
@@ -92,10 +111,11 @@ exports.updateRoute = async (req, res) => {
     updateRouteReq.input("routeName", sql.NVarChar, routeName);
     updateRouteReq.input("startCity", sql.NVarChar, startCity);
     updateRouteReq.input("endCity", sql.NVarChar, endCity);
+    updateRouteReq.input("totalPrice", sql.Decimal(10, 2), totalPrice);
 
     await updateRouteReq.query(`
       UPDATE Routes 
-      SET routeName = @routeName, startCity = @startCity, endCity = @endCity 
+      SET routeName = @routeName, startCity = @startCity, endCity = @endCity, totalPrice = @totalPrice
       WHERE id = @id
     `);
 
@@ -111,8 +131,16 @@ exports.updateRoute = async (req, res) => {
         stopReq.input("routeId", sql.Int, id);
         stopReq.input("cityName", sql.NVarChar, stop.cityName);
         stopReq.input("stopOrder", sql.Int, stop.stopOrder);
-        stopReq.input("arrivalTime", sql.NVarChar, stop.arrivalTime);
-        stopReq.input("departureTime", sql.NVarChar, stop.departureTime);
+        stopReq.input(
+          "arrivalTime",
+          sql.DateTime,
+          stop.arrivalTime ? new Date(stop.arrivalTime) : null,
+        );
+        stopReq.input(
+          "departureTime",
+          sql.DateTime,
+          stop.departureTime ? new Date(stop.departureTime) : null,
+        );
         stopReq.input("platform", sql.NVarChar, stop.platform);
 
         await stopReq.query(`
@@ -135,7 +163,7 @@ exports.deleteRoute = async (req, res) => {
     const { routeId } = req.params;
     const request = new sql.Request();
     request.input("routeId", sql.Int, routeId);
-    await request.query("DELETE FROM Routes WHERE routeId = @routeId");
+    await request.query("DELETE FROM Routes WHERE id = @routeId");
     return res.status(200).json({
       message: "Route successfully deleted",
     });

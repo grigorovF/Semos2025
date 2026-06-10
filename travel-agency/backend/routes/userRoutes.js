@@ -9,7 +9,6 @@ const {
   verifyEmail
 } = require("../handlers/userHandler");
 
-const { getAllTrips, getTripById } = require("../handlers/tripHandler");
 
 const {
   getRouteByID,
@@ -41,9 +40,9 @@ router.get("/verify-email/:token", verifyEmail);
 
 
 router.post("/create-route", createRoute);
-router.get("/routes/:id", getRouteByID);
-router.get("/all-trips", getAllTrips);
-router.get("/trips/:id", getTripById);
+//router.get("/routes/:id", getRouteByID);
+router.get("/all-routes", getAllRoutes);
+//router.get("/trips/:id", getTripById);
 //router.get("/avaiable-seats", getAvaiableSeats);
 router.post("/payments/installment", createPaymentIntent);
 router.post("/payments/comfirm-installment", confirmInstallment);

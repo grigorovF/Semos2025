@@ -28,7 +28,6 @@ app.use("/api/payment-routes", require("./routes/paymentRoutes"));
 app.use("/api/reservation-routes", require("./routes/reservationRoutes"));
 //app.use("/api/check-in-routes", require("./routes/checkInRoutes"));
 app.use("/api/route-routes", require("./routes/routeRoutes"));
-app.use("/api/trip-routes", require("./routes/tripRoutes"));
 app.use("/api/user-routes", require("./routes/userRoutes"));
 app.use("/api/buss-routes", require("./routes/bussRoutes"));
 //handlers
