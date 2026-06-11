@@ -176,7 +176,7 @@ exports.getAllBusses = async (req, res) => {
       return {
         ...bus,
         available:
-          availableFrom && availableFrom <= today ? "Yes" : bus.available,
+          availableFrom && availableFrom <= today && registrationExpiryDate < today ? "Yes" : bus.available,
       };
     });
 

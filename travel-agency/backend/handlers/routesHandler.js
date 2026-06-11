@@ -26,7 +26,7 @@ exports.createRoute = async (req, res) => {
     const addRouteResult = await routeRequest.query(`
       INSERT INTO Routes (routeName, startCity, endCity, totalPrice, createdAt)
       OUTPUT INSERTED.id
-      VALUES (@routeName, @startCity, @endCity, @totalPrice GETDATE())
+      VALUES (@routeName, @startCity, @endCity, @totalPrice, GETDATE())
     `);
 
     const routeId = addRouteResult.recordset[0].id;
@@ -159,97 +159,35 @@ exports.updateRoute = async (req, res) => {
 };
 
 exports.deleteRoute = async (req, res) => {
+  let transaction;
+
   try {
     const { routeId } = req.params;
-    const request = new sql.Request();
-    request.input("routeId", sql.Int, routeId);
-    await request.query("DELETE FROM Routes WHERE id = @routeId");
+
+    transaction = new sql.Transaction();
+    await transaction.begin();
+
+    const deleteStopsReq = new sql.Request(transaction);
+    deleteStopsReq.input("routeId", sql.Int, routeId);
+
+    await deleteStopsReq.query(
+      "DELETE FROM RouteStops WHERE routeId = @routeId",
+    );
+
+    const deleteRouteReq = new sql.Request(transaction);
+    deleteRouteReq.input("routeId", sql.Int, routeId);
+
+    await deleteRouteReq.query("DELETE FROM Routes WHERE id = @routeId");
+
+    await transaction.commit();
+
     return res.status(200).json({
       message: "Route successfully deleted",
     });
   } catch (error) {
+    if (transaction) await transaction.rollback();
     return res.status(500).json({
       message: error.message,
     });
-  }
-};
-
-exports.scheduleTrip = async (req, res) => {
-  try {
-    const { routeId, busId, departureDateTime, arrivalDateTime, basePrice } =
-      req.body;
-
-    const start = new Date(departureDateTime);
-    const end = new Date(arrivalDateTime);
-
-    const checkBusReq = new sql.Request();
-    checkBusReq.input("busId", sql.Int, busId);
-    checkBusReq.input("start", sql.DateTime, start);
-    checkBusReq.input("end", sql.DateTime, end);
-
-    const conflictingTrips = await checkBusReq.query(`
-      SELECT id FROM Trips
-      WHERE busId = @busId
-        AND ((departureDateTime <= @start AND arrivalDateTime >= @start)
-         OR (departureDateTime <= @end AND arrivalDateTime >= @end)
-         OR (@start <= departureDateTime AND @end >= departureDateTime))
-    `);
-
-    if (conflictingTrips.recordset.length > 0) {
-      return res.status(400).json({
-        error:
-          "This bus is already scheduled for another trip during this time period.",
-      });
-    }
-
-    const request = new sql.Request();
-    request.input("routeId", sql.Int, routeId);
-    request.input("busId", sql.Int, busId);
-    request.input("departure", sql.DateTime, start);
-    request.input("arrival", sql.DateTime, end);
-    request.input("price", sql.Decimal(10, 2), basePrice);
-
-    await request.query(`
-      INSERT INTO Trips (routeId, busId, departureDateTime, arrivalDateTime, basePrice)
-      VALUES (@routeId, @busId, @departure, @arrival, @price)
-    `);
-
-    res.status(201).json({ message: "Trip scheduled successfully." });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getAvailableBusesForPeriod = async (req, res) => {
-  try {
-    const { departureDateTime, arrivalDateTime } = req.query;
-
-    if (!departureDateTime || !arrivalDateTime) {
-      return res
-        .status(400)
-        .json({ error: "Both departure and arrival dates are required." });
-    }
-
-    const start = new Date(departureDateTime);
-    const end = new Date(arrivalDateTime);
-
-    const request = new sql.Request();
-    request.input("start", sql.DateTime, start);
-    request.input("end", sql.DateTime, end);
-
-    const buses = await request.query(`
-      SELECT * FROM Buses b
-      WHERE b.available = 'Yes'
-        AND b.id NOT IN (
-          SELECT busId FROM Trips
-          WHERE (departureDateTime <= @start AND arrivalDateTime >= @start)
-             OR (departureDateTime <= @end AND arrivalDateTime >= @end)
-             OR (@start <= departureDateTime AND @end >= departureDateTime)
-        )
-    `);
-
-    res.status(200).json(buses.recordset);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
   }
 };

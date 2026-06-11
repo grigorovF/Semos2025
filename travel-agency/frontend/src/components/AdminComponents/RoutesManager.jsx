@@ -11,6 +11,7 @@ export default function RoutesManager() {
     totalPrice: ""
   });
 
+
   const [stops, setStops] = useState([]);
 
   const fetchRoutes = useCallback(async () => {
@@ -25,9 +26,9 @@ export default function RoutesManager() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   fetchRoutes();
-  // }, [fetchRoutes]);
+  useEffect(() => {
+    fetchRoutes();
+  }, [fetchRoutes]);
 
   const addStopField = () => {
     const nextOrder = stops.length + 1;
@@ -63,6 +64,7 @@ export default function RoutesManager() {
     setNewRoute({
       startCity: route.startCity,
       endCity: route.endCity,
+      totalPrice: route.totalPrice
     });
 
     const formattedStops = route.stops.map((stop) => ({
@@ -77,12 +79,11 @@ export default function RoutesManager() {
 
   const handleCancelEdit = () => {
     setEditingRouteId(null);
-    setNewRoute({ startCity: "", endCity: "" });
+    setNewRoute({ startCity: "", endCity: "", totalPrice: "" });
     setStops([]);
   };
 
   const handleDeleteRoute = async (routeId) => {
-    if (!window.confirm("Are you sure you want to delete this route?")) return;
     try {
       const res = await fetch(
         `http://localhost:3000/api/route-routes/delete-route/${routeId}`,
@@ -133,22 +134,6 @@ export default function RoutesManager() {
     }
   };
 
-  const formatDateTime = (dateString) => {
-    if (!dateString) return "";
-
-    const date = new Date(dateString);
-
-    if (isNaN(date.getTime())) {
-      return "";
-    }
-    return new Intl.DateTimeFormat("mk-MK", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
-  };
 
   return (
     <div className="text-white flex flex-col justify-center items-center w-full p-6">
@@ -341,10 +326,10 @@ export default function RoutesManager() {
                             </span>{" "}
                             (Platform: {stop.platform})
                             <div className="text-xs mt-0.5">
-                              Arrival: {formatDateTime(stop.arrivalTime)}
+                              Arrival: {stop.arrivalTime}
                             </div>
                             <div className="text-xs">
-                              Departure: {formatDateTime(stop.departureTime)}
+                              Departure: {stop.departureTime}
                             </div>
                           </div>
                         ))}
