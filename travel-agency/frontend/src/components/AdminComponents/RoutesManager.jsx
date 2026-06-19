@@ -8,9 +8,8 @@ export default function RoutesManager() {
   const [newRoute, setNewRoute] = useState({
     startCity: "",
     endCity: "",
-    totalPrice: ""
+    totalPrice: "",
   });
-
 
   const [stops, setStops] = useState([]);
 
@@ -32,15 +31,14 @@ export default function RoutesManager() {
 
   const addStopField = () => {
     const nextOrder = stops.length + 1;
-
     const newStop = {
       cityName: "",
       stopOrder: nextOrder,
       arrivalTime: "",
       departureTime: "",
       platform: "",
+      priceFromStart: "", 
     };
-
     setStops([...stops, newStop]);
   };
 
@@ -64,7 +62,7 @@ export default function RoutesManager() {
     setNewRoute({
       startCity: route.startCity,
       endCity: route.endCity,
-      totalPrice: route.totalPrice
+      totalPrice: route.totalPrice,
     });
 
     const formattedStops = route.stops.map((stop) => ({
@@ -73,6 +71,7 @@ export default function RoutesManager() {
       departureTime: stop.departureTime
         ? stop.departureTime.substring(0, 16)
         : "",
+      priceFromStart: stop.priceFromStart || 0, 
     }));
     setStops(formattedStops);
   };
@@ -84,6 +83,12 @@ export default function RoutesManager() {
   };
 
   const handleDeleteRoute = async (routeId) => {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this route? This will also remove its stops.",
+      )
+    )
+      return;
     try {
       const res = await fetch(
         `http://localhost:3000/api/route-routes/delete-route/${routeId}`,
@@ -106,7 +111,10 @@ export default function RoutesManager() {
       startCity: String(newRoute.startCity),
       endCity: String(newRoute.endCity),
       totalPrice: Number(newRoute.totalPrice),
-      stops: stops,
+      stops: stops.map((s) => ({
+        ...s,
+        priceFromStart: Number(s.priceFromStart),
+      })),
     };
 
     const url = editingRouteId
@@ -126,7 +134,7 @@ export default function RoutesManager() {
       if (!res.ok) throw new Error(data.error || "Failed to save route");
 
       setEditingRouteId(null);
-      setNewRoute({ startCity: "", endCity: "" });
+      setNewRoute({ startCity: "", endCity: "", totalPrice: "" });
       setStops([]);
       fetchRoutes();
     } catch (error) {
@@ -134,10 +142,9 @@ export default function RoutesManager() {
     }
   };
 
-
   return (
     <div className="text-white flex flex-col justify-center items-center w-full p-6">
-      <div className="flex justify-center w-full max-w-4xl">
+      <div className="flex justify-center w-full max-w-5xl">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col w-full gap-4 bg-[#1a2233] border border-white/10 rounded-xl px-6 py-6 shadow-lg"
@@ -172,10 +179,7 @@ export default function RoutesManager() {
               step="0.01"
               value={newRoute.totalPrice}
               onChange={(e) =>
-                setNewRoute({
-                  ...newRoute,
-                  totalPrice: e.target.value,
-                })
+                setNewRoute({ ...newRoute, totalPrice: e.target.value })
               }
               placeholder="Total Route Price (€)"
               className="p-3 rounded-lg bg-white/10 border border-white/10 text-white focus:outline-none focus:border-cyan-400"
@@ -192,7 +196,7 @@ export default function RoutesManager() {
           {stops.map((stop, index) => (
             <div
               key={index}
-              className="grid grid-cols-5 gap-2 items-center bg-white/5 p-3 rounded-lg border border-white/5 relative"
+              className="grid grid-cols-6 gap-2 items-center bg-white/5 p-3 rounded-lg border border-white/5 relative"
             >
               <span className="absolute -left-2 -top-2 bg-cyan-500 text-xs px-2 py-0.5 rounded-full font-bold">
                 {stop.stopOrder}
@@ -250,10 +254,24 @@ export default function RoutesManager() {
                 required
               />
 
+              {/* НОВ ИНПУТ ЗА ЦЕНА ДО ТАА ПОСТОЈКА */}
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Price from start (€)"
+                value={stop.priceFromStart}
+                onChange={(e) =>
+                  handleStopChange(index, "priceFromStart", e.target.value)
+                }
+                className="p-2 rounded bg-white/10 text-sm border border-white/10 focus:outline-none focus:border-cyan-400 self-end mb-0.5"
+                required
+              />
+
               <button
                 type="button"
                 onClick={() => removeStopField(index)}
-                className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500/40 rounded transition text-sm font-bold self-end mb-0.5"
+                className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500/40 rounded transition text-sm font-bold self-end mb-0.5 h-38px"
               >
                 Remove
               </button>
@@ -294,6 +312,7 @@ export default function RoutesManager() {
             <tr className="bg-cyan-500/20 text-left">
               <th className="p-4 font-semibold text-cyan-300">Departure</th>
               <th className="p-4 font-semibold text-cyan-300">Arrival</th>
+              <th className="p-4 font-semibold text-cyan-300">Total Price</th>
               <th className="p-4 font-semibold text-cyan-300">Stops</th>
               <th className="p-4 font-semibold text-cyan-300 text-center">
                 Actions
@@ -309,6 +328,7 @@ export default function RoutesManager() {
               >
                 <td className="p-4">{route.startCity}</td>
                 <td className="p-4">{route.endCity}</td>
+                <td className="p-4">{route.totalPrice} €</td>
                 <td className="p-4">
                   <details className="cursor-pointer select-none">
                     <summary className="font-medium text-cyan-400 hover:text-cyan-300 transition">
@@ -321,14 +341,21 @@ export default function RoutesManager() {
                             key={stop.id}
                             className="text-sm text-gray-400 bg-white/5 p-2 rounded"
                           >
-                            <span className="font-semibold text-white">
-                              {stop.cityName}
-                            </span>{" "}
-                            (Platform: {stop.platform})
-                            <div className="text-xs mt-0.5">
+                            <div className="flex justify-between font-semibold text-white">
+                              <span>
+                                {stop.cityName} (Order: {stop.stopOrder})
+                              </span>
+                              <span className="text-cyan-400">
+                                Cum. Price: {stop.priceFromStart} €
+                              </span>
+                            </div>
+                            <div className="text-xs mt-1 text-gray-500">
+                              Platform: {stop.platform}
+                            </div>
+                            <div className="text-xs text-gray-500">
                               Arrival: {stop.arrivalTime}
                             </div>
-                            <div className="text-xs">
+                            <div className="text-xs text-gray-500">
                               Departure: {stop.departureTime}
                             </div>
                           </div>

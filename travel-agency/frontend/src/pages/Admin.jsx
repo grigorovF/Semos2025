@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Navbar from "../components/AdminComponents/AdminNavbar";
 import AuthModal from "../components/AuthModal";
-import BusManager from "../components/AdminComponents/BussManager"
+import BusManager from "../components/AdminComponents/BussManager";
 import RoutesManager from "../components/AdminComponents/RoutesManager"
+import TripsManager from "../components/AdminComponents/TripsManager"
 
 //import { useAuth } from "../context/AuthContext";
 
@@ -13,9 +14,13 @@ export default function AAdminPage() {
 
   const renderSection = () => {
     switch (activeSection){
-      case "busses": 
+      case "buses": 
         return <BusManager/>
       case "routes":
+        return <RoutesManager/>
+      case "trips":
+        return <TripsManager/>
+      default:
         return <RoutesManager/>
     }
   }

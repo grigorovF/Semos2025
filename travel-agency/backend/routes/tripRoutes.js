@@ -5,10 +5,14 @@ const router = express.Router();
 const {
   getAllTrips,
   scheduleTrip,
-  getAvaiableBusses,
-} = require("../handlers/tripHandler");
+  getAvailableBuses,
+  getTripsStops
+} = require("../handlers/tripsHandler");
 
 router.get("/all-trips", getAllTrips);
+router.post("/avaiable-busses", getAvailableBuses);
+router.post("/schedule-trip", scheduleTrip);
+router.post("/trip-stops/:routeId", getTripsStops);
 
 
 

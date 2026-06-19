@@ -9,7 +9,7 @@ export default function BusManager() {
     busNumber: "",
     plateNumber: "",
     totalSeats: "",
-    registrationExpiryDate: "",
+    registrationExpiryDate: " ",
     availableFrom: "",
     available: 1, 
   });
